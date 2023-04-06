@@ -264,7 +264,7 @@ Returns all the spots.
 - Request
 
   - Method: "GET"
-  - URL: "/spots/show/all"
+  - URL: "/spots/all"
   - Body: none
 
 - Successful Response
@@ -306,7 +306,7 @@ Returns all the spots owned (created) by the current user.
 - Request
 
   - Method: "GET"
-  - URL: "/current-user/spots"
+  - URL: "/account/spots"
   - Body: none
 
 - Successful Response
@@ -495,7 +495,7 @@ Create and return a new image for a spot specified by id.
 - Request
 
   - Method: "POST"
-  - URL: "/spot/:id/add/images"
+  - URL: "/spot/:id/add/image"
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -678,7 +678,7 @@ Returns all the reviews written by the current user.
 - Request
 
   - Method: "GET"
-  - URL: "/current-user/reviews"
+  - URL: "/account/reviews"
   - Body: none
 
 - Successful Response
@@ -944,7 +944,7 @@ Update and return an existing review.
 - Request
 
   - Method: "PATCH"
-  - URL: "/reviews/id/edit"
+  - URL: "/reviews/:id/edit"
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -1057,7 +1057,7 @@ Return all the bookings that the current user has made.
 - Request
 
   - Method: "GET"
-  - URL: /current-user/bookings
+  - URL: /account/bookings
   - Body: none
 
 - Successful Response
