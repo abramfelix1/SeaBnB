@@ -495,7 +495,7 @@ Create and return a new image for a spot specified by id.
 - Request
 
   - Method: "POST"
-  - URL: "/spot/:id/add/image"
+  - URL: "/spot/:id/image/new"
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -881,7 +881,7 @@ Create and return a new image for a review specified by id.
 - Request
 
   - Method: "POST"
-  - URL: "/reviews/:id/add/image"
+  - URL: "/reviews/:id/image/new"
   - Headers:
     - Content-Type: application/json
   - Body:
