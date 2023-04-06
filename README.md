@@ -55,7 +55,7 @@ Returns the information about the current user that is logged in.
 - Request
 
   - Method: "GET"
-  - URL: "/account/info"
+  - URL: "/current-user"
   - Body: none
 
 - Successful Response when there is a logged in user
@@ -264,7 +264,7 @@ Returns all the spots.
 - Request
 
   - Method: "GET"
-  - URL: "/spots/all"
+  - URL: "/spots"
   - Body: none
 
 - Successful Response
@@ -306,7 +306,7 @@ Returns all the spots owned (created) by the current user.
 - Request
 
   - Method: "GET"
-  - URL: "/account/spots"
+  - URL: "/current-user/spots"
   - Body: none
 
 - Successful Response
@@ -417,7 +417,7 @@ Creates and returns a new spot.
 - Request
 
   - Method: "POST"
-  - URL: "/spots/new"
+  - URL: "/spots"
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -495,7 +495,7 @@ Create and return a new image for a spot specified by id.
 - Request
 
   - Method: "POST"
-  - URL: "/spot/:id/image/new"
+  - URL: "/spots/:id"
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -545,7 +545,7 @@ Updates and returns an existing spot.
 - Request
 
   - Method: "PATCH"
-  - URL: "/spots/:id/update"
+  - URL: "/spots/:id"
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -637,7 +637,7 @@ Deletes an existing spot.
 - Request
 
   - Method: "DELETE"
-  - URL: "/spot/:id/delete"
+  - URL: "/spot/:id"
   - Body: none
 
 - Successful Response
@@ -678,7 +678,7 @@ Returns all the reviews written by the current user.
 - Request
 
   - Method: "GET"
-  - URL: "/account/reviews"
+  - URL: "/current-user/reviews"
   - Body: none
 
 - Successful Response
@@ -736,7 +736,7 @@ Returns all the reviews that belong to a spot specified by id.
 - Request
 
   - Method: "GET"
-  - URL: "/spot/:id/reviews
+  - URL: "/spots/:id/reviews
   - Body: none
 
 - Successful Response
@@ -795,7 +795,7 @@ Create and return a new review for a spot specified by id.
 - Request
 
   - Method: "POST"
-  - URL: "/spot/:id/reviews/new"
+  - URL: "/spots/:id/reviews"
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -881,7 +881,7 @@ Create and return a new image for a review specified by id.
 - Request
 
   - Method: "POST"
-  - URL: "/reviews/:id/image/new"
+  - URL: "/reviews/:id"
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -944,7 +944,7 @@ Update and return an existing review.
 - Request
 
   - Method: "PATCH"
-  - URL: "/reviews/:id/edit"
+  - URL: "/reviews/:id"
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -1016,7 +1016,7 @@ Delete an existing review.
 - Request
 
   - Method: DELETE
-  - URL: "reviews/:id/delete
+  - URL: "reviews/:id"
   - Body: none
 
 - Successful Response
@@ -1057,7 +1057,7 @@ Return all the bookings that the current user has made.
 - Request
 
   - Method: "GET"
-  - URL: /account/bookings
+  - URL: /current-user/bookings
   - Body: none
 
 - Successful Response
@@ -1177,7 +1177,7 @@ Create and return a new booking from a spot specified by id.
 - Request
 
   - Method: "POST"
-  - URL: "/spot/:id/bookings/new"
+  - URL: "/spot/:id/bookings"
   - Body:
 
     ```json
@@ -1262,7 +1262,7 @@ Update and return an existing booking.
 - Request
 
   - Method: "PATCH"
-  - URL: "/bookings/:id/update"
+  - URL: "/bookings/:id"
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -1364,7 +1364,7 @@ Delete an existing booking.
 - Request
 
   - Method: "DELETE"
-  - URL: "bookings/:id/delete"
+  - URL: "/bookings/:id"
   - Body: none
 
 - Successful Response
@@ -1420,7 +1420,7 @@ Delete an existing image for a Spot.
 - Request
 
   - Method: "DELETE"
-  - URL: "/spot/:id/remove/image
+  - URL: "/spots/:id/:imageId"
   - Body: none
 
 - Successful Response
@@ -1460,7 +1460,7 @@ Delete an existing image for a Review.
 - Request
 
   - Method: "DELETE"
-  - URL: "/reviews/:id/delete"
+  - URL: "/reviews/:id/imageId"
   - Body: none
 
 - Successful Response
