@@ -2,7 +2,7 @@
 
 ## Database Schema Design
 
-`<insert database schema design here>`
+![](https://i.imgur.com/KaL8IaE.png)
 
 ## API Documentation
 
@@ -1420,7 +1420,7 @@ Delete an existing image for a Spot.
 - Request
 
   - Method: "DELETE"
-  - URL: "/spots/:id/:imageId"
+  - URL: "/image/:imageId"
   - Body: none
 
 - Successful Response
@@ -1460,7 +1460,7 @@ Delete an existing image for a Review.
 - Request
 
   - Method: "DELETE"
-  - URL: "/reviews/:id/imageId"
+  - URL: "/image/:imageId"
   - Body: none
 
 - Successful Response
