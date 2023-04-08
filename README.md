@@ -169,7 +169,7 @@ user's information.
 - Request
 
   - Method: "POST"
-  - URL: "/signup"
+  - URL: "/"
   - Headers:
     - Content-Type: application/json
   - Body:
