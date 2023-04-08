@@ -2,7 +2,7 @@
 
 ## Database Schema Design
 
-![](https://i.imgur.com/KaL8IaE.png)
+![](https://i.imgur.com/rXS208h.png)
 
 ## API Documentation
 
@@ -495,7 +495,7 @@ Create and return a new image for a spot specified by id.
 - Request
 
   - Method: "POST"
-  - URL: "/spots/:id"
+  - URL: "/spots/:id/image"
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -544,7 +544,7 @@ Updates and returns an existing spot.
 - Require proper authorization: Spot must belong to the current user
 - Request
 
-  - Method: "PATCH"
+  - Method: "PUT"
   - URL: "/spots/:id"
   - Headers:
     - Content-Type: application/json
@@ -637,7 +637,7 @@ Deletes an existing spot.
 - Request
 
   - Method: "DELETE"
-  - URL: "/spot/:id"
+  - URL: "/spots/:id"
   - Body: none
 
 - Successful Response
@@ -881,7 +881,7 @@ Create and return a new image for a review specified by id.
 - Request
 
   - Method: "POST"
-  - URL: "/reviews/:id"
+  - URL: "/reviews/:id/image"
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -943,7 +943,7 @@ Update and return an existing review.
 - Require proper authorization: Review must belong to the current user
 - Request
 
-  - Method: "PATCH"
+  - Method: "PUT"
   - URL: "/reviews/:id"
   - Headers:
     - Content-Type: application/json
@@ -1016,7 +1016,7 @@ Delete an existing review.
 - Request
 
   - Method: DELETE
-  - URL: "reviews/:id"
+  - URL: "/reviews/:id"
   - Body: none
 
 - Successful Response
@@ -1057,7 +1057,7 @@ Return all the bookings that the current user has made.
 - Request
 
   - Method: "GET"
-  - URL: /bookings/current
+  - URL: "/bookings/current"
   - Body: none
 
 - Successful Response
@@ -1104,7 +1104,7 @@ Return all the bookings for a spot specified by id.
 - Request
 
   - Method: "GET"
-  - URL: "spot/:id/bookings
+  - URL: "/spot/:id/bookings
   - Body: none
 
 - Successful Response: If you ARE NOT the owner of the spot.
@@ -1261,7 +1261,7 @@ Update and return an existing booking.
 - Require proper authorization: Booking must belong to the current user
 - Request
 
-  - Method: "PATCH"
+  - Method: "PUT"
   - URL: "/bookings/:id"
   - Headers:
     - Content-Type: application/json
@@ -1499,7 +1499,7 @@ Return spots filtered by query parameters.
 - Request
 
   - Method: "GET"
-  - URL: "/spots/?"
+  - URL: "/spots"
   - Query Parameters
     - page: integer, minimum: 0, maximum: 10, default: 0
     - size: integer, minimum: 0, maximum: 20, default: 20
