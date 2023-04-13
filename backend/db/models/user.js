@@ -10,6 +10,14 @@ module.exports = (sequelize, DataTypes) => {
 
   User.init(
     {
+      firstName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      lastName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       username: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -19,6 +27,9 @@ module.exports = (sequelize, DataTypes) => {
             if (Validator.isEmail(value)) {
               throw new Error("Cannot be an email.");
             }
+            // if (value.indexOf("@") && value.indexOf(".")) {
+            //   throw new Error("Cannot be an email.");
+            // }
           },
         },
       },
