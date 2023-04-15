@@ -24,14 +24,14 @@ module.exports = (sequelize, DataTypes) => {
       imageableId: DataTypes.INTEGER,
       imageableType: DataTypes.ENUM("Spot", "Review"),
       url: {
-        DataTypes: STRING,
+        type: DataTypes.STRING,
         allowNull: false,
         validate: {
           isUrl: true,
         },
       },
       preview: {
-        DataTypes: BOOLEAN,
+        type: DataTypes.BOOLEAN,
         allowNull: false,
       },
     },

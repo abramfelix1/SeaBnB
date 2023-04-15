@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       review: DataTypes.TEXT,
       stars: {
-        DataTypes: INTEGER,
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
     },
