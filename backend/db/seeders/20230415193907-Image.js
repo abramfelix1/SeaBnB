@@ -9,41 +9,41 @@ if (process.env.NODE_ENV === "production") {
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    options.tableName = "Images";
+    options.tableName = "Image";
     return queryInterface.bulkInsert(options, [
       {
         imageableId: 1,
-        imageableType: "Spots",
+        imageableType: "Spot",
         url: "https://i.imgur.com/DCyhd6X.png",
         preview: true,
       },
       {
         imageableId: 2,
-        imageableType: "Spots",
+        imageableType: "Spot",
         url: "https://i.imgur.com/DCyhd6X.png",
         preview: true,
       },
       {
         imageableId: 3,
-        imageableType: "Spots",
+        imageableType: "Spot",
         url: "https://i.imgur.com/DCyhd6X.png",
         preview: true,
       },
       {
         imageableId: 1,
-        imageableType: "Reviews",
+        imageableType: "Review",
         url: "https://i.imgur.com/DCyhd6X.png",
         preview: true,
       },
       {
         imageableId: 2,
-        imageableType: "Reviews",
+        imageableType: "Review",
         url: "https://i.imgur.com/DCyhd6X.png",
         preview: true,
       },
       {
         imageableId: 3,
-        imageableType: "Reviews",
+        imageableType: "Review",
         url: "https://i.imgur.com/DCyhd6X.png",
         preview: true,
       },
@@ -51,7 +51,7 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    options.tableName = "Images";
+    options.tableName = "Image";
     return queryInterface.bulkDelete(options, null, {});
   },
 };

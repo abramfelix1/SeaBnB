@@ -21,7 +21,7 @@ module.exports = {
           type: Sequelize.INTEGER,
         },
         imageableType: {
-          type: Sequelize.ENUM("Spots", "Reviews"),
+          type: Sequelize.ENUM("Spot", "Review"),
         },
         url: {
           type: Sequelize.STRING,
