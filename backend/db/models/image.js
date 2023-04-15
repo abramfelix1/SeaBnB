@@ -1,26 +1,44 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Image extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+    getImageable(options) {
+      if (!this.imageableType) return Promise.resolve(null);
+      const mixinMethodName = `get${this.imageableType}`;
+      return this[mixinMethodName](options);
+    }
+
     static associate(models) {
-      // define association here
+      Image.belongsTo(models.Spot, {
+        foreignKey: "imageableId",
+        constraints: false,
+      });
+      Image.belongsTo(models.Review, {
+        foreignKey: "imageableId",
+        constraints: false,
+      });
     }
   }
-  Image.init({
-    imageableId: DataTypes.INTEGER,
-    imageableType: DataTypes.ENUM,
-    url: DataTypes.STRING,
-    preview: DataTypes.BOOLEAN
-  }, {
-    sequelize,
-    modelName: 'Image',
-  });
+  Image.init(
+    {
+      imageableId: DataTypes.INTEGER,
+      imageableType: DataTypes.ENUM("Spot", "Review"),
+      url: {
+        DataTypes: STRING,
+        allowNull: false,
+        validate: {
+          isUrl: true,
+        },
+      },
+      preview: {
+        DataTypes: BOOLEAN,
+        allowNull: false,
+      },
+    },
+    {
+      sequelize,
+      modelName: "Image",
+    }
+  );
   return Image;
 };
