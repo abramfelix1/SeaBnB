@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === "production") {
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    options.tableName = "Image";
+    options.tableName = "Images";
     return queryInterface.bulkInsert(options, [
       {
         imageableId: 1,
@@ -51,7 +51,7 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    options.tableName = "Image";
+    options.tableName = "Images";
     return queryInterface.bulkDelete(options, null, {});
   },
 };
