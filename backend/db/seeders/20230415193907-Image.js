@@ -9,23 +9,49 @@ if (process.env.NODE_ENV === "production") {
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    /**
-     * Add seed commands here.
-     *
-     * Example:
-     * await queryInterface.bulkInsert('People', [{
-     *   name: 'John Doe',
-     *   isBetaMember: false
-     * }], {});
-     */
+    options.tableName = "Images";
+    return queryInterface.bulkInsert(options, [
+      {
+        imageableId: 1,
+        imageableType: "Spots",
+        url: "https://i.imgur.com/DCyhd6X.png",
+        preview: true,
+      },
+      {
+        imageableId: 2,
+        imageableType: "Spots",
+        url: "https://i.imgur.com/DCyhd6X.png",
+        preview: true,
+      },
+      {
+        imageableId: 3,
+        imageableType: "Spots",
+        url: "https://i.imgur.com/DCyhd6X.png",
+        preview: true,
+      },
+      {
+        imageableId: 1,
+        imageableType: "Reviews",
+        url: "https://i.imgur.com/DCyhd6X.png",
+        preview: true,
+      },
+      {
+        imageableId: 2,
+        imageableType: "Reviews",
+        url: "https://i.imgur.com/DCyhd6X.png",
+        preview: true,
+      },
+      {
+        imageableId: 3,
+        imageableType: "Reviews",
+        url: "https://i.imgur.com/DCyhd6X.png",
+        preview: true,
+      },
+    ]);
   },
 
   async down(queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
+    options.tableName = "Images";
+    return queryInterface.bulkDelete(options, null, {});
   },
 };
