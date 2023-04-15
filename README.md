@@ -2,7 +2,7 @@
 
 ## Database Schema Design
 
-![](https://i.imgur.com/m46WbHx.png)
+![](https://i.imgur.com/DCyhd6X.png)
 
 ## API Documentation
 
