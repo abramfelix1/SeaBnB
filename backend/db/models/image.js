@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       imageableId: DataTypes.INTEGER,
       type: DataTypes.ENUM,
-      values: ["Spots", "Reviews"],
+      values: ["Spot", "Review"],
       url: {
         type: DataTypes.STRING,
         allowNull: false,
