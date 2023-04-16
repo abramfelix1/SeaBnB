@@ -65,7 +65,7 @@ router.delete("/", (_req, res) => {
   return res.json({ message: "success" });
 });
 
-// Restore session user
+/* Restore session user */
 router.get("/", (req, res) => {
   const { user } = req;
   if (user) {
@@ -75,6 +75,15 @@ router.get("/", (req, res) => {
       lastName: user.lastName,
       email: user.email,
     };
+
+    // Get token
+    let token = req.headers.cookie
+      .split(";")
+      .find((el) => el.includes("token"))
+      .split("=")[1];
+
+    safeUser.token = token;
+
     return res.json({
       user: safeUser,
     });
