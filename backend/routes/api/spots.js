@@ -39,6 +39,7 @@ const attributes = [
 /* Get All Spots From Current User */
 router.get("/current", requireAuth, async (req, res) => {
   const { user } = req;
+
   const spots = await Spot.findAll({
     include: [
       {
@@ -58,13 +59,16 @@ router.get("/current", requireAuth, async (req, res) => {
     attributes: [...attributes, aggregates.numReviews, aggregates.avgRating],
   });
 
-  const url = spots[0].dataValues.previewImage[0].dataValues.url;
+  if (spots[0].dataValues.id) {
+    const url = spots[0].dataValues.previewImage[0].dataValues.url;
 
-  spots[0].dataValues.previewImage
-    ? (spots[0].dataValues.previewImage = url)
-    : (spots[0].dataValues.previewImage = "Preview Image Unavailable");
+    spots[0].dataValues.previewImage
+      ? (spots[0].dataValues.previewImage = url)
+      : (spots[0].dataValues.previewImage = "Preview Image Unavailable");
+    res.json(spots);
+  }
 
-  res.json(spots);
+  res.json([]);
 });
 
 /* Get Spot By Id */
