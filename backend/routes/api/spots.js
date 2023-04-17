@@ -165,7 +165,7 @@ router.get("/", async (req, res, next) => {
       include: [...attributes, aggregates.numReviews, aggregates.avgRating],
     },
     group: "spot.id",
-    subQuery: false, //allows use of limit
+    subQuery: false, //allows use of limit w/ nested aggregates
     ...pagination,
   });
 
