@@ -7,6 +7,8 @@ const { handleValidationErrors } = require("../../utils/validation");
 const { check } = require("express-validator");
 const sequelize = require("sequelize");
 const review = require("../../db/models/review");
+const { Op } = require("sequelize");
+const e = require("express");
 
 const aggregates = {
   numReviews: [
@@ -101,7 +103,15 @@ router.get("/", async (req, res, next) => {
     pagination.limit = size;
   }
 
+  // LNG and LAT
+  if (minLat && maxLat) {
+    where.lat = { [Op.between]: [minLat, maxLat] };
+  } else if (minLat) {
+    where.lat = { [Op.gte]: minLat };
+  } else if (maxLat) where.lat = { [Op.lte]: maxLat };
+
   const spots = await Spot.findAll({
+    where,
     include: [
       {
         model: Image,
