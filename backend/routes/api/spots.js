@@ -54,12 +54,16 @@ router.get("/current", requireAuth, async (req, res) => {
 /* Get All Spots */
 router.get("/", async (req, res, next) => {
   const spots = await Spot.findAll({
-    include: {
-      model: Image,
-      as: "previewImage",
-      where: { preview: 1 },
-      attributes: ["url"],
-    },
+    include: [
+      {
+        model: Image,
+        as: "previewImage",
+        where: { preview: 1 },
+        attributes: ["url"],
+      },
+      { model: Booking, attributes: [], include: [{ model: Review }] },
+    ],
+    attributes: [...attributes],
   });
   res.json(spots);
 });
