@@ -89,7 +89,7 @@ router.get("/:id", async (req, res, next) => {
   });
 
   !spot
-    ? next({ message: "Spot couldn't be found", status: 404 })
+    ? next({ message: `Spot of id: ${id} couldn't be found`, status: 404 })
     : res.json(spot);
 });
 
