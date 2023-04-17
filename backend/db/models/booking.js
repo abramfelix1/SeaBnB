@@ -4,7 +4,7 @@ const review = require("./review");
 module.exports = (sequelize, DataTypes) => {
   class Booking extends Model {
     static associate(models) {
-      Booking.hasOne(models.Review, {
+      Booking.belongsTo(models.Review, {
         foreignKey: "reviewId",
       });
       Booking.belongsTo(models.User, {
