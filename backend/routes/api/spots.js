@@ -87,6 +87,20 @@ router.get("/:id", async (req, res, next) => {
 
 /* Get All Spots */
 router.get("/", async (req, res, next) => {
+  /* Query Filters */
+  const { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } =
+    req.query;
+  const where = {};
+
+  // Pagination
+  const pagination = {};
+  if (page || size) {
+    if (isNaN(+page) || page <= 0) page = 1;
+    if (isNaN(+size) || size <= 0) size = 10;
+    pagination.offset = size * (page - 1);
+    pagination.limit = size;
+  }
+
   const spots = await Spot.findAll({
     include: [
       {
@@ -95,10 +109,18 @@ router.get("/", async (req, res, next) => {
         where: { preview: 1 },
         attributes: ["url"],
       },
-      { model: Booking, attributes: [], include: [{ model: Review }] },
+      {
+        model: Booking,
+        attributes: [],
+        include: [{ model: Review }],
+      },
     ],
-    attributes: [...attributes, aggregates.numReviews],
+    attributes: {
+      include: [...attributes, aggregates.numReviews, aggregates.avgRating],
+    },
     group: "spot.id",
+    subQuery: false, //allows use of limit
+    ...pagination,
   });
 
   for (const i in spots) {
