@@ -103,12 +103,19 @@ router.get("/", async (req, res, next) => {
     pagination.limit = size;
   }
 
-  // LNG and LAT
+  // Min/Max LAT
   if (minLat && maxLat) {
     where.lat = { [Op.between]: [minLat, maxLat] };
   } else if (minLat) {
     where.lat = { [Op.gte]: minLat };
   } else if (maxLat) where.lat = { [Op.lte]: maxLat };
+
+  // Min/Max LNG
+  if (minLng && maxLng) {
+    where.Lng = { [Op.between]: [minLng, maxLng] };
+  } else if (minLng) {
+    where.Lng = { [Op.gte]: minLng };
+  } else if (maxLng) where.Lng = { [Op.lte]: maxLng };
 
   const spots = await Spot.findAll({
     where,
