@@ -100,6 +100,14 @@ router.get("/", async (req, res, next) => {
     attributes: [...attributes, aggregates.numReviews],
     group: "spot.id",
   });
+
+  for (const i in spots) {
+    const url = spots[i].dataValues.previewImage[0].dataValues.url;
+    spots[i].dataValues.previewImage
+      ? (spots[i].dataValues.previewImage = url)
+      : (spots[i].dataValues.previewImage = "Preview Image Unavailable");
+  }
+
   res.json(spots);
 });
 
