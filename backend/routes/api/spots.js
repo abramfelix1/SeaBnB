@@ -96,7 +96,7 @@ router.get("/:id", async (req, res, next) => {
 /* Get All Spots */
 router.get("/", async (req, res, next) => {
   /* Query Filters */
-  const { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } =
+  let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } =
     req.query;
   const where = {};
 
@@ -120,8 +120,8 @@ router.get("/", async (req, res, next) => {
   // Pagination
   const pagination = { offset: 0, limit: 10 };
   if (page || size) {
-    if (page <= 0) page = 1;
-    if (size <= 0) size = 10;
+    if (!page || page <= 0) page = 1;
+    if (!size || size <= 0) size = 10;
     pagination.offset = size * (page - 1);
     pagination.limit = size;
   }
@@ -177,7 +177,7 @@ router.get("/", async (req, res, next) => {
       : (spots[i].dataValues.previewImage = "Preview Image Unavailable");
   }
 
-  res.json({ spots, page: +page || 0, size: +size || 10 });
+  res.json({ spots, page: +page || 1, size: +size || 10 });
 });
 
 module.exports = router;
