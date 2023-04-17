@@ -84,6 +84,7 @@ router.get("/:id", async (req, res, next) => {
       },
     ],
     attributes: [...attributes, aggregates.numReviews, aggregates.avgRating],
+    group: "Images.id",
   });
 
   !spot
@@ -116,7 +117,7 @@ router.get("/", async (req, res, next) => {
     next({ message: "Invalid Queries", status: 400 });
 
   // Pagination
-  const pagination = {};
+  const pagination = { offset: 0, limit: 10 };
   if (page || size) {
     if (page <= 0) page = 1;
     if (size <= 0) size = 10;
@@ -175,7 +176,7 @@ router.get("/", async (req, res, next) => {
       : (spots[i].dataValues.previewImage = "Preview Image Unavailable");
   }
 
-  res.json({ spots, page: +page, size: +size });
+  res.json({ spots, page: +page || 0, size: +size || 10 });
 });
 
 module.exports = router;
