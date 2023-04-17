@@ -100,6 +100,7 @@ router.get("/", async (req, res, next) => {
     req.query;
   const where = {};
 
+  //Validate Query Values
   const validateQueries = [
     page,
     size,
