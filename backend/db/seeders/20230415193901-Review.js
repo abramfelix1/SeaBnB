@@ -23,6 +23,18 @@ module.exports = {
         review: "User 3 review",
         stars: 3,
       },
+      {
+        review: "User 1 review 2",
+        stars: 2,
+      },
+      {
+        review: "User 2 review 2",
+        stars: 3,
+      },
+      {
+        review: "User 3 review 2",
+        stars: 4,
+      },
     ]);
   },
 
