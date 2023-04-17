@@ -31,21 +31,39 @@ module.exports = {
       },
       {
         imageableId: 1,
+        imageableType: "Spot",
+        url: "https://i.imgur.com/DCyhd6X.png",
+        preview: false,
+      },
+      {
+        imageableId: 2,
+        imageableType: "Spot",
+        url: "https://i.imgur.com/DCyhd6X.png",
+        preview: false,
+      },
+      {
+        imageableId: 3,
+        imageableType: "Spot",
+        url: "https://i.imgur.com/DCyhd6X.png",
+        preview: false,
+      },
+      {
+        imageableId: 1,
         imageableType: "Review",
         url: "https://i.imgur.com/DCyhd6X.png",
-        preview: true,
+        preview: false,
       },
       {
         imageableId: 2,
         imageableType: "Review",
         url: "https://i.imgur.com/DCyhd6X.png",
-        preview: true,
+        preview: false,
       },
       {
         imageableId: 3,
         imageableType: "Review",
         url: "https://i.imgur.com/DCyhd6X.png",
-        preview: true,
+        preview: false,
       },
     ]);
   },
