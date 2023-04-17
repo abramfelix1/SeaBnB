@@ -97,7 +97,8 @@ router.get("/", async (req, res, next) => {
       },
       { model: Booking, attributes: [], include: [{ model: Review }] },
     ],
-    attributes: [...attributes, aggregates.avgRating],
+    attributes: [...attributes, aggregates.numReviews],
+    group: "spot.id",
   });
   res.json(spots);
 });
