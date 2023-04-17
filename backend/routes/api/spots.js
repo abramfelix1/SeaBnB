@@ -82,6 +82,7 @@ router.get("/:id", async (req, res, next) => {
         attributes: [],
         include: [{ model: Review, attributes: [] }],
       },
+      { model: User, attributes: ["id", "firstName", "lastName"], as: "owner" },
     ],
     attributes: [...attributes, aggregates.numReviews, aggregates.avgRating],
     group: "Images.id",
