@@ -8,47 +8,77 @@ const { check } = require("express-validator");
 const sequelize = require("sequelize");
 const review = require("../../db/models/review");
 
-/* Get All Spots From Current User */
-router.get("/current", requireAuth, async (req, res) => {
-  const { user } = req;
-  const spots = await Spot.findAll({
-    include: [
-      {
-        model: Image,
-        as: "previewImage",
-        attributes: ["url"],
-      },
-      { model: Booking, attributes: [], include: [{ model: Review }] },
-    ],
-    where: {
-      ownerId: user.dataValues.id,
-    },
-    attributes: [
-      "id",
-      "ownerId",
-      "address",
-      "city",
-      "state",
-      "country",
-      "lat",
-      "lng",
-      "name",
-      "description",
-      "price",
-      "createdAt",
-      "updatedAt",
-      [
-        sequelize.fn("AVG", sequelize.col("Bookings.Review.stars")),
-        "avgRating",
+const associatedAttributes = {};
+(associatedAttributes.attributes = [
+  "id",
+  "ownerId",
+  "address",
+  "city",
+  "state",
+  "country",
+  "lat",
+  "lng",
+  "name",
+  "description",
+  "price",
+  "createdAt",
+  "updatedAt",
+  [sequelize.fn("COUNT", sequelize.col("Bookings.Review")), "numReviews"],
+  [sequelize.fn("AVG", sequelize.col("Bookings.Review.stars")), "avgRating"],
+]),
+  /* Get All Spots From Current User */
+  router.get("/current", requireAuth, async (req, res) => {
+    const { user } = req;
+    const spots = await Spot.findAll({
+      include: [
+        {
+          model: Image,
+          as: "previewImage",
+          attributes: ["url"],
+        },
+        { model: Booking, include: [{ model: Review }] },
       ],
-    ],
+      where: {
+        ownerId: user.dataValues.id,
+      },
+      attributes: [
+        "id",
+        "ownerId",
+        "address",
+        "city",
+        "state",
+        "country",
+        "lat",
+        "lng",
+        "name",
+        "description",
+        "price",
+        "createdAt",
+        "updatedAt",
+        [
+          sequelize.fn("AVG", sequelize.col("Bookings.Review.stars")),
+          "avgRating",
+        ],
+      ],
+    });
+
+    if (!spots.previewImage) {
+      spots.previewImage = "Preview Image Unavailable";
+    }
+
+    res.json(spots);
   });
 
-  if (!spots.previewImage) {
-    spots.previewImage = "Preview Image Unavailable";
-  }
+/* Get Spot By Id */
+router.get("/:id", async (req, res, next) => {
+  const { id } = req.params;
+  const spot = await Spot.findByPk(id, {
+    include: [{ model: Image, as: "images" }],
+  });
 
-  res.json(spots);
+  !spot
+    ? next({ message: "Spot couldn't be found", status: 404 })
+    : res.json(spot);
 });
 
 /* Get All Spots */
