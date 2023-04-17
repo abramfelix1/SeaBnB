@@ -6,9 +6,7 @@ const { requireAuth } = require("../../utils/auth");
 const { handleValidationErrors } = require("../../utils/validation");
 const { check } = require("express-validator");
 const sequelize = require("sequelize");
-const review = require("../../db/models/review");
 const { Op } = require("sequelize");
-const e = require("express");
 
 const aggregates = {
   numReviews: [
