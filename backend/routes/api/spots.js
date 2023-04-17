@@ -94,11 +94,28 @@ router.get("/", async (req, res, next) => {
     req.query;
   const where = {};
 
+  const validateQueries = [
+    page,
+    size,
+    minLat,
+    maxLat,
+    minLng,
+    maxLng,
+    minPrice,
+    maxPrice,
+  ];
+
+  const check = (value) =>
+    (!isNaN(+value) && value >= 0) || value === undefined;
+
+  if (!validateQueries.every((el) => check(el)))
+    next({ message: "Invalid Queries", status: 400 });
+
   // Pagination
   const pagination = {};
   if (page || size) {
-    if (isNaN(+page) || page <= 0) page = 1;
-    if (isNaN(+size) || size <= 0) size = 10;
+    if (page <= 0) page = 1;
+    if (size <= 0) size = 10;
     pagination.offset = size * (page - 1);
     pagination.limit = size;
   }
@@ -116,6 +133,13 @@ router.get("/", async (req, res, next) => {
   } else if (minLng) {
     where.Lng = { [Op.gte]: minLng };
   } else if (maxLng) where.Lng = { [Op.lte]: maxLng };
+
+  // Min/Max Price
+  if (minPrice && maxPrice) {
+    where.Price = { [Op.between]: [minPrice, maxPrice] };
+  } else if (minPrice) {
+    where.Price = { [Op.gte]: minPrice };
+  } else if (maxPrice) where.Price = { [Op.lte]: maxPrice };
 
   const spots = await Spot.findAll({
     where,
@@ -147,7 +171,7 @@ router.get("/", async (req, res, next) => {
       : (spots[i].dataValues.previewImage = "Preview Image Unavailable");
   }
 
-  res.json(spots);
+  res.json({ spots, page: +page, size: +size });
 });
 
 module.exports = router;
