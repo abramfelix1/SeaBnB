@@ -7,6 +7,16 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "spotId",
       });
       Spot.hasMany(models.Image, {
+        as: "previewImage",
+        foreignKey: "imageableId",
+        constraints: false,
+        scope: {
+          imageableType: "Spot",
+        },
+      });
+
+      Spot.hasMany(models.Image, {
+        as: "images",
         foreignKey: "imageableId",
         constraints: false,
         scope: {
@@ -14,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       });
       Spot.belongsTo(models.User, {
+        as: "owner",
         foreignKey: "ownerId",
       });
     }

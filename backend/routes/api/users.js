@@ -10,12 +10,22 @@ const { handleValidationErrors } = require("../../utils/validation");
 const router = express.Router();
 
 const validateSignup = [
+  check("firstName")
+    .exists({ checkFalsy: true })
+    .isLength({ min: 1, max: 16 })
+    .withMessage("Please provide a First Name between 1-16 characters"),
+  check("lastName")
+    .exists({ checkFalsy: true })
+    .isLength({ min: 1, max: 16 })
+    .withMessage("Please provide a Last Name between 1-16 characters"),
   check("email")
     .exists({ checkFalsy: true })
     .isEmail()
     .withMessage("Please provide a valid email."),
   check("username")
     .exists({ checkFalsy: true })
+    .isAlphanumeric()
+    .withMessage("Please provide a valid username")
     .isLength({ min: 4 })
     .withMessage("Please provide a username with at least 4 characters."),
   check("username").not().isEmail().withMessage("Username cannot be an email."),
@@ -26,10 +36,18 @@ const validateSignup = [
   handleValidationErrors,
 ];
 
-// Sign up
-router.post("/", validateSignup, async (req, res) => {
+/* Sign up */
+router.post("/", validateSignup, async (req, res, next) => {
   const { email, password, username, firstName, lastName } = req.body;
   const hashedPassword = bcrypt.hashSync(password);
+
+  // Check if Username or Email exists
+  const usernameExists = await User.findOne({ where: { username } });
+  const emailExists = await User.findOne({ where: { email } });
+
+  if (usernameExists) next({ message: "Username already exists", status: 403 });
+  if (emailExists) next({ message: "Email already exists", status: 403 });
+
   const user = await User.create({
     email,
     username,
@@ -40,13 +58,15 @@ router.post("/", validateSignup, async (req, res) => {
 
   const safeUser = {
     id: user.id,
-    email: user.email,
-    username: user.username,
     firstName: user.firstName,
     lastName: user.lastName,
+    email: user.email,
+    username: user.username,
   };
 
-  await setTokenCookie(res, safeUser);
+  // Get and Set token
+  const token = await setTokenCookie(res, safeUser);
+  safeUser.token = token;
 
   return res.json({
     user: safeUser,

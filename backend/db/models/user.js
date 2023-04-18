@@ -18,15 +18,22 @@ module.exports = (sequelize, DataTypes) => {
       firstName: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          len: [1, 16],
+        },
       },
       lastName: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          len: [1, 16],
+        },
       },
       username: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
+          isAlphanumeric: true,
           len: [4, 30],
           isNotEmail(value) {
             if (Validator.isEmail(value)) {
