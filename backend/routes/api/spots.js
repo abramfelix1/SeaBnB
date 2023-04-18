@@ -18,21 +18,6 @@ const aggregates = {
     "avgRating",
   ],
 };
-const attributes = [
-  "id",
-  "ownerId",
-  "address",
-  "city",
-  "state",
-  "country",
-  "lat",
-  "lng",
-  "name",
-  "description",
-  "price",
-  "createdAt",
-  "updatedAt",
-];
 
 /* Get All Spots From Current User */
 router.get("/current", requireAuth, async (req, res) => {
@@ -54,7 +39,9 @@ router.get("/current", requireAuth, async (req, res) => {
     where: {
       ownerId: user.dataValues.id,
     },
-    attributes: [...attributes, aggregates.numReviews, aggregates.avgRating],
+    attributes: {
+      include: [aggregates.numReviews, aggregates.avgRating],
+    },
   });
 
   if (spots[0].dataValues.id) {
@@ -82,7 +69,9 @@ router.get("/:id", async (req, res, next) => {
       },
       { model: User, attributes: ["id", "firstName", "lastName"], as: "owner" },
     ],
-    attributes: [...attributes, aggregates.numReviews, aggregates.avgRating],
+    attributes: {
+      include: [aggregates.numReviews, aggregates.avgRating],
+    },
     group: "Images.id",
   });
 
@@ -162,7 +151,7 @@ router.get("/", async (req, res, next) => {
       },
     ],
     attributes: {
-      include: [...attributes, aggregates.numReviews, aggregates.avgRating],
+      include: [aggregates.numReviews, aggregates.avgRating],
     },
     group: "spot.id",
     subQuery: false, //allows use of limit w/ nested aggregates
