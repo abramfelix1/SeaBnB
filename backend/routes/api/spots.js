@@ -23,29 +23,13 @@ const aggregates = {
 router.get("/current", requireAuth, async (req, res) => {
   const { user } = req;
   const where = {};
+  const attributes = {};
   where.ownerId = user.dataValues.id;
+  attributes.include = [aggregates.numReviews, aggregates.avgRating];
 
-  const spots = await Spot.findAll({
-    include: [
-      {
-        model: Image,
-        as: "previewImage",
-        where: { preview: 1 },
-        attributes: ["url"],
-      },
-      {
-        model: Booking,
-        attributes: [],
-        include: [{ model: Review }],
-      },
-    ],
-    where: {
-      ownerId: user.dataValues.id,
-    },
-    attributes: {
-      include: [aggregates.numReviews, aggregates.avgRating],
-    },
-  });
+  const spots = await Spot.scope({
+    method: ["getAllSpots", where, attributes],
+  }).findAll();
 
   if (spots[0].dataValues.id) {
     const url = spots[0].dataValues.previewImage[0].dataValues.url;
@@ -90,6 +74,8 @@ router.get("/", async (req, res, next) => {
   let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } =
     req.query;
   const where = {};
+  const attributes = {};
+  attributes.include = [aggregates.numReviews, aggregates.avgRating];
 
   //Validate Query Values
   const validateQueries = [
@@ -139,28 +125,14 @@ router.get("/", async (req, res, next) => {
     where.Price = { [Op.gte]: minPrice };
   } else if (maxPrice) where.Price = { [Op.lte]: maxPrice };
 
-  const spots = await Spot.findAll({
-    where,
-    include: [
-      {
-        model: Image,
-        as: "previewImage",
-        where: { preview: 1 },
-        attributes: ["url"],
-      },
-      {
-        model: Booking,
-        attributes: [],
-        include: [{ model: Review }],
-      },
+  const spots = await Spot.scope({
+    method: [
+      "getAllSpots",
+      where,
+      attributes,
+      { group: "spot.id", subQuery: false, ...pagination },
     ],
-    attributes: {
-      include: [aggregates.numReviews, aggregates.avgRating],
-    },
-    group: "spot.id",
-    subQuery: false, //allows use of limit w/ nested aggregates
-    ...pagination,
-  });
+  }).findAll();
 
   for (const i in spots) {
     const url = spots[i].dataValues.previewImage[0].dataValues.url;
