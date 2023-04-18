@@ -22,12 +22,15 @@ const aggregates = {
 /* Get All Spots From Current User */
 router.get("/current", requireAuth, async (req, res) => {
   const { user } = req;
+  const where = {};
+  where.ownerId = user.dataValues.id;
 
   const spots = await Spot.findAll({
     include: [
       {
         model: Image,
         as: "previewImage",
+        where: { preview: 1 },
         attributes: ["url"],
       },
       {
@@ -50,6 +53,7 @@ router.get("/current", requireAuth, async (req, res) => {
     spots[0].dataValues.previewImage
       ? (spots[0].dataValues.previewImage = url)
       : (spots[0].dataValues.previewImage = "Preview Image Unavailable");
+
     res.json(spots);
   }
 
