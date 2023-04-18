@@ -8,6 +8,58 @@ const { check } = require("express-validator");
 const sequelize = require("sequelize");
 const { Op } = require("sequelize");
 
+const validateSpot = [
+  check("address")
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage("Please provide an address")
+    .isAlphanumeric("en-US", { ignore: "/ ./i" })
+    .withMessage("Please provide a valid address"),
+  check("city")
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage("Please provide a city"),
+  check("country")
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage("Please provide a country")
+    .isAlpha("en-US", { ignore: " " })
+    .withMessage("Please provide a valid country"),
+  check("state")
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage("Please provide a state")
+    .isAlpha("en-US", { ignore: " " })
+    .withMessage("Please provide a valid state"),
+  check("lat")
+    .exists({ checkFalsy: true })
+    .isDecimal()
+    .withMessage("Please provide a valid lattitude"),
+  check("lng")
+    .exists({ checkFalsy: true })
+    .isDecimal()
+    .withMessage("Please provide a valid longitude"),
+  check("name")
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage("Please provide a name")
+    .isLength({ min: 4, max: 50 })
+    .withMessage("Name must be between 4-50 characters")
+    .isAlphanumeric("en-US", { ignore: "/ ,.()[]!/i" })
+    .withMessage("Please provide a valid name"),
+  check("description")
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage("Please provide a description"),
+  check("price")
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage("Please provide a price")
+    .isDecimal()
+    .withMessage("Please provide a valid price"),
+  handleValidationErrors,
+];
+
 const aggregates = {
   numReviews: [
     sequelize.fn("COUNT", sequelize.col("Bookings.Review.id")),
@@ -142,6 +194,26 @@ router.get("/", async (req, res, next) => {
   }
 
   res.json({ spots, page: +page || 1, size: +size || 10 });
+});
+
+router.post("/", requireAuth, validateSpot, async (req, res, next) => {
+  const ownerId = req.user.dataValues.id;
+  const { address, city, state, country, lat, lng, name, description, price } =
+    req.body;
+
+  const newSpot = await Spot.create({
+    ownerId,
+    address,
+    city,
+    state,
+    country,
+    lat,
+    lng,
+    name,
+    description,
+    price,
+  });
+  res.json([]);
 });
 
 module.exports = router;
