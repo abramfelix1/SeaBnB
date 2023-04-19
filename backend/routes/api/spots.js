@@ -150,7 +150,7 @@ router.post("/", requireAuth, validateSpot, async (req, res, next) => {
 });
 
 /* Edit Spot */
-router.put("/:id", validateSpot, async (req, res, next) => {
+router.put("/:id", requireAuth, validateSpot, async (req, res, next) => {
   const attributes = req.body;
   const ownerId = req.user.dataValues.id;
   const spotId = req.params.id;
@@ -164,6 +164,18 @@ router.put("/:id", validateSpot, async (req, res, next) => {
     return next({ message: "Spot could not be found", status: 404 });
   }
   res.json(spot);
+});
+
+/* Delete Spot */
+router.delete("/:id", requireAuth, async (req, res, next) => {
+  const spotId = req.params.id;
+  const spot = await Spot.findByPk(spotId);
+  if (!spot) return next({ message: "Spot could not be found", status: 404 });
+  await spot.destroy();
+  res.json({
+    message: "Successfully deleted",
+    statusCode: 200,
+  });
 });
 
 module.exports = router;
