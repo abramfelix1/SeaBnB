@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { Spot, Image, User, Review, Booking } = require("../../db/models");
 const { requireAuth } = require("../../utils/auth");
-const { validateSpot } = require("../../utils/validation");
+const { validateSpot, validateImage } = require("../../utils/validation");
 const sequelize = require("sequelize");
 const { Op } = require("sequelize");
 const { setPreview, updateOrCreateSpot } = require("../../utils/helpers");
@@ -148,6 +148,31 @@ router.post("/", requireAuth, validateSpot, async (req, res, next) => {
 
   res.json(newSpot);
 });
+
+/* Add Image to a Spot*/
+// prettier-ignore
+router.post(
+  "/:id/images", requireAuth, validateImage, async (req, res, next) => {
+    const { url, preview } = req.body;
+    const ownerId = req.user.dataValues.id;
+    const spotId = req.params.id;
+    const spot = await Spot.findByPk(spotId);
+    if (spot) {
+      if (+spot.ownerId === +ownerId) {
+        const image = await Image.create({
+          url,
+          preview: preview || false,
+          imageableType: "Spot",
+          imageableId: spotId,
+        });
+        res.json(image);
+      }
+    } else {
+      return next({ message: "Spot could not be found", status: 404 });
+    }
+    return next({ message: "Unauthorized Action", status: 401 });
+  }
+);
 
 /* Edit Spot */
 router.put("/:id", requireAuth, validateSpot, async (req, res, next) => {

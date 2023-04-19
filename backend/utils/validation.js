@@ -111,9 +111,20 @@ const validateSpot = [
   handleValidationErrors,
 ];
 
+validateImage = [
+  check("url")
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage("Please provide a URL")
+    .isURL()
+    .withMessage("Please provide a valid URL"),
+  handleValidationErrors,
+];
+
 module.exports = {
   handleValidationErrors,
   validateSpot,
   validateLogin,
   validateSignup,
+  validateImage,
 };
