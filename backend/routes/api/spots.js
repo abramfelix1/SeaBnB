@@ -3,62 +3,10 @@ const router = express.Router();
 
 const { Spot, Image, User, Review, Booking } = require("../../db/models");
 const { requireAuth } = require("../../utils/auth");
-const { handleValidationErrors } = require("../../utils/validation");
-const { check } = require("express-validator");
+const { validateSpot } = require("../../utils/validation");
 const sequelize = require("sequelize");
 const { Op } = require("sequelize");
-
-const validateSpot = [
-  check("address")
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .withMessage("Please provide an address")
-    .isAlphanumeric("en-US", { ignore: "/ ./i" })
-    .withMessage("Please provide a valid address"),
-  check("city")
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .withMessage("Please provide a city"),
-  check("country")
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .withMessage("Please provide a country")
-    .isAlpha("en-US", { ignore: " " })
-    .withMessage("Please provide a valid country"),
-  check("state")
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .withMessage("Please provide a state")
-    .isAlpha("en-US", { ignore: " " })
-    .withMessage("Please provide a valid state"),
-  check("lat")
-    .exists({ checkFalsy: true })
-    .isDecimal()
-    .withMessage("Please provide a valid lattitude"),
-  check("lng")
-    .exists({ checkFalsy: true })
-    .isDecimal()
-    .withMessage("Please provide a valid longitude"),
-  check("name")
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .withMessage("Please provide a name")
-    .isLength({ min: 4, max: 50 })
-    .withMessage("Name must be between 4-50 characters")
-    .isAlphanumeric("en-US", { ignore: "/ ,.()[]!/i" })
-    .withMessage("Please provide a valid name"),
-  check("description")
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .withMessage("Please provide a description"),
-  check("price")
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .withMessage("Please provide a price")
-    .isDecimal()
-    .withMessage("Please provide a valid price"),
-  handleValidationErrors,
-];
+const { setPreview } = require("../../utils/helpers");
 
 const aggregates = {
   numReviews: [
@@ -89,15 +37,7 @@ router.get("/current", requireAuth, async (req, res) => {
   }).findAll();
 
   if (spots[0].dataValues.id) {
-    for (const i in spots) {
-      if (spots[i].dataValues.previewImage.length) {
-        const url = spots[i].dataValues.previewImage[0].dataValues.url;
-        spots[i].dataValues.previewImage = url;
-      } else {
-        spots[i].dataValues.previewImage = "Preview Image Unavailable";
-      }
-    }
-
+    setPreview(spots);
     res.json(spots);
   }
 
@@ -194,14 +134,7 @@ router.get("/", async (req, res, next) => {
     ],
   }).findAll();
 
-  for (const i in spots) {
-    if (spots[i].dataValues.previewImage.length) {
-      const url = spots[i].dataValues.previewImage[0].dataValues.url;
-      spots[i].dataValues.previewImage = url;
-    } else {
-      spots[i].dataValues.previewImage = "Preview Image Unavailable";
-    }
-  }
+  setPreview(spots);
 
   res.json({ spots, page: +page || 1, size: +size || 10 });
 });
@@ -223,7 +156,8 @@ router.post("/", requireAuth, validateSpot, async (req, res, next) => {
     description,
     price,
   });
-  res.json([]);
+
+  res.json(newSpot);
 });
 
 module.exports = router;
