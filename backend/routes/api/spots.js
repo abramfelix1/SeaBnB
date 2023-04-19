@@ -80,15 +80,23 @@ router.get("/current", requireAuth, async (req, res) => {
   attributes.include = [aggregates.numReviews, aggregates.avgRating];
 
   const spots = await Spot.scope({
-    method: ["getAllSpots", where, attributes],
+    method: [
+      "getAllSpots",
+      where,
+      attributes,
+      { group: "spot.id", subQuery: false },
+    ],
   }).findAll();
 
   if (spots[0].dataValues.id) {
-    const url = spots[0].dataValues.previewImage[0].dataValues.url;
-
-    spots[0].dataValues.previewImage
-      ? (spots[0].dataValues.previewImage = url)
-      : (spots[0].dataValues.previewImage = "Preview Image Unavailable");
+    for (const i in spots) {
+      if (spots[i].dataValues.previewImage.length) {
+        const url = spots[i].dataValues.previewImage[0].dataValues.url;
+        spots[i].dataValues.previewImage = url;
+      } else {
+        spots[i].dataValues.previewImage = "Preview Image Unavailable";
+      }
+    }
 
     res.json(spots);
   }
@@ -187,10 +195,12 @@ router.get("/", async (req, res, next) => {
   }).findAll();
 
   for (const i in spots) {
-    const url = spots[i].dataValues.previewImage[0].dataValues.url;
-    spots[i].dataValues.previewImage
-      ? (spots[i].dataValues.previewImage = url)
-      : (spots[i].dataValues.previewImage = "Preview Image Unavailable");
+    if (spots[i].dataValues.previewImage.length) {
+      const url = spots[i].dataValues.previewImage[0].dataValues.url;
+      spots[i].dataValues.previewImage = url;
+    } else {
+      spots[i].dataValues.previewImage = "Preview Image Unavailable";
+    }
   }
 
   res.json({ spots, page: +page || 1, size: +size || 10 });

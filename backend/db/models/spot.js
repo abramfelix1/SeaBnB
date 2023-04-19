@@ -89,6 +89,7 @@ module.exports = (sequelize, DataTypes) => {
                 as: "previewImage",
                 where: { preview: 1 },
                 attributes: ["url"],
+                required: false,
               },
               {
                 model: Booking,
