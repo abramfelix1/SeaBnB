@@ -69,7 +69,9 @@ const validateSpot = [
   check("city")
     .exists({ checkFalsy: true })
     .notEmpty()
-    .withMessage("Please provide a city"),
+    .withMessage("Please provide a city")
+    .isAlpha("en-US", { ignore: " " })
+    .withMessage("Please provide a valid city"),,
   check("country")
     .exists({ checkFalsy: true })
     .notEmpty()
@@ -111,7 +113,7 @@ const validateSpot = [
   handleValidationErrors,
 ];
 
-validateImage = [
+const validateImage = [
   check("url")
     .exists({ checkFalsy: true })
     .notEmpty()

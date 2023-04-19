@@ -152,7 +152,7 @@ router.post("/", requireAuth, validateSpot, async (req, res, next) => {
 /* Add Image to a Spot*/
 // prettier-ignore
 router.post(
-  "/:id/images", requireAuth, validateImage, async (req, res, next) => {
+  "/:id/image", requireAuth, validateImage, async (req, res, next) => {
     const { url, preview } = req.body;
     const ownerId = req.user.dataValues.id;
     const spotId = req.params.id;
