@@ -157,25 +157,33 @@ router.put("/:id", requireAuth, validateSpot, async (req, res, next) => {
   const spot = await Spot.findByPk(spotId);
 
   if (spot) {
-    if (+spot.id === +ownerId) {
+    if (+spot.ownerId === +ownerId) {
       await updateOrCreateSpot(attributes, "update", spot);
+      res.json(spot);
     }
   } else {
     return next({ message: "Spot could not be found", status: 404 });
   }
-  res.json(spot);
+  return next({ message: "Unauthorized Action", status: 401 });
 });
 
 /* Delete Spot */
 router.delete("/:id", requireAuth, async (req, res, next) => {
   const spotId = req.params.id;
+  const ownerId = req.user.dataValues.id;
   const spot = await Spot.findByPk(spotId);
-  if (!spot) return next({ message: "Spot could not be found", status: 404 });
-  await spot.destroy();
-  res.json({
-    message: "Successfully deleted",
-    statusCode: 200,
-  });
+  if (spot) {
+    if (+spot.ownerId === +ownerId) {
+      await spot.destroy();
+      res.json({
+        message: "Successfully deleted",
+        statusCode: 200,
+      });
+    }
+  } else {
+    return next({ message: "Spot could not be found", status: 404 });
+  }
+  return next({ message: "Unauthorized Action", status: 401 });
 });
 
 module.exports = router;
