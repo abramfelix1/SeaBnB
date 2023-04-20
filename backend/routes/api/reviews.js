@@ -9,6 +9,39 @@ const { Op } = require("sequelize");
 const {} = require("../../utils/helpers");
 const user = require("../../db/models/user");
 
+/* Get Reviews for Current*/
+router.get("/current", async (req, res, next) => {
+  const { user } = req;
+  const reviews = await Review.findAll({
+    include: [
+      {
+        model: Booking,
+        as: "User",
+        where: { userId: user.id },
+        include: [{ model: User, attributes: [] }, { model: Spot }],
+        attributes: [
+          [sequelize.literal('"User->User"."firstName"'), "firstName"],
+          [sequelize.literal('"User->User"."firstName"'), "lastName"],
+        ],
+      },
+      {
+        model: Image,
+        attributes: ["id", "url"],
+      },
+    ],
+    attributes: {
+      include: [],
+    },
+  });
+
+  //GRAB SPOTS, CREATE NEW OBJECT "REVIEWS", PUT EVERYTHING INSIDE
+  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+  console.log(reviews[0].dataValues.User.Spot.dataValues);
+  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+
+  res.json(reviews);
+});
+
 /* Edit a Review */
 router.put("/:id", requireAuth, validateReview, async (req, res, next) => {
   const { review, stars } = req.body;
