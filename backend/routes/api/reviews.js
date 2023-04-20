@@ -31,6 +31,12 @@ router.put("/:id", requireAuth, validateReview, async (req, res, next) => {
   }
 
   if (+booking.userId === +user.id) {
+    if (booking.reviewId) {
+      return next({
+        message: "Review doesn't exist, please create a review",
+        status: 409,
+      });
+    }
     await editReview.update({
       review,
       stars,
