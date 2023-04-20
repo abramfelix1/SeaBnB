@@ -122,7 +122,7 @@ router.post("/:id/reviews", requireAuth, validateReview, async (req, res, next) 
     }
 
 
-    return next({ message: "Unauthorized Action", status: 401 });
+    return next({ message: "Unauthorized Action", status: 403 });
   }
 );
 
@@ -277,7 +277,7 @@ router.post(
     } else {
       return next({ message: "Spot could not be found", status: 404 });
     }
-    return next({ message: "Unauthorized Action", status: 401 });
+    return next({ message: "Unauthorized Action", status: 403 });
   }
 );
 
@@ -296,7 +296,7 @@ router.put("/:id", requireAuth, validateSpot, async (req, res, next) => {
   } else {
     return next({ message: "Spot could not be found", status: 404 });
   }
-  return next({ message: "Unauthorized Action", status: 401 });
+  return next({ message: "Unauthorized Action", status: 403 });
 });
 
 /* Delete Spot */
