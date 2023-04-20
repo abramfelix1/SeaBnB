@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Review.init(
     {
-      review: DataTypes.TEXT,
+      review: { type: DataTypes.TEXT, allowNull: false },
       stars: {
         type: DataTypes.INTEGER,
         allowNull: false,

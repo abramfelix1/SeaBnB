@@ -124,6 +124,10 @@ const validateImage = [
 ];
 
 const validateReview = [
+  check("review")
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage("Please provide review text"),
   check("stars")
     .exists({ checkFalsy: true })
     .notEmpty()
