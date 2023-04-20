@@ -28,7 +28,7 @@ router.get("/:id/reviews", async (req, res, next) => {
     return next({ message: "Spot couldn't be found", status: 404 });
   }
 
-  const booking = await Review.findAll({
+  const findReview = await Review.findAll({
     include: [
       {
         model: Booking,
@@ -64,9 +64,12 @@ router.get("/:id/reviews", async (req, res, next) => {
     },
   });
 
-  const review = { reviews: booking };
+  const review = { reviews: findReview };
   res.json(review);
 });
+
+/* Create Review By Spot Id */
+router.post("/:id/reviews", async (req, res, next) => {});
 
 /* Get All Spots From Current User */
 router.get("/current", requireAuth, async (req, res) => {

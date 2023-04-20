@@ -123,6 +123,17 @@ const validateImage = [
   handleValidationErrors,
 ];
 
+const validateReview = [
+  check("stars")
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage("Please give a rating")
+    .isNumeric()
+    .withMessage("Please give a valid rating")
+    .isInt({ min: 0, max: 5 })
+    .withMessage("Please rate 0-5"),
+];
+
 module.exports = {
   handleValidationErrors,
   validateSpot,
