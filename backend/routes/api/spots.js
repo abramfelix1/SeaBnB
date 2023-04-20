@@ -3,7 +3,11 @@ const router = express.Router();
 
 const { Spot, Image, User, Review, Booking } = require("../../db/models");
 const { requireAuth } = require("../../utils/auth");
-const { validateSpot, validateImage } = require("../../utils/validation");
+const {
+  validateSpot,
+  validateImage,
+  validateReview,
+} = require("../../utils/validation");
 const sequelize = require("sequelize");
 const { Op } = require("sequelize");
 const { setPreview, updateOrCreateSpot } = require("../../utils/helpers");
@@ -69,7 +73,49 @@ router.get("/:id/reviews", async (req, res, next) => {
 });
 
 /* Create Review By Spot Id */
-router.post("/:id/reviews", async (req, res, next) => {});
+
+router.post(
+  "/:id/reviews",
+  requireAuth,
+  validateReview,
+  async (req, res, next) => {
+    const { review, stars } = req.body;
+    const { user } = req;
+    const spotId = req.params.id;
+    const spot = await Spot.findByPk(spotId);
+
+    const booking = await Booking.findOne({
+      where: {
+        spotId: spotId,
+        userId: user.id,
+      },
+    });
+
+    if (!spot) {
+      return next({ message: "Spot couldn't be found", status: 404 });
+    }
+
+    if (!booking) {
+      return next({ message: "Booking couldn't be found", status: 404 });
+    }
+
+    if (+booking.userId === +user.id) {
+      if (booking.reviewId) {
+        return next({
+          message: "Review already exists, please edit or delete",
+          status: 409,
+        });
+      }
+      const newReview = await booking.createReview({
+        review,
+        stars,
+      });
+      res.json(newReview);
+    }
+
+    return next({ message: "Unauthorized Action", status: 401 });
+  }
+);
 
 /* Get All Spots From Current User */
 router.get("/current", requireAuth, async (req, res) => {

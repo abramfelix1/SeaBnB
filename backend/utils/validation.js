@@ -140,4 +140,5 @@ module.exports = {
   validateLogin,
   validateSignup,
   validateImage,
+  validateReview,
 };
