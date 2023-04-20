@@ -78,6 +78,30 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Spot",
+      scopes: {
+        getAllSpots(where, attributes, extras) {
+          const { Image, Booking, Review } = require("../models");
+          return {
+            where,
+            include: [
+              {
+                model: Image,
+                as: "previewImage",
+                where: { preview: 1 },
+                attributes: ["url"],
+                required: false,
+              },
+              {
+                model: Booking,
+                attributes: [],
+                include: [{ model: Review }],
+              },
+            ],
+            attributes,
+            ...extras,
+          };
+        },
+      },
     }
   );
   return Spot;
