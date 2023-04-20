@@ -26,6 +26,8 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           min: 0,
           max: 5,
+          isNumeric: true,
+          isInt: true,
         },
       },
     },

@@ -92,7 +92,7 @@ router.post("/:id/reviews", requireAuth, validateReview, async (req, res, next) 
     }
 
     if (!booking) {
-      return next({ message: "Booking couldn't be found", status: 404 });
+      return next({ message: "User hasn't booked this spot", status: 404 });
     }
 
     if (+booking.userId === +user.id) {
