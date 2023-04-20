@@ -315,7 +315,7 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
   } else {
     return next({ message: "Spot could not be found", status: 404 });
   }
-  return next({ message: "Unauthorized Action", status: 401 });
+  return next({ message: "Unauthorized Action", status: 403 });
 });
 
 module.exports = router;

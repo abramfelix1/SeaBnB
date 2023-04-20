@@ -7,6 +7,7 @@ const { validateReview } = require("../../utils/validation");
 const sequelize = require("sequelize");
 const { Op } = require("sequelize");
 const {} = require("../../utils/helpers");
+const user = require("../../db/models/user");
 
 /* Edit a Review */
 router.put("/:id", requireAuth, validateReview, async (req, res, next) => {
@@ -56,7 +57,31 @@ router.put("/:id", requireAuth, validateReview, async (req, res, next) => {
     res.json(updatedReview);
   }
 
-  return next({ message: "Unauthorized Action", status: 401 });
+  return next({ message: "Unauthorized Action", status: 403 });
+});
+
+/* Delete a Review */
+router.delete("/:id", requireAuth, async (req, res, next) => {
+  const { user } = req;
+  const reviewId = req.params.id;
+  const review = await Review.findByPk(reviewId);
+  const booking = await Booking.findOne({
+    where: { reviewId: reviewId, userId: user.id },
+  });
+
+  if (!review) {
+    return next({ message: "Review couldn't be found", status: 404 });
+  }
+
+  if (booking) {
+    await review.destroy();
+    res.json({
+      message: "Successfully deleted",
+      statusCode: 200,
+    });
+  }
+
+  return next({ message: "Unauthorized action", status: 403 });
 });
 
 module.exports = router;
