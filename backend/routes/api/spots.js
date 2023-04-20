@@ -73,12 +73,8 @@ router.get("/:id/reviews", async (req, res, next) => {
 });
 
 /* Create Review By Spot Id */
-
-router.post(
-  "/:id/reviews",
-  requireAuth,
-  validateReview,
-  async (req, res, next) => {
+// prettier-ignore
+router.post("/:id/reviews", requireAuth, validateReview, async (req, res, next) => {
     const { review, stars } = req.body;
     const { user } = req;
     const spotId = req.params.id;

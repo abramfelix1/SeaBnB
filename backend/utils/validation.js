@@ -132,6 +132,7 @@ const validateReview = [
     .withMessage("Please give a valid rating")
     .isInt({ min: 0, max: 5 })
     .withMessage("Please rate 0-5"),
+  handleValidationErrors,
 ];
 
 module.exports = {
