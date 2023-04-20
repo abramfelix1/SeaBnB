@@ -106,8 +106,21 @@ router.post("/:id/reviews", requireAuth, validateReview, async (req, res, next) 
         review,
         stars,
       });
-      res.json(newReview);
+      const bookingValues = {};
+      bookingValues.userId = booking.dataValues.userId;
+      bookingValues.spotId = booking.dataValues.spotId;
+      const { id, createdAt, updatedAt } = newReview.dataValues;
+      const updatedReview = {
+        id,
+        ...bookingValues,
+        review,
+        stars,
+        createdAt,
+        updatedAt,
+      };
+      res.json(updatedReview);
     }
+
 
     return next({ message: "Unauthorized Action", status: 401 });
   }
