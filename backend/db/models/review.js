@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Review.hasOne(models.Booking, {
         foreignKey: "reviewId",
+        as: "User",
       });
       Review.hasMany(models.Image, {
         foreignKey: "imageableId",

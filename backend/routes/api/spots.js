@@ -19,6 +19,55 @@ const aggregates = {
   ],
 };
 
+/* Get All Reviews By Spot Id */
+router.get("/:id/reviews", async (req, res, next) => {
+  const spotId = req.params.id;
+
+  const spot = await Spot.findByPk(spotId);
+  if (!spot) {
+    return next({ message: "Spot couldn't be found", status: 404 });
+  }
+
+  const booking = await Review.findAll({
+    include: [
+      {
+        model: Booking,
+        as: "User",
+        where: { spotId: spotId },
+        include: [{ model: User, attributes: [] }],
+        attributes: {
+          include: [
+            [sequelize.literal('"User->User"."firstName"'), "firstName"],
+            [sequelize.literal('"User->User"."firstName"'), "lastName"],
+          ],
+          exclude: [
+            "startDate",
+            "endDate",
+            "createdAt",
+            "updatedAt",
+            "spotId",
+            "userId",
+            "reviewId",
+          ],
+        },
+      },
+      {
+        model: Image,
+        attributes: ["id", "url"],
+      },
+    ],
+    attributes: {
+      include: [
+        [sequelize.literal('"User"."userId"'), "userId"],
+        [sequelize.literal('"User"."spotId"'), "spotId"],
+      ],
+    },
+  });
+
+  const review = { reviews: booking };
+  res.json(review);
+});
+
 /* Get All Spots From Current User */
 router.get("/current", requireAuth, async (req, res) => {
   const { user } = req;

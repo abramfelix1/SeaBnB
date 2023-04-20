@@ -71,7 +71,7 @@ const validateSpot = [
     .notEmpty()
     .withMessage("Please provide a city")
     .isAlpha("en-US", { ignore: " " })
-    .withMessage("Please provide a valid city"),,
+    .withMessage("Please provide a valid city"),
   check("country")
     .exists({ checkFalsy: true })
     .notEmpty()
