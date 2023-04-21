@@ -34,6 +34,36 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Review",
+      scopes: {
+        getAllReviews(where) {
+          const { Image, Booking, Review, User } = require("../models");
+          return {
+            include: [
+              {
+                model: Booking,
+                as: "User",
+                where,
+                include: [{ model: User, attributes: [] }],
+                attributes: [
+                  "id",
+                  [sequelize.literal('"User->User"."firstName"'), "firstName"],
+                  [sequelize.literal('"User->User"."firstName"'), "lastName"],
+                ],
+              },
+              {
+                model: Image,
+                attributes: ["id", "url"],
+              },
+            ],
+            attributes: {
+              include: [
+                [sequelize.literal('"User"."userId"'), "userId"],
+                [sequelize.literal('"User"."spotId"'), "spotId"],
+              ],
+            },
+          };
+        },
+      },
     }
   );
   return Review;

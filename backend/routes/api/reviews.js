@@ -12,32 +12,11 @@ const user = require("../../db/models/user");
 /* Get Reviews for Current*/
 router.get("/current", requireAuth, async (req, res, next) => {
   const { user } = req;
+  const where = { userId: user.id };
 
-  const reviews = await Review.findAll({
-    include: [
-      {
-        model: Booking,
-        as: "User",
-        where: { userId: user.id },
-        include: [{ model: User, attributes: [] }],
-        attributes: [
-          "id",
-          [sequelize.literal('"User->User"."firstName"'), "firstName"],
-          [sequelize.literal('"User->User"."firstName"'), "lastName"],
-        ],
-      },
-      {
-        model: Image,
-        attributes: ["id", "url"],
-      },
-    ],
-    attributes: {
-      include: [
-        [sequelize.literal('"User"."userId"'), "userId"],
-        [sequelize.literal('"User"."spotId"'), "spotId"],
-      ],
-    },
-  });
+  const reviews = await Review.scope({
+    method: ["getAllReviews", where],
+  }).findAll();
 
   const spot = await Spot.findAll({
     include: [
