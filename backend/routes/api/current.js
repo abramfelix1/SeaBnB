@@ -6,10 +6,8 @@ const { setTokenCookie } = require("../../utils/auth");
 const { User } = require("../../db/models");
 
 const { validateLogin } = require("../../utils/validation");
-const booking = require("../../db/models/booking");
 
 const router = express.Router();
-
 
 /* Log in */
 router.post("/", validateLogin, async (req, res, next) => {
