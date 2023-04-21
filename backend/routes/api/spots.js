@@ -12,8 +12,9 @@ const sequelize = require("sequelize");
 const { Op } = require("sequelize");
 const {
   setPreview,
-  updateOrCreateSpot,
   buildReview,
+  updateOrCreateSpot,
+  updateOrCreateReview,
 } = require("../../utils/helpers");
 
 const aggregates = {
@@ -69,36 +70,21 @@ router.post("/:id/reviews", requireAuth, validateReview, async (req, res, next) 
       return next({ message: "User hasn't booked this spot", status: 403 });
     }
 
-    if (+booking.userId === +user.id) {
-      if (booking.reviewId) {
+    if (booking.reviewId) {
         return next({
           message: "Review already exists, please edit or delete",
           status: 409,
         });
       }
-      const newReview = await booking.createReview({
-        review,
-        stars,
-      });
-      const bookingValues = {};
-      bookingValues.userId = booking.dataValues.userId;
-      bookingValues.spotId = booking.dataValues.spotId;
-      const { id, createdAt, updatedAt } = newReview.dataValues;
-      const updatedReview = {
-        id,
-        ...bookingValues,
-        review,
-        stars,
-        createdAt,
-        updatedAt,
-      };
-      res.json(updatedReview);
-    }
 
+    const updatedReview = await updateOrCreateReview(
+      {booking} ,
+      req.body,
+      "create"
+    );
 
-    return next({ message: "Unauthorized Action", status: 403 });
-  }
-);
+    res.json(updatedReview);
+});
 
 /* Get All Spots From Current User */
 router.get("/current", requireAuth, async (req, res) => {
@@ -223,10 +209,9 @@ router.get("/", async (req, res, next) => {
 
 /* Create Spot */
 router.post("/", requireAuth, validateSpot, async (req, res, next) => {
-  const attributes = req.body;
-  attributes.ownerId = req.user.dataValues.id;
+  const attributes = { ownerId: req.user.dataValues.id, ...req.body };
 
-  const newSpot = await updateOrCreateSpot(attributes, "create");
+  const newSpot = await updateOrCreateSpot({}, attributes, "create");
 
   res.json(newSpot);
 });
@@ -265,7 +250,7 @@ router.put("/:id", requireAuth, validateSpot, async (req, res, next) => {
 
   if (spot) {
     if (+spot.ownerId === +ownerId) {
-      await updateOrCreateSpot(attributes, "update", spot);
+      await updateOrCreateSpot(spot, attributes, "update");
       res.json(spot);
     }
   } else {
