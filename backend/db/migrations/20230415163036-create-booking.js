@@ -39,6 +39,7 @@ module.exports = {
           references: {
             model: "Reviews",
           },
+          onDelete: "CASCADE",
         },
         startDate: {
           type: Sequelize.DATE,

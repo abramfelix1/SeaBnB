@@ -6,7 +6,6 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Booking.belongsTo(models.Review, {
         foreignKey: "reviewId",
-        as: "User",
       });
       Booking.belongsTo(models.User, {
         foreignKey: "userId",
@@ -41,14 +40,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         allowNull: false,
         validate: {
-          isAfterStartDate(value) {
-            const [startYear, startMonth, startDay] = this.startDate.split("-");
-            const [endYear, endMonth, endDay] = value.split("-");
-            const err = new Error("Invalid End Date");
-            if (startYear > endYear) throw err;
-            if (startMonth > endMonth) throw err;
-            if (startDay >= endDay) throw err;
-          },
+          isAfter: this.startDate,
         },
       },
     },

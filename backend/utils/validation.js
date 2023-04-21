@@ -123,10 +123,27 @@ const validateImage = [
   handleValidationErrors,
 ];
 
+const validateReview = [
+  check("review")
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage("Please provide review text"),
+  check("stars")
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage("Please give a rating")
+    .isNumeric()
+    .withMessage("Please give a valid rating")
+    .isInt({ min: 0, max: 5 })
+    .withMessage("Please rate 0-5"),
+  handleValidationErrors,
+];
+
 module.exports = {
   handleValidationErrors,
   validateSpot,
   validateLogin,
   validateSignup,
   validateImage,
+  validateReview,
 };
