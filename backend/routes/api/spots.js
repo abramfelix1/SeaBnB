@@ -10,7 +10,11 @@ const {
 } = require("../../utils/validation");
 const sequelize = require("sequelize");
 const { Op } = require("sequelize");
-const { setPreview, updateOrCreateSpot } = require("../../utils/helpers");
+const {
+  setPreview,
+  updateOrCreateSpot,
+  buildReview,
+} = require("../../utils/helpers");
 
 const aggregates = {
   numReviews: [
@@ -29,42 +33,17 @@ router.get("/:id/reviews", async (req, res, next) => {
   const where = { spotId: spotId };
 
   const spot = await Spot.findByPk(spotId);
+
   if (!spot) {
     return next({ message: "Spot couldn't be found", status: 404 });
   }
 
-  // const findReview = await Review.findAll({
-  //   include: [
-  //     {
-  //       model: Booking,
-  //       as: "User",
-  //       where: { spotId: spotId },
-  //       include: [{ model: User, attributes: [] }],
-  //       attributes: [
-  //         "id",
-  //         [sequelize.literal('"User->User"."firstName"'), "firstName"],
-  //         [sequelize.literal('"User->User"."firstName"'), "lastName"],
-  //       ],
-  //     },
-  //     {
-  //       model: Image,
-  //       attributes: ["id", "url"],
-  //     },
-  //   ],
-  //   attributes: {
-  //     include: [
-  //       [sequelize.literal('"User"."userId"'), "userId"],
-  //       [sequelize.literal('"User"."spotId"'), "spotId"],
-  //     ],
-  //   },
-  // });
-
-  const findReview = await Review.scope({
+  const reviews = await Review.scope({
     method: ["getAllReviews", where],
   }).findAll();
 
-  const review = { reviews: findReview };
-  res.json(review);
+  const Reviews = buildReview(reviews, spot, "noSpots");
+  res.json({ Reviews: Reviews });
 });
 
 /* Create Review By Spot Id */
@@ -134,6 +113,7 @@ router.get("/current", requireAuth, async (req, res) => {
       where,
       attributes,
       { group: "spot.id", subQuery: false },
+      "Spot",
     ],
   }).findAll();
 
@@ -232,12 +212,13 @@ router.get("/", async (req, res, next) => {
       where,
       attributes,
       { group: "spot.id", subQuery: false, ...pagination },
+      "Spot",
     ],
   }).findAll();
 
   setPreview(spots);
 
-  res.json({ spots, page: +page || 1, size: +size || 10 });
+  res.json({ Spots: spots, page: +page || 1, size: +size || 10 });
 });
 
 /* Create Spot */

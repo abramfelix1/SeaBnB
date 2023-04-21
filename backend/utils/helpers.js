@@ -45,7 +45,32 @@ const updateOrCreateSpot = async (attributes, task, obj) => {
   }
 };
 
+const buildReview = (reviewsObj, spotObj, task) => {
+  const Reviews = [];
+  for (const i in reviewsObj) {
+    Reviews[i] = {
+      id: reviewsObj[i].dataValues.id,
+      userId: reviewsObj[i].dataValues.userId,
+      spotId: reviewsObj[i].dataValues.spotId,
+      review: reviewsObj[i].dataValues.review,
+      stars: reviewsObj[i].dataValues.stars,
+      createdAt: reviewsObj[i].dataValues.createdAt,
+      updatedAt: reviewsObj[i].dataValues.updatedAt,
+      User: reviewsObj[i].dataValues.User.dataValues,
+      Spot: spotObj[i],
+      ReviewImages: [...reviewsObj[i].dataValues.Images],
+    };
+  }
+
+  if (task === "noSpots") {
+    Reviews.splice(8, 1);
+  }
+
+  return Reviews;
+};
+
 module.exports = {
   setPreview,
   updateOrCreateSpot,
+  buildReview,
 };
