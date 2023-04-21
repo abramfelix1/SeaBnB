@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { Spot, Image, User, Review, Booking } = require("../../db/models");
 const { requireAuth } = require("../../utils/auth");
-const { validateReview } = require("../../utils/validation");
+const { validateReview, validateImage } = require("../../utils/validation");
 const sequelize = require("sequelize");
 const { Op } = require("sequelize");
 const { setPreview } = require("../../utils/helpers");
@@ -73,6 +73,45 @@ router.get("/current", requireAuth, async (req, res, next) => {
   }
   res.json({ Reviews: Reviews });
 });
+
+/* Add Image to a Review */
+
+router.post(
+  "/:id/image",
+  requireAuth,
+  validateImage,
+  async (req, res, next) => {
+    const { url } = req.body;
+    const { user } = req;
+    const reviewId = req.params.id;
+    const reviewExists = await Review.findByPk(reviewId);
+    if (reviewExists) {
+      const review = await Review.findOne({
+        where: { id: reviewId },
+        include: [
+          {
+            model: Booking,
+            as: "User",
+            where: { userId: user.id },
+          },
+        ],
+      });
+      if (review) {
+        const image = await Image.create({
+          url,
+          preview: false,
+          imageableType: "Review",
+          imageableId: reviewId,
+        });
+        const { id } = image.dataValues;
+        res.json({ id, url });
+      }
+    } else {
+      return next({ message: "Review could not be found", status: 404 });
+    }
+    return next({ message: "Unauthorized Action", status: 403 });
+  }
+);
 
 /* Edit a Review */
 router.put("/:id", requireAuth, validateReview, async (req, res, next) => {
