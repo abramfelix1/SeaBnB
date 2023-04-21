@@ -44,6 +44,7 @@ router.get("/:id/reviews", async (req, res, next) => {
   }).findAll();
 
   const Reviews = buildReview(reviews, spot, "noSpots");
+
   res.json({ Reviews: Reviews });
 });
 
@@ -58,7 +59,7 @@ router.post("/:id/reviews", requireAuth, validateReview, async (req, res, next) 
     const booking = await Booking.findOne({
       where: {
         spotId: spotId,
-        userId: user.id,
+        userId: user.dataValues.id,
       },
     });
 
@@ -130,9 +131,14 @@ router.get("/:id", async (req, res, next) => {
     group: "Images.id",
   });
 
-  !spot
-    ? next({ message: `Spot of id: ${id} couldn't be found`, status: 404 })
-    : res.json(spot);
+  if (!spot) {
+    return next({
+      message: `Spot of id: ${id} couldn't be found`,
+      status: 404,
+    });
+  }
+
+  res.json(spot);
 });
 
 /* Get All Spots */
@@ -221,61 +227,70 @@ router.post("/", requireAuth, validateSpot, async (req, res, next) => {
 router.post(
   "/:id/image", requireAuth, validateImage, async (req, res, next) => {
     const { url, preview } = req.body;
-    const ownerId = req.user.dataValues.id;
+    const { user } = req;
     const spotId = req.params.id;
     const spot = await Spot.findByPk(spotId);
-    if (spot) {
-      if (+spot.ownerId === +ownerId) {
-        const image = await Image.create({
-          url,
-          preview: preview || false,
-          imageableType: "Spot",
-          imageableId: spotId,
-        });
-        res.json(image);
-      }
-    } else {
+
+    if (!spot) {
       return next({ message: "Spot could not be found", status: 404 });
     }
-    return next({ message: "Unauthorized Action", status: 403 });
+
+    if (+spot.ownerId !== +user.dataValues.id) {
+      return next({ message: "Unauthorized Action", status: 403 });
+    }
+
+    const image = await Image.create({
+      url,
+      preview: preview || false,
+      imageableType: "Spot",
+      imageableId: spotId,
+    });
+    const {id} = image.dataValues
+
+    res.json({id,url,preview:image.dataValues.preview});
   }
 );
 
 /* Edit Spot */
 router.put("/:id", requireAuth, validateSpot, async (req, res, next) => {
   const attributes = req.body;
-  const ownerId = req.user.dataValues.id;
+  const { user } = req;
   const spotId = req.params.id;
   const spot = await Spot.findByPk(spotId);
 
-  if (spot) {
-    if (+spot.ownerId === +ownerId) {
-      await updateOrCreateSpot(spot, attributes, "update");
-      res.json(spot);
-    }
-  } else {
+  if (!spot) {
     return next({ message: "Spot could not be found", status: 404 });
   }
-  return next({ message: "Unauthorized Action", status: 403 });
+
+  if (+spot.ownerId !== +user.dataValues.id) {
+    return next({ message: "Unauthorized Action", status: 403 });
+  }
+
+  await updateOrCreateSpot(spot, attributes, "update");
+
+  res.json(spot);
 });
 
 /* Delete Spot */
 router.delete("/:id", requireAuth, async (req, res, next) => {
+  const { user } = req;
   const spotId = req.params.id;
-  const ownerId = req.user.dataValues.id;
   const spot = await Spot.findByPk(spotId);
-  if (spot) {
-    if (+spot.ownerId === +ownerId) {
-      await spot.destroy();
-      res.json({
-        message: "Successfully deleted",
-        statusCode: 200,
-      });
-    }
-  } else {
+
+  if (!spot) {
     return next({ message: "Spot could not be found", status: 404 });
   }
-  return next({ message: "Unauthorized Action", status: 403 });
+
+  if (+spot.ownerId !== +user.dataValues.id) {
+    return next({ message: "Unauthorized Action", status: 403 });
+  }
+
+  await spot.destroy();
+
+  res.json({
+    message: "Successfully deleted",
+    statusCode: 200,
+  });
 });
 
 module.exports = router;

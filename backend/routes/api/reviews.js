@@ -15,7 +15,7 @@ const {
 /* Get Reviews for Current*/
 router.get("/current", requireAuth, async (req, res, next) => {
   const { user } = req;
-  const where = { userId: user.id };
+  const where = { userId: user.dataValues.id };
   const attributes = { exclude: ["createdAt", "updatedAt"] };
 
   const reviews = await Review.scope({
@@ -36,55 +36,58 @@ router.get("/current", requireAuth, async (req, res, next) => {
 /* Add Image to a Review */
 // prettier-ignore
 router.post("/:id/image", requireAuth, validateImage, async (req, res, next) => {
-    const { url } = req.body;
-    const { user } = req;
-    const reviewId = req.params.id;
-    const reviewExists = await Review.findByPk(reviewId);
+  const { url } = req.body;
+  const { user } = req;
+  const reviewId = req.params.id;
+  const reviewExists = await Review.findByPk(reviewId);
 
-    if (reviewExists) {
-      const review = await Review.findOne({
-        where: { id: reviewId },
-        include: [
-          {
-            model: Booking,
-            as: "User",
-            where: { userId: user.id },
-          },
-        ],
-      });
+  if(!reviewExists){
+    return next({ message: "Review could not be found", status: 404 });
+  }
 
-      if (review) {
-        const image = await Image.create({
-          url,
-          preview: false,
-          imageableType: "Review",
-          imageableId: reviewId,
-        });
-        const { id } = image.dataValues;
-        res.json({ id, url });
-      }
-    } else {
-      return next({ message: "Review could not be found", status: 404 });
+  if (reviewExists) {
+    const review = await Review.findOne({
+      where: { id: reviewId },
+      include: [
+        {
+          model: Booking,
+          as: "User",
+          where: { userId: user.dataValues.id },
+        },
+      ],
+    });
+
+    if (!review) {
+      return next({ message: "Unauthorized Action", status: 403 });
     }
-    return next({ message: "Unauthorized Action", status: 403 });
+
+    const image = await Image.create({
+      url,
+      preview: false,
+      imageableType: "Review",
+      imageableId: reviewId,
+    });
+    const { id } = image.dataValues;
+
+    res.json({ id, url });
+    }
   }
 );
 
 /* Edit a Review */
 router.put("/:id", requireAuth, validateReview, async (req, res, next) => {
-  const { review, stars } = req.body;
+  const attributes = req.body;
   const { user } = req;
   const reviewId = req.params.id;
-  const newReview = await Review.findByPk(reviewId);
-
+  const review = await Review.findByPk(reviewId);
   const booking = await Booking.findOne({
     where: {
-      userId: user.id,
+      userId: user.dataValues.id,
       reviewId: reviewId,
     },
   });
 
-  if (!newReview) {
+  if (!review) {
     return next({ message: "Review could not be found", status: 404 });
   }
 
@@ -99,13 +102,13 @@ router.put("/:id", requireAuth, validateReview, async (req, res, next) => {
     });
   }
 
-  const updatedReview = await updateOrCreateReview(
-    { review: newReview, booking: booking },
-    req.body,
+  await updateOrCreateReview(
+    { review: review, booking: booking },
+    attributes,
     "update"
   );
 
-  res.json(updatedReview);
+  res.json(review);
 });
 
 /* Delete a Review */
@@ -115,7 +118,7 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
   const review = await Review.findByPk(reviewId);
   const booking = await Booking.findOne({
     where: {
-      userId: user.id,
+      userId: user.dataValues.id,
       reviewId: reviewId,
     },
   });
@@ -129,6 +132,7 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
   }
 
   await review.destroy();
+
   res.json({
     message: "Successfully deleted",
     statusCode: 200,

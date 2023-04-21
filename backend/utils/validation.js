@@ -120,6 +120,10 @@ const validateImage = [
     .withMessage("Please provide a URL")
     .isURL()
     .withMessage("Please provide a valid URL"),
+  check("preview")
+    .optional({ checkFalsy: true })
+    .isIn(["true", "false"])
+    .withMessage("Please provide true or false"),
   handleValidationErrors,
 ];
 
