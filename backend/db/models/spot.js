@@ -79,27 +79,44 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: "Spot",
       scopes: {
-        getAllSpots(where, attributes, extras) {
+        getAllSpots(where, attributes, extras, task) {
           const { Image, Booking, Review } = require("../models");
-          return {
-            where,
-            include: [
-              {
-                model: Image,
-                as: "previewImage",
-                where: { preview: 1 },
-                attributes: ["url"],
-                required: false,
-              },
-              {
-                model: Booking,
-                attributes: [],
-                include: [{ model: Review }],
-              },
-            ],
-            attributes,
-            ...extras,
-          };
+          const includeObjects = [
+            {
+              model: Image,
+              as: "previewImage",
+              where: { preview: 1 },
+              attributes: ["url"],
+              required: false,
+            },
+          ];
+
+          if (task === "Spot") {
+            includeObjects.push({
+              model: Booking,
+              include: [{ model: Review }],
+              attributes: [],
+            });
+            return {
+              where,
+              include: [...includeObjects],
+              attributes,
+              ...extras,
+            };
+          }
+
+          if (task === "Review") {
+            includeObjects.push({
+              model: Booking,
+              where,
+              attributes: [],
+            });
+            return {
+              include: [...includeObjects],
+              attributes,
+              ...extras,
+            };
+          }
         },
       },
     }
