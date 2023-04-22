@@ -85,10 +85,10 @@ router.get("/:id/bookings", async (req, res, next) => {
       console.log(booking);
       buildBookings[i] = booking;
     }
-    return res.json({ Bookings: buildBookings });
+    res.json({ Bookings: buildBookings });
   }
 
-  return res.json(bookings);
+  res.json(bookings);
 });
 
 /* Create Booking By Spot Id */
