@@ -16,6 +16,7 @@ const {
   updateOrCreateSpot,
   updateOrCreateReview,
 } = require("../../utils/helpers");
+const booking = require("../../db/models/booking");
 
 const aggregates = {
   numReviews: [
@@ -28,20 +29,80 @@ const aggregates = {
   ],
 };
 
-/* Get All Reviews By Spot Id */
-router.get("/:id/reviews", async (req, res, next) => {
+/* Get All Bookings By Spot Id */
+router.get("/:id/bookings", async (req, res, next) => {
+  const { user } = req;
   const spotId = req.params.id;
-  const where = { spotId: spotId };
-
   const spot = await Spot.findByPk(spotId);
+  const attributes = {};
 
   if (!spot) {
     return next({ message: "Spot couldn't be found", status: 404 });
   }
 
+  if (spot.ownerId === user.dataValues.id) {
+    attributes.include = [
+      { model: User, attributes: ["id", "firstName", "lastName"] },
+    ];
+  } else {
+    attributes.attributes = {
+      exclude: ["id", "userId", "reviewId", "createdAt", "updatedAt"],
+    };
+  }
+
+  const bookings = await Booking.findAll({
+    where: { spotId: spotId },
+    ...attributes,
+  });
+
+  if (!bookings) {
+    return next({ message: "No Bookings found", status: 404 });
+  }
+
+  if (spot.ownerId === user.dataValues.id) {
+    const bookings = [];
+    for (const i in bookings) {
+      const {
+        User,
+        id,
+        spotId,
+        userId,
+        startDate,
+        endDate,
+        createdAt,
+        updatedAt,
+      } = bookings[i];
+      const booking = {
+        User,
+        id,
+        spotId,
+        userId,
+        startDate,
+        endDate,
+        createdAt,
+        updatedAt,
+      };
+      bookings.push(booking);
+    }
+    res.json({ bookings });
+  }
+
+  res.json({ bookings });
+});
+
+/* Get All Reviews By Spot Id */
+router.get("/:id/reviews", async (req, res, next) => {
+  const spotId = req.params.id;
+  const where = { spotId: spotId };
+  const spot = await Spot.findByPk(spotId);
+
   const reviews = await Review.scope({
     method: ["getAllReviews", where],
   }).findAll();
+
+  if (!spot) {
+    return next({ message: "Spot couldn't be found", status: 404 });
+  }
 
   const Reviews = buildReview(reviews, spot, "noSpots");
 
