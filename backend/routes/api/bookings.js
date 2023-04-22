@@ -83,10 +83,24 @@ router.put("/:id", requireAuth, validateBooking, async (req, res, next) => {
     return next({ message: "Unauthorized Action", status: 403 });
   }
 
-  if (booking.endDate === "2024-12-12T00:00:00.000Z") {
+  if (booking.dataValues.endDate.getTime() <= new Date().getTime()) {
     return next({
       message: "Past bookings can't be modified",
       statusCode: 403,
+    });
+  }
+
+  if (
+    booking.dataValues.startDate.getTime() <= new Date(startDate).getTime() &&
+    booking.dataValues.endDate.getTime() >= new Date(endDate).getTime()
+  ) {
+    return next({
+      message: `Spot is already booked within the specified dates`,
+      status: 403,
+      errors: [
+        "Start date conflicts with an existing booking",
+        "End date conflicts with an existing booking",
+      ],
     });
   }
 

@@ -105,6 +105,10 @@ console.log()
       return next({ message: "Spot couldn't be found", status: 404 });
     }
 
+    console.log("AAAAAAAAAAAAAAAAAAAAAA")
+    console.log(`2024-04-13T00:00:00.000Z`,`startDate::${new Date(startDate).toISOString()}`)
+    console.log("AAAAAAAAAAAAAAAAAAAAAA")
+
     const booking = await spot.getBookings({
       where: {
         [Op.or]:{
