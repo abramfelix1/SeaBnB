@@ -2,13 +2,18 @@ const sequelize = require("sequelize");
 const { Spot, Image, User, Review, Booking } = require("../db/models");
 
 const setPreview = (spots) => {
-  for (const i in spots) {
-    if (spots[i].dataValues.previewImage.length) {
-      const url = spots[i].dataValues.previewImage[0].dataValues.url;
-      spots[i].dataValues.previewImage = url;
-    } else {
-      spots[i].dataValues.previewImage = "Preview Image Unavailable";
+  if (Array.isArray(spots)) {
+    for (const i in spots) {
+      if (spots[i].dataValues.previewImage.length) {
+        const url = spots[i].dataValues.previewImage[0].dataValues.url;
+        spots[i].dataValues.previewImage = url;
+      } else {
+        spots[i].dataValues.previewImage = "Preview Image Unavailable";
+      }
     }
+  } else {
+    const url = spots.dataValues.previewImage[0].dataValues.url;
+    spots.dataValues.previewImage = url;
   }
 };
 

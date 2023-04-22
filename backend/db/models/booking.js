@@ -47,6 +47,9 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Booking",
+      scopes: {
+        // getAllBookings()
+      },
     }
   );
   return Booking;
