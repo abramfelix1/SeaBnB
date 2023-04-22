@@ -7,6 +7,7 @@ const {
   validateSpot,
   validateImage,
   validateReview,
+  validateBooking,
 } = require("../../utils/validation");
 const sequelize = require("sequelize");
 const { Op } = require("sequelize");
@@ -54,13 +55,12 @@ router.get("/:id/bookings", async (req, res, next) => {
     where: { spotId: spotId },
     ...attributes,
   });
-
   if (!bookings) {
     return next({ message: "No Bookings found", status: 404 });
   }
 
   if (spot.ownerId === user.dataValues.id) {
-    const bookings = [];
+    const buildBookings = [];
     for (const i in bookings) {
       const {
         User,
@@ -82,13 +82,57 @@ router.get("/:id/bookings", async (req, res, next) => {
         createdAt,
         updatedAt,
       };
-      bookings.push(booking);
+      console.log(booking);
+      buildBookings[i] = booking;
     }
-    res.json({ bookings });
+    res.json({ Bookings: buildBookings });
   }
 
-  res.json({ bookings });
+  res.json(bookings);
 });
+
+/* Create Booking By Spot Id */
+// prettier-ignore
+router.post( "/:id/bookings", requireAuth, validateBooking, async (req, res, next) => {
+    const { startDate, endDate } = req.body;
+    const { user } = req;
+    const spotId = req.params.id;
+    const spot = await Spot.findByPk(spotId);
+
+    if (!spot) {
+      return next({ message: "Spot couldn't be found", status: 404 });
+    }
+
+    const booking = await spot.getBookings({
+      where: {
+        [Op.or]:{
+        startDate: { [Op.between]: [`${new Date(startDate).toISOString()}`,`${new Date(endDate).toISOString()}`]},
+        endDate: { [Op.between]: [`${new Date(startDate).toISOString()}`,`${new Date(endDate).toISOString()}`]},
+        }
+      },
+    });
+
+    if (booking.length) {
+      return next({
+        message: `Spot is already booked within the specified dates`,
+        status: 403,
+        errors: [
+          "Start date conflicts with an existing booking",
+          "End date conflicts with an existing booking",
+        ],
+      });
+    }
+
+    const newBooking = await Booking.create({
+      spotId,
+      userId: user.id,
+      startDate,
+      endDate,
+    });
+
+    res.json(newBooking);
+  }
+);
 
 /* Get All Reviews By Spot Id */
 router.get("/:id/reviews", async (req, res, next) => {

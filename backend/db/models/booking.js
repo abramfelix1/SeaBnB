@@ -33,23 +33,31 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         allowNull: false,
         validate: {
-          isAfter: "2023-01-01",
+          isDate: true,
+          isAfter: new Date().toISOString().split("T")[0],
+          isPastEndDate(value) {
+            if (value >= this.endDate) {
+              throw new Error("Start Date must be before End Date");
+            }
+          },
         },
       },
       endDate: {
         type: DataTypes.DATE,
         allowNull: false,
         validate: {
-          isAfter: this.startDate,
+          isDate: true,
+          isAfterStartDate(value) {
+            if (value <= this.startDate) {
+              throw new Error("End Date must be after Start Date.");
+            }
+          },
         },
       },
     },
     {
       sequelize,
       modelName: "Booking",
-      scopes: {
-        // getAllBookings()
-      },
     }
   );
   return Booking;
