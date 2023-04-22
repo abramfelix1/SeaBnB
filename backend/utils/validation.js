@@ -149,13 +149,15 @@ const validateBooking = [
     .notEmpty()
     .withMessage("Please provide a start date")
     .isDate()
-    .withMessage("Please provide a valid date"),
+    .withMessage("Please provide a valid date")
+    .isAfter(new Date().toISOString().split("T")[0])
+    .withMessage("Please provide a valid start date"),
   check("endDate")
     .exists({ checkFalsy: true })
     .notEmpty()
-    .withMessage("Please provide a start date")
+    .withMessage("Please provide a start end date")
     .isDate()
-    .withMessage("Please provide a valid date"),
+    .withMessage("Please provide a valid end date"),
   handleValidationErrors,
 ];
 

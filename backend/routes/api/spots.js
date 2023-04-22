@@ -99,20 +99,24 @@ router.post( "/:id/bookings", requireAuth, validateBooking, async (req, res, nex
     const spotId = req.params.id;
     const spot = await Spot.findByPk(spotId);
 
+console.log()
+
     if (!spot) {
       return next({ message: "Spot couldn't be found", status: 404 });
     }
 
     const booking = await spot.getBookings({
       where: {
-        startDate: { [Op.in]: [startDate, endDate] },
-        endDate: { [Op.in]: [startDate, endDate] },
+        [Op.or]:{
+        startDate: { [Op.between]: [`${new Date(startDate).toISOString()}`,`${new Date(endDate).toISOString()}`]},
+        endDate: { [Op.between]: [`${new Date(startDate).toISOString()}`,`${new Date(endDate).toISOString()}`]},
+        }
       },
     });
 
     if (booking.length) {
       return next({
-        message: `Booking already exist, please choose a date after ${startDate}`,
+        message: `Spot is already booked within the specified dates`,
         status: 403,
         errors: [
           "Start date conflicts with an existing booking",
