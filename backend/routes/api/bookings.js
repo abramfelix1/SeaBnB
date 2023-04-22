@@ -109,7 +109,39 @@ router.put("/:id", requireAuth, validateBooking, async (req, res, next) => {
     endDate,
   });
 
-  res.json(booking);
+  res.json({});
+});
+
+/* Delete Booking */
+router.delete("/:id", requireAuth, async (req, res, next) => {
+  const { user } = req;
+  const bookingId = req.params.id;
+  const booking = await Booking.findByPk(bookingId);
+
+  if (!booking) {
+    return next({ message: "Booking couldn't be found", status: 404 });
+  }
+
+  if (+booking.userId !== +user.dataValues.id) {
+    return next({ message: "Unauthorized action" });
+  }
+
+  if (
+    booking.dataValues.startDate.getTime() <= new Date().getTime() &&
+    booking.dataValues.endDate.getTime() >= new Date().getTime()
+  ) {
+    return next({
+      message: "Bookings that have been started can't be deleted",
+      statusCode: 403,
+    });
+  }
+
+  await booking.destroy();
+
+  res.json({
+    message: "Successfully deleted",
+    statusCode: 200,
+  });
 });
 
 module.exports = router;
