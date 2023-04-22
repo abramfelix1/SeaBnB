@@ -99,8 +99,6 @@ router.post( "/:id/bookings", requireAuth, validateBooking, async (req, res, nex
     const spotId = req.params.id;
     const spot = await Spot.findByPk(spotId);
 
-console.log()
-
     if (!spot) {
       return next({ message: "Spot couldn't be found", status: 404 });
     }
