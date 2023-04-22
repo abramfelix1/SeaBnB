@@ -68,4 +68,6 @@ router.get("/current", async (req, res, next) => {
   res.json({ Bookings: buildBookings });
 });
 
+/* Edit a Booking */
+
 module.exports = router;

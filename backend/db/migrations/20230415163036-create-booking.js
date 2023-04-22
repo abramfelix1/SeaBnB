@@ -35,18 +35,18 @@ module.exports = {
         },
         reviewId: {
           type: Sequelize.INTEGER,
-          allowNull: false,
+          allowNull: true,
           references: {
             model: "Reviews",
           },
           onDelete: "CASCADE",
         },
         startDate: {
-          type: Sequelize.DATE,
+          type: Sequelize.STRING,
           allowNull: false,
         },
         endDate: {
-          type: Sequelize.DATE,
+          type: Sequelize.STRING,
           allowNull: false,
         },
         createdAt: {

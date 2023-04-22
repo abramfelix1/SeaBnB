@@ -143,6 +143,22 @@ const validateReview = [
   handleValidationErrors,
 ];
 
+const validateBooking = [
+  check("startDate")
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage("Please provide a start date")
+    .isDate()
+    .withMessage("Please provide a valid date"),
+  check("endDate")
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage("Please provide a start date")
+    .isDate()
+    .withMessage("Please provide a valid date"),
+  handleValidationErrors,
+];
+
 module.exports = {
   handleValidationErrors,
   validateSpot,
@@ -150,4 +166,5 @@ module.exports = {
   validateSignup,
   validateImage,
   validateReview,
+  validateBooking,
 };
