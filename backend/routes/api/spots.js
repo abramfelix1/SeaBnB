@@ -17,7 +17,6 @@ const {
   updateOrCreateSpot,
   updateOrCreateReview,
 } = require("../../utils/helpers");
-const booking = require("../../db/models/booking");
 
 const aggregates = {
   numReviews: [

@@ -1420,7 +1420,7 @@ Delete an existing image for a Spot.
 - Request
 
   - Method: "DELETE"
-  - URL: "/image/:imageId"
+  - URL: "/images/:imageId"
   - Body: none
 
 - Successful Response
@@ -1460,7 +1460,7 @@ Delete an existing image for a Review.
 - Request
 
   - Method: "DELETE"
-  - URL: "/image/:imageId"
+  - URL: "/images/:imageId"
   - Body: none
 
 - Successful Response
