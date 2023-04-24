@@ -170,12 +170,12 @@ router.post("/:id/reviews", requireAuth, validateReview, async (req, res, next) 
 });
 
 /* Get All Spots From Current User */
-router.get("/current", requireAuth, async (req, res) => {
+router.get("/current", requireAuth, async (req, res, next) => {
   const { user } = req;
   const where = { ownerId: user.dataValues.id };
   const attributes = {};
   attributes.include = [aggregates.numReviews, aggregates.avgRating];
-
+  console.log("AAAAAAAAAAAAAAAAA");
   const spots = await Spot.scope({
     method: [
       "getAllSpots",
@@ -186,12 +186,14 @@ router.get("/current", requireAuth, async (req, res) => {
     ],
   }).findAll();
 
+  if (!spots.length) {
+    res.json({ Spots: [] });
+  }
+
   if (spots[0].dataValues.id) {
     setPreview(spots);
     res.json(spots);
   }
-
-  res.json([]);
 });
 
 /* Get Spot By Id */
