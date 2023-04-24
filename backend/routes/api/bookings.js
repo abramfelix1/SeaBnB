@@ -7,7 +7,7 @@ const { validateBooking } = require("../../utils/validation");
 const { buildBookings } = require("../../utils/helpers");
 
 /* Get All Bookings of Current */
-router.get("/current", async (req, res, next) => {
+router.get("/current", requireAuth, async (req, res, next) => {
   const { user } = req;
   const where = { userId: user.dataValues.id };
   const attributes = {};
@@ -65,7 +65,7 @@ router.put("/:id", requireAuth, validateBooking, async (req, res, next) => {
     endDate,
   });
 
-  res.json({});
+  res.json(booking);
 });
 
 /* Delete Booking */
