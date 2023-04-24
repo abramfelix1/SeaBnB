@@ -16,8 +16,7 @@ router.get("/current", async (req, res, next) => {
   };
 
   const bookings = await Booking.scope({
-    method: "getAllBookings",
-    where,
+    method: ["getAllBookings", where],
   }).findAll();
 
   const Bookings = buildBookings(bookings, "current");

@@ -107,12 +107,6 @@ router.post( "/:id/bookings", requireAuth, validateBooking, async (req, res, nex
       endDate,
     });
 
-    // const newBooking = await spot.createBooking({
-    //   userId:user.id,
-    //   startDate,
-    //   endDate
-    // })
-
     res.json(newBooking);
   }
 );
