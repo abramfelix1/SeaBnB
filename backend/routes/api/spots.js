@@ -16,6 +16,7 @@ const {
   buildReview,
   updateOrCreateSpot,
   updateOrCreateReview,
+  buildBookings,
 } = require("../../utils/helpers");
 
 const aggregates = {
@@ -54,37 +55,14 @@ router.get("/:id/bookings", async (req, res, next) => {
     where: { spotId: spotId },
     ...attributes,
   });
+
   if (!bookings) {
     return next({ message: "No Bookings found", status: 404 });
   }
 
   if (spot.ownerId === user.dataValues.id) {
-    const buildBookings = [];
-    for (const i in bookings) {
-      const {
-        User,
-        id,
-        spotId,
-        userId,
-        startDate,
-        endDate,
-        createdAt,
-        updatedAt,
-      } = bookings[i];
-      const booking = {
-        User,
-        id,
-        spotId,
-        userId,
-        startDate,
-        endDate,
-        createdAt,
-        updatedAt,
-      };
-      console.log(booking);
-      buildBookings[i] = booking;
-    }
-    res.json({ Bookings: buildBookings });
+    const Bookings = buildBookings(bookings, "isOwner");
+    res.json({ Bookings: Bookings });
   }
 
   res.json(bookings);
@@ -147,7 +125,7 @@ router.get("/:id/reviews", async (req, res, next) => {
     return next({ message: "Spot couldn't be found", status: 404 });
   }
 
-  const Reviews = buildReview(reviews, spot, "noSpots");
+  const Reviews = buildReview(reviews, spot);
 
   res.json({ Reviews: Reviews });
 });

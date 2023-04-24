@@ -58,6 +58,11 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Booking",
+      scopes: {
+        getAllBookings(where, attributes, extras, task) {
+          const { Image, User, Spot } = require("../models");
+        },
+      },
     }
   );
   return Booking;

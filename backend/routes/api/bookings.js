@@ -4,9 +4,7 @@ const router = express.Router();
 const { Spot, Image, User, Review, Booking } = require("../../db/models");
 const { requireAuth } = require("../../utils/auth");
 const { validateBooking } = require("../../utils/validation");
-const sequelize = require("sequelize");
-const { Op } = require("sequelize");
-const { setPreview } = require("../../utils/helpers");
+const { buildBookings } = require("../../utils/helpers");
 
 /* Get All Bookings of Current */
 router.get("/current", async (req, res, next) => {
@@ -40,32 +38,9 @@ router.get("/current", async (req, res, next) => {
     ],
   });
 
-  const buildBookings = [];
-  for (const i in bookings) {
-    const {
-      id,
-      spotId,
-      Spot,
-      userId,
-      startDate,
-      endDate,
-      createdAt,
-      updatedAt,
-    } = bookings[i].dataValues;
-    setPreview(Spot);
-    buildBookings[i] = {
-      id,
-      spotId,
-      Spot,
-      userId,
-      startDate,
-      endDate,
-      createdAt,
-      updatedAt,
-    };
-  }
+  const Bookings = buildBookings(bookings);
 
-  res.json({ Bookings: buildBookings });
+  res.json({ Bookings: Bookings });
 });
 
 /* Edit a Booking */

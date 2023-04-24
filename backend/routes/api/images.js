@@ -3,14 +3,6 @@ const router = express.Router();
 
 const { Spot, Image, User, Review, Booking } = require("../../db/models");
 const { requireAuth } = require("../../utils/auth");
-const {
-  validateSpot,
-  validateImage,
-  validateReview,
-  validateBooking,
-} = require("../../utils/validation");
-const sequelize = require("sequelize");
-const { Op } = require("sequelize");
 
 /* Delete Image for Spot and Review */
 router.delete("/:id", requireAuth, async (req, res, next) => {
