@@ -137,6 +137,7 @@ router.post("/:id/reviews", requireAuth, validateReview, async (req, res, next) 
     const { user } = req;
     const spotId = req.params.id;
     const spot = await Spot.findByPk(spotId);
+    const attributes = {userId: user.dataValues.id, ...req.body}
 
     const booking = await Booking.findOne({
       where: {
@@ -162,9 +163,13 @@ router.post("/:id/reviews", requireAuth, validateReview, async (req, res, next) 
 
     const updatedReview = await updateOrCreateReview(
       {booking} ,
-      req.body,
+      attributes,
       "create"
     );
+
+    await booking.update({
+      reviewId:updatedReview.id
+    })
 
     res.json(updatedReview);
 });

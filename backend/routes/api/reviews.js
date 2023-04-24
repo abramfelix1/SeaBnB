@@ -28,6 +28,8 @@ router.get("/current", requireAuth, async (req, res, next) => {
 
   setPreview(spot);
 
+  console.log(reviews);
+
   const Reviews = buildReview(reviews, spot);
 
   res.json({ Reviews: Reviews });

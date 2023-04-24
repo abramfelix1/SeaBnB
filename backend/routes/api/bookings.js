@@ -79,7 +79,7 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
   }
 
   if (+booking.userId !== +user.dataValues.id) {
-    return next({ message: "Unauthorized action" });
+    return next({ message: "Unauthorized action", status: 403 });
   }
 
   if (
