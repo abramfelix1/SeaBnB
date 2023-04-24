@@ -11,9 +11,12 @@ const setPreview = (spots) => {
         spots[i].dataValues.previewImage = "Preview Image Unavailable";
       }
     }
-  } else {
+  }
+  if (spots.dataValues.previewImage.length) {
     const url = spots.dataValues.previewImage[0].dataValues.url;
     spots.dataValues.previewImage = url;
+  } else {
+    spots.dataValues.previewImage = "Preview Image Unavailable";
   }
 };
 
@@ -39,6 +42,7 @@ const buildReview = (reviewsObj, spotObj) => {
 
 const buildBookings = (bookingObj, task) => {
   const Bookings = [];
+
   for (const i in bookingObj) {
     if (task === "current") {
       setPreview(bookingObj[i].dataValues.Spot);

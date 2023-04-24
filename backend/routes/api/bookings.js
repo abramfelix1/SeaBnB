@@ -9,36 +9,18 @@ const { buildBookings } = require("../../utils/helpers");
 /* Get All Bookings of Current */
 router.get("/current", async (req, res, next) => {
   const { user } = req;
-  const bookings = await Booking.findAll({
-    where: {
-      userId: user.dataValues.id,
-    },
-    include: [
-      {
-        model: Spot,
-        include: [
-          {
-            model: Image,
-            as: "previewImage",
-            where: { preview: 1 },
-            attributes: ["url"],
-          },
-        ],
-        attributes: { exclude: ["description", "createdAt", "updatedAt"] },
-      },
-    ],
-    attributes: [
-      "id",
-      "spotId",
-      "userId",
-      "startDate",
-      "endDate",
-      "createdAt",
-      "updatedAt",
-    ],
-  });
+  const where = { userId: user.dataValues.id };
+  const attributes = {};
+  attributes.attributes = {
+    exclude: ["description", "createdAt", "updatedAt"],
+  };
 
-  const Bookings = buildBookings(bookings);
+  const bookings = await Booking.scope({
+    method: "getAllBookings",
+    where,
+  }).findAll();
+
+  const Bookings = buildBookings(bookings, "current");
 
   res.json({ Bookings: Bookings });
 });
