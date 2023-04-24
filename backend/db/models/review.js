@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "Review",
       scopes: {
         getAllReviews(where) {
-          const { Image, Booking, Review, User } = require("../models");
+          const { Image, Booking, User } = require("../models");
           return {
             include: [
               {

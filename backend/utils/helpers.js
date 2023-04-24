@@ -11,8 +11,7 @@ const setPreview = (spots) => {
         spots[i].dataValues.previewImage = "Preview Image Unavailable";
       }
     }
-  }
-  if (spots.dataValues.previewImage.length) {
+  } else if (spots.dataValues.previewImage.length) {
     const url = spots.dataValues.previewImage[0].dataValues.url;
     spots.dataValues.previewImage = url;
   } else {
