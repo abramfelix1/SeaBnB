@@ -63,8 +63,7 @@ module.exports = (sequelize, DataTypes) => {
       scopes: {
         getAllBookings(where, attributes, extras, task) {
           const { Image, User, Spot } = require("../models");
-          console.log("AAAAAAAAAAAA");
-          console.log(where);
+
           return {
             where,
             include: [

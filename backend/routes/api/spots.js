@@ -181,7 +181,7 @@ router.get("/current", requireAuth, async (req, res, next) => {
   const where = { ownerId: user.dataValues.id };
   const attributes = {};
   attributes.include = [aggregates.numReviews, aggregates.avgRating];
-  console.log("AAAAAAAAAAAAAAAAA");
+
   const spots = await Spot.scope({
     method: [
       "getAllSpots",
@@ -374,8 +374,7 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
   if (+spot.ownerId !== +user.dataValues.id) {
     return next({ message: "Unauthorized Action", status: 403 });
   }
-  console.log("AAAAAAA")
-  console.log(Image);
+
   await spot.destroy();
 
   res.json({
