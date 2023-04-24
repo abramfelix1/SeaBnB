@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       Spot.hasMany(models.Booking, {
         foreignKey: "spotId",
       });
+
       Spot.hasMany(models.Image, {
         as: "previewImage",
         foreignKey: "imageableId",
@@ -13,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         scope: {
           imageableType: "Spot",
         },
+        onDelete: "CASCADE",
       });
 
       Spot.hasMany(models.Image, {
@@ -22,13 +24,16 @@ module.exports = (sequelize, DataTypes) => {
         scope: {
           imageableType: "Spot",
         },
+        onDelete: "CASCADE",
       });
+
       Spot.belongsTo(models.User, {
         as: "owner",
         foreignKey: "ownerId",
       });
     }
   }
+
   Spot.init(
     {
       ownerId: {
@@ -119,7 +124,20 @@ module.exports = (sequelize, DataTypes) => {
           }
         },
       },
+      hooks: {
+        beforeDestroy: async (spot, options) => {
+          const { Image } = require("../models");
+          const images = await Image.findAll({
+            where: {
+              imageableId: spot.id,
+              imageableType: "Spot",
+            },
+          });
+          await Promise.all(images.map((image) => image.destroy()));
+        },
+      },
     }
   );
+
   return Spot;
 };

@@ -3,11 +3,11 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Review extends Model {
     static associate(models) {
-      // define association here
       Review.hasOne(models.Booking, {
         foreignKey: "reviewId",
         as: "User",
       });
+
       Review.hasMany(models.Image, {
         foreignKey: "imageableId",
         constraints: false,
@@ -64,7 +64,20 @@ module.exports = (sequelize, DataTypes) => {
           };
         },
       },
+      hooks: {
+        beforeDestroy: async (review, options) => {
+          const { Image } = require("../models");
+          const images = await Image.findAll({
+            where: {
+              imageableId: review.id,
+              imageableType: "Review",
+            },
+          });
+          await Promise.all(images.map((image) => image.destroy()));
+        },
+      },
     }
   );
+
   return Review;
 };

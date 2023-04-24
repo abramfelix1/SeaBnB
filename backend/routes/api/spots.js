@@ -171,6 +171,7 @@ router.post("/:id/reviews", requireAuth, validateReview, async (req, res, next) 
       reviewId:updatedReview.id
     })
 
+
     res.json(updatedReview);
 });
 
@@ -373,7 +374,8 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
   if (+spot.ownerId !== +user.dataValues.id) {
     return next({ message: "Unauthorized Action", status: 403 });
   }
-
+  console.log("AAAAAAA")
+  console.log(Image);
   await spot.destroy();
 
   res.json({
