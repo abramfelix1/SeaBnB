@@ -187,7 +187,7 @@ router.get("/current", requireAuth, async (req, res, next) => {
       "getAllSpots",
       where,
       attributes,
-      { group: "spot.id", subQuery: false },
+      { group: "Spot.id", subQuery: false },
       "Spot",
     ],
   }).findAll();
@@ -293,7 +293,7 @@ router.get("/", async (req, res, next) => {
       "getAllSpots",
       where,
       attributes,
-      { group: "spot.id", subQuery: false, ...pagination },
+      { group: "Spot.id", subQuery: false, ...pagination },
       "Spot",
     ],
   }).findAll();
