@@ -15,7 +15,7 @@ All endpoints that require a current user to be logged in.
 - Request: endpoints that require authentication
 - Error Response: Require authentication
 
-  - Status Code: 401
+  - Status Code: 403
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -23,7 +23,7 @@ All endpoints that require a current user to be logged in.
     ```json
     {
       "message": "Authentication required",
-      "statusCode": 401
+      "statusCode": 403
     }
     ```
 
@@ -133,7 +133,7 @@ information.
 
 - Error Response: Invalid credentials
 
-  - Status Code: 401
+  - Status Code: 403
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -141,7 +141,7 @@ information.
     ```json
     {
       "message": "Invalid credentials",
-      "statusCode": 401
+      "statusCode": 403
     }
     ```
 
@@ -1420,7 +1420,7 @@ Delete an existing image for a Spot.
 - Request
 
   - Method: "DELETE"
-  - URL: "/image/:imageId"
+  - URL: "/images/:imageId"
   - Body: none
 
 - Successful Response
@@ -1460,7 +1460,7 @@ Delete an existing image for a Review.
 - Request
 
   - Method: "DELETE"
-  - URL: "/image/:imageId"
+  - URL: "/images/:imageId"
   - Body: none
 
 - Successful Response

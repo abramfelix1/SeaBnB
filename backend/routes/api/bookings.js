@@ -4,68 +4,24 @@ const router = express.Router();
 const { Spot, Image, User, Review, Booking } = require("../../db/models");
 const { requireAuth } = require("../../utils/auth");
 const { validateBooking } = require("../../utils/validation");
-const sequelize = require("sequelize");
-const { Op } = require("sequelize");
-const { setPreview } = require("../../utils/helpers");
+const { buildBookings } = require("../../utils/helpers");
 
 /* Get All Bookings of Current */
-router.get("/current", async (req, res, next) => {
+router.get("/current", requireAuth, async (req, res, next) => {
   const { user } = req;
-  const bookings = await Booking.findAll({
-    where: {
-      userId: user.dataValues.id,
-    },
-    include: [
-      {
-        model: Spot,
-        include: [
-          {
-            model: Image,
-            as: "previewImage",
-            where: { preview: 1 },
-            attributes: ["url"],
-          },
-        ],
-        attributes: { exclude: ["description", "createdAt", "updatedAt"] },
-      },
-    ],
-    attributes: [
-      "id",
-      "spotId",
-      "userId",
-      "startDate",
-      "endDate",
-      "createdAt",
-      "updatedAt",
-    ],
-  });
+  const where = { userId: user.dataValues.id };
+  const attributes = {};
+  attributes.attributes = {
+    exclude: ["description", "createdAt", "updatedAt"],
+  };
 
-  const buildBookings = [];
-  for (const i in bookings) {
-    const {
-      id,
-      spotId,
-      Spot,
-      userId,
-      startDate,
-      endDate,
-      createdAt,
-      updatedAt,
-    } = bookings[i].dataValues;
-    setPreview(Spot);
-    buildBookings[i] = {
-      id,
-      spotId,
-      Spot,
-      userId,
-      startDate,
-      endDate,
-      createdAt,
-      updatedAt,
-    };
-  }
+  const bookings = await Booking.scope({
+    method: ["getAllBookings", where],
+  }).findAll();
 
-  res.json({ Bookings: buildBookings });
+  const Bookings = buildBookings(bookings, "current");
+
+  res.json({ Bookings: Bookings });
 });
 
 /* Edit a Booking */
@@ -109,7 +65,7 @@ router.put("/:id", requireAuth, validateBooking, async (req, res, next) => {
     endDate,
   });
 
-  res.json({});
+  res.json(booking);
 });
 
 /* Delete Booking */
@@ -123,7 +79,7 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
   }
 
   if (+booking.userId !== +user.dataValues.id) {
-    return next({ message: "Unauthorized action" });
+    return next({ message: "Unauthorized action", status: 403 });
   }
 
   if (

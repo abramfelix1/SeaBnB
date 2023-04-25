@@ -19,6 +19,7 @@ module.exports = {
         },
         imageableId: {
           type: Sequelize.INTEGER,
+          onDelete: "CASCADE",
         },
         imageableType: {
           type: Sequelize.ENUM("Spot", "Review"),

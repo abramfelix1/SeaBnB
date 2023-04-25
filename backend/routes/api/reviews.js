@@ -131,6 +131,10 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
     return next({ message: "Unauthorized Action", status: 403 });
   }
 
+  await booking.update({
+    reviewId: null,
+  });
+
   await review.destroy();
 
   res.json({

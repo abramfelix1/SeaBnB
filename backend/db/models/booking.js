@@ -7,9 +7,11 @@ module.exports = (sequelize, DataTypes) => {
       Booking.belongsTo(models.Review, {
         foreignKey: "reviewId",
       });
+
       Booking.belongsTo(models.User, {
         foreignKey: "userId",
       });
+
       Booking.belongsTo(models.Spot, {
         foreignKey: "spotId",
       });
@@ -58,6 +60,32 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Booking",
+      scopes: {
+        getAllBookings(where, attributes, extras, task) {
+          const { Image, User, Spot } = require("../models");
+
+          return {
+            where,
+            include: [
+              {
+                model: Spot,
+                include: [
+                  {
+                    model: Image,
+                    as: "previewImage",
+                    where: { preview: 1 },
+                    attributes: ["url"],
+                    required: false,
+                  },
+                ],
+                attributes: {
+                  exclude: ["description", "createdAt", "updatedAt"],
+                },
+              },
+            ],
+          };
+        },
+      },
     }
   );
   return Booking;

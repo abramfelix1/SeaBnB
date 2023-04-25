@@ -11,13 +11,15 @@ const setPreview = (spots) => {
         spots[i].dataValues.previewImage = "Preview Image Unavailable";
       }
     }
-  } else {
+  } else if (spots.dataValues.previewImage.length) {
     const url = spots.dataValues.previewImage[0].dataValues.url;
     spots.dataValues.previewImage = url;
+  } else {
+    spots.dataValues.previewImage = "Preview Image Unavailable";
   }
 };
 
-const buildReview = (reviewsObj, spotObj, task) => {
+const buildReview = (reviewsObj, spotObj) => {
   const Reviews = [];
   for (const i in reviewsObj) {
     Reviews[i] = {
@@ -34,11 +36,38 @@ const buildReview = (reviewsObj, spotObj, task) => {
     };
   }
 
-  if (task === "noSpots") {
-    Reviews.splice(8, 1);
+  return Reviews;
+};
+
+const buildBookings = (bookingObj, task) => {
+  const Bookings = [];
+
+  for (const i in bookingObj) {
+    if (task === "current") {
+      setPreview(bookingObj[i].dataValues.Spot);
+    }
+
+    Bookings[i] = {
+      id: bookingObj[i].dataValues.id,
+      spotId: bookingObj[i].dataValues.spotId,
+      Spot: bookingObj[i].dataValues.Spot,
+      userId: bookingObj[i].dataValues.userId,
+      startDate: bookingObj[i].dataValues.startDate,
+      endDate: bookingObj[i].dataValues.endDate,
+      createdAt: bookingObj[i].dataValues.createdAt,
+      updatedAt: bookingObj[i].dataValues.updatedAt,
+    };
   }
 
-  return Reviews;
+  if (task === "isOwner") {
+    const bookings = [];
+    for (const i in Bookings) {
+      bookings[i] = { User: bookingObj[i].dataValues.User, ...Bookings[i] };
+    }
+    return bookings;
+  }
+
+  return Bookings;
 };
 
 const updateOrCreateSpot = async (obj, attributes, task) => {
@@ -97,4 +126,5 @@ module.exports = {
   updateOrCreateSpot,
   updateOrCreateReview,
   buildReview,
+  buildBookings,
 };

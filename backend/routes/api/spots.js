@@ -16,8 +16,8 @@ const {
   buildReview,
   updateOrCreateSpot,
   updateOrCreateReview,
+  buildBookings,
 } = require("../../utils/helpers");
-const booking = require("../../db/models/booking");
 
 const aggregates = {
   numReviews: [
@@ -55,37 +55,14 @@ router.get("/:id/bookings", async (req, res, next) => {
     where: { spotId: spotId },
     ...attributes,
   });
+
   if (!bookings) {
     return next({ message: "No Bookings found", status: 404 });
   }
 
   if (spot.ownerId === user.dataValues.id) {
-    const buildBookings = [];
-    for (const i in bookings) {
-      const {
-        User,
-        id,
-        spotId,
-        userId,
-        startDate,
-        endDate,
-        createdAt,
-        updatedAt,
-      } = bookings[i];
-      const booking = {
-        User,
-        id,
-        spotId,
-        userId,
-        startDate,
-        endDate,
-        createdAt,
-        updatedAt,
-      };
-      console.log(booking);
-      buildBookings[i] = booking;
-    }
-    res.json({ Bookings: buildBookings });
+    const Bookings = buildBookings(bookings, "isOwner");
+    res.json({ Bookings: Bookings });
   }
 
   res.json(bookings);
@@ -148,7 +125,7 @@ router.get("/:id/reviews", async (req, res, next) => {
     return next({ message: "Spot couldn't be found", status: 404 });
   }
 
-  const Reviews = buildReview(reviews, spot, "noSpots");
+  const Reviews = buildReview(reviews, spot);
 
   res.json({ Reviews: Reviews });
 });
@@ -160,6 +137,7 @@ router.post("/:id/reviews", requireAuth, validateReview, async (req, res, next) 
     const { user } = req;
     const spotId = req.params.id;
     const spot = await Spot.findByPk(spotId);
+    const attributes = {userId: user.dataValues.id, ...req.body}
 
     const booking = await Booking.findOne({
       where: {
@@ -185,15 +163,20 @@ router.post("/:id/reviews", requireAuth, validateReview, async (req, res, next) 
 
     const updatedReview = await updateOrCreateReview(
       {booking} ,
-      req.body,
+      attributes,
       "create"
     );
+
+    await booking.update({
+      reviewId:updatedReview.id
+    })
+
 
     res.json(updatedReview);
 });
 
 /* Get All Spots From Current User */
-router.get("/current", requireAuth, async (req, res) => {
+router.get("/current", requireAuth, async (req, res, next) => {
   const { user } = req;
   const where = { ownerId: user.dataValues.id };
   const attributes = {};
@@ -204,17 +187,19 @@ router.get("/current", requireAuth, async (req, res) => {
       "getAllSpots",
       where,
       attributes,
-      { group: "spot.id", subQuery: false },
+      { group: "Spot.id", subQuery: false },
       "Spot",
     ],
   }).findAll();
+
+  if (!spots.length) {
+    res.json({ Spots: [] });
+  }
 
   if (spots[0].dataValues.id) {
     setPreview(spots);
     res.json(spots);
   }
-
-  res.json([]);
 });
 
 /* Get Spot By Id */
@@ -308,7 +293,7 @@ router.get("/", async (req, res, next) => {
       "getAllSpots",
       where,
       attributes,
-      { group: "spot.id", subQuery: false, ...pagination },
+      { group: "Spot.id", subQuery: false, ...pagination },
       "Spot",
     ],
   }).findAll();
