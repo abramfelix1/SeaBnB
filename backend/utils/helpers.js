@@ -133,6 +133,28 @@ const updateOrCreateReview = async (obj, attributes, task) => {
   }
 };
 
+const checkBookingError = (bookings, { startDate, endDate }) => {
+  const start = new Date(startDate).getTime();
+  const end = new Date(endDate).getTime();
+  const err = {
+    message: "Spot is already booked withing the specified dates",
+    status: 403,
+  };
+  const errSet = new Set();
+  for (const booking of bookings) {
+    const checkStart = booking.dataValues.startDate.getTime();
+    const checkEnd = booking.dataValues.endDate.getTime();
+    if (start >= checkStart && start <= checkEnd) {
+      errSet.add("Start date conflicts with an existing booking");
+    }
+    if (end >= checkStart && end <= checkEnd) {
+      errSet.add("End date conflicts with an existing booking");
+    }
+  }
+  err.errors = [...errSet];
+  return err;
+};
+
 module.exports = {
   setPreview,
   changePreview,
@@ -140,4 +162,5 @@ module.exports = {
   updateOrCreateReview,
   buildReview,
   buildBookings,
+  checkBookingError,
 };

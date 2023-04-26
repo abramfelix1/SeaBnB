@@ -63,7 +63,7 @@ router.get("/:id/bookings", async (req, res, next) => {
 
   if (spot.ownerId === user.dataValues.id) {
     const Bookings = buildBookings(bookings, "isOwner");
-    res.json({ Bookings: Bookings });
+    return res.json({ Bookings: Bookings });
   }
 
   res.json(bookings);

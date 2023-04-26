@@ -4,7 +4,9 @@ const router = express.Router();
 const { Spot, Image, User, Review, Booking } = require("../../db/models");
 const { requireAuth } = require("../../utils/auth");
 const { validateBooking } = require("../../utils/validation");
-const { buildBookings } = require("../../utils/helpers");
+const { buildBookings, checkBookingError } = require("../../utils/helpers");
+const { Op } = require("sequelize");
+const { check } = require("express-validator");
 
 /* Get All Bookings of Current */
 router.get("/current", requireAuth, async (req, res, next) => {
@@ -30,6 +32,29 @@ router.put("/:id", requireAuth, validateBooking, async (req, res, next) => {
   const { user } = req;
   const bookingId = req.params.id;
   const booking = await Booking.findByPk(bookingId);
+  const originalStart = startDate;
+  const originalEnd = endDate;
+
+  const checkBooking = await Booking.findAll({
+    where: {
+      spotId: booking.spotId,
+      userId: { [Op.not]: user.dataValues.id },
+      [Op.or]: {
+        startDate: {
+          [Op.between]: [
+            `${new Date(startDate).toISOString()}`,
+            `${new Date(endDate).toISOString()}`,
+          ],
+        },
+        endDate: {
+          [Op.between]: [
+            `${new Date(startDate).toISOString()}`,
+            `${new Date(endDate).toISOString()}`,
+          ],
+        },
+      },
+    },
+  });
 
   if (!booking) {
     return next({ message: "Booking not found", status: 404 });
@@ -46,18 +71,8 @@ router.put("/:id", requireAuth, validateBooking, async (req, res, next) => {
     });
   }
 
-  if (
-    booking.dataValues.startDate.getTime() <= new Date(startDate).getTime() &&
-    booking.dataValues.endDate.getTime() >= new Date(endDate).getTime()
-  ) {
-    return next({
-      message: `Spot is already booked within the specified dates`,
-      status: 403,
-      errors: [
-        "Start date conflicts with an existing booking",
-        "End date conflicts with an existing booking",
-      ],
-    });
+  if (checkBooking.length) {
+    return next(checkBookingError(checkBooking, req.body));
   }
 
   await booking.update({
