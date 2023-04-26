@@ -337,7 +337,8 @@ router.post("/", requireAuth, validateSpot, async (req, res, next) => {
 // prettier-ignore
 router.post(
   "/:id/image", requireAuth, validateImage, async (req, res, next) => {
-    const { url, preview } = req.body;
+    const { url } = req.body;
+    let { preview } = req.body;
     const { user } = req;
     const spotId = req.params.id;
     const spot = await Spot.findOne({
@@ -357,6 +358,11 @@ router.post(
     if(spot.dataValues.images.length >= 10){
       return next({ message: "10 image limit reached, remove an image to add new image", status: 400 });
     }
+
+    if(spot.dataValues.images.length === 0){
+      preview = true
+    }
+
 
     if(preview === "true") await changePreview(spot)
 
