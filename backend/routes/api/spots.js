@@ -13,6 +13,7 @@ const sequelize = require("sequelize");
 const { Op } = require("sequelize");
 const {
   setPreview,
+  changePreview,
   buildReview,
   updateOrCreateSpot,
   updateOrCreateReview,
@@ -256,7 +257,10 @@ router.get("/", async (req, res, next) => {
     (!isNaN(+value) && value >= 0) || value === undefined;
 
   if (!validateQueries.every((el) => check(el)))
-    next({ message: "Invalid Queries", status: 400 });
+    return next({
+      message: "Invalid Queries, please provide only numbers",
+      status: 400,
+    });
 
   // Pagination
   const pagination = { offset: 0, limit: 10 };
@@ -265,6 +269,12 @@ router.get("/", async (req, res, next) => {
     if (!size || size <= 0) size = 10;
     pagination.offset = size * (page - 1);
     pagination.limit = size;
+    if (!Number.isInteger(+page) || !Number.isInteger(+size)) {
+      return next({
+        message: "Please provide whole Numbers for page and size",
+        status: 400,
+      });
+    }
   }
 
   // Min/Max LAT
@@ -300,7 +310,20 @@ router.get("/", async (req, res, next) => {
 
   setPreview(spots);
 
-  res.json({ Spots: spots, page: +page || 1, size: +size || 10 });
+  let totalItems = await Spot.findAll({ where });
+  totalItems = Math.ceil(totalItems.length / size);
+
+  const pageDirectory = `${+page || 1} / ${totalItems}`;
+
+  if (page > totalItems) {
+    next({ message: "Page not be found", status: 404 });
+  }
+
+  res.json({
+    Spots: spots,
+    page: pageDirectory,
+    size: +size || 10,
+  });
 });
 
 /* Create Spot */
@@ -319,7 +342,11 @@ router.post(
     const { url, preview } = req.body;
     const { user } = req;
     const spotId = req.params.id;
-    const spot = await Spot.findByPk(spotId);
+    const spot = await Spot.findOne({
+      where:{id:spotId},
+      include:[{ model: Image, as: "images"}],
+      group: "Images.id",
+    });
 
     if (!spot) {
       return next({ message: "Spot could not be found", status: 404 });
@@ -329,6 +356,12 @@ router.post(
       return next({ message: "Unauthorized Action", status: 403 });
     }
 
+    if(spot.dataValues.images.length >= 10){
+      return next({ message: "10 image limit reached, remove an image to add new image", status: 400 });
+    }
+
+    if(preview === true) await changePreview(spot)
+
     const image = await Image.create({
       url,
       preview: preview || false,
@@ -337,7 +370,7 @@ router.post(
     });
     const {id} = image.dataValues
 
-    res.json({id,url,preview:image.dataValues.preview});
+    res.json({id,url,preview});
   }
 );
 

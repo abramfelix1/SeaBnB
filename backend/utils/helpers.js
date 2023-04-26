@@ -19,6 +19,18 @@ const setPreview = (spots) => {
   }
 };
 
+const changePreview = async (spot) => {
+  for (const image of spot.dataValues.images) {
+    if (image.dataValues.preview === true) {
+      const id = image.dataValues.id;
+      const imageToUpdate = await Image.findByPk(id);
+      await imageToUpdate.update({
+        preview: false,
+      });
+    }
+  }
+};
+
 const buildReview = (reviewsObj, spotObj) => {
   const Reviews = [];
   for (const i in reviewsObj) {
@@ -123,6 +135,7 @@ const updateOrCreateReview = async (obj, attributes, task) => {
 
 module.exports = {
   setPreview,
+  changePreview,
   updateOrCreateSpot,
   updateOrCreateReview,
   buildReview,
