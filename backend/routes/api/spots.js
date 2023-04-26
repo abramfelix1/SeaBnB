@@ -18,6 +18,7 @@ const {
   updateOrCreateSpot,
   updateOrCreateReview,
   buildBookings,
+  checkBookingError,
 } = require("../../utils/helpers");
 
 const aggregates = {
@@ -81,7 +82,11 @@ router.post( "/:id/bookings", requireAuth, validateBooking, async (req, res, nex
       return next({ message: "Spot couldn't be found", status: 404 });
     }
 
-    const booking = await spot.getBookings({
+    if(spot.ownerId === user.dataValues.id){
+      return next({message: "Cannot book owned spots", status:400})
+    }
+
+    const checkBooking = await spot.getBookings({
       where: {
         [Op.or]:{
         startDate: { [Op.between]: [`${new Date(startDate).toISOString()}`,`${new Date(endDate).toISOString()}`]},
@@ -90,15 +95,8 @@ router.post( "/:id/bookings", requireAuth, validateBooking, async (req, res, nex
       },
     });
 
-    if (booking.length) {
-      return next({
-        message: `Spot is already booked within the specified dates`,
-        status: 403,
-        errors: [
-          "Start date conflicts with an existing booking",
-          "End date conflicts with an existing booking",
-        ],
-      });
+    if (checkBooking.length) {
+      return next(checkBookingError(checkBooking, req.body));
     }
 
     const newBooking = await Booking.create({
