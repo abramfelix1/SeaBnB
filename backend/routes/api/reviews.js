@@ -54,11 +54,18 @@ router.post("/:id/image", requireAuth, validateImage, async (req, res, next) => 
           as: "User",
           where: { userId: user.dataValues.id },
         },
+        {
+          model:Image, as:"Images"
+        }
       ],
     });
 
     if (!review) {
       return next({ message: "Unauthorized Action", status: 403 });
+    }
+
+    if(review.dataValues.Images.length >= 10){
+      return next({ message: "10 image limit reached, remove an image to add new image", status: 400 });
     }
 
     const image = await Image.create({

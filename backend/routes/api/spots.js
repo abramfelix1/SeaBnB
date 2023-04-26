@@ -360,7 +360,7 @@ router.post(
       return next({ message: "10 image limit reached, remove an image to add new image", status: 400 });
     }
 
-    if(preview === true) await changePreview(spot)
+    if(preview === "true") await changePreview(spot)
 
     const image = await Image.create({
       url,
