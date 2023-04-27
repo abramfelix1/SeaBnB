@@ -73,7 +73,7 @@ module.exports = (sequelize, DataTypes) => {
                   {
                     model: Image,
                     as: "previewImage",
-                    where: { preview: 1 },
+                    where: { preview: "true" },
                     attributes: ["url"],
                     required: false,
                   },
