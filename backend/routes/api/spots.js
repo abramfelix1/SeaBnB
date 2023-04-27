@@ -234,11 +234,12 @@ router.get("/:id", async (req, res, next) => {
 
 /* Get All Spots */
 router.get("/", validateQueries, async (req, res, next) => {
-  /* Query Filters */
   let { page, size } = req.query;
   const where = setQuery(req.query);
   const attributes = {};
   attributes.include = [aggregates.numReviews, aggregates.avgRating];
+
+  console.log(req.query);
 
   // Pagination
   const pagination = { offset: 0, limit: 20 };
@@ -255,7 +256,11 @@ router.get("/", validateQueries, async (req, res, next) => {
       "getAllSpots",
       where,
       attributes,
-      { group: ["Spot.id", "previewImage.id"], subQuery: false, ...pagination },
+      {
+        group: ["Spot.id", "previewImage.id", "Bookings.Review.id"],
+        subQuery: false,
+        ...pagination,
+      },
       "Spot",
     ],
   }).findAll();

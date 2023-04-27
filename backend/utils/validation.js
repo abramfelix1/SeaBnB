@@ -163,11 +163,11 @@ const validateBooking = [
 
 const validateQueries = [
   query("page")
-    .optional({ checkFalsy: true })
+    .exists({ checkFalsy: true })
     .isInt({ min: 0 })
     .withMessage("Page must be greater then or equal to 0"),
   query("size")
-    .optional({ checkFalsy: true })
+    .exists({ checkFalsy: true })
     .isInt({ min: 0 })
     .withMessage("Size must be greater than or equal to 0"),
   query("maxLat")
