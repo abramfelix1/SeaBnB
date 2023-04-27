@@ -171,10 +171,16 @@ const checkBookingError = (bookings, { startDate, endDate }) => {
   for (const booking of bookings) {
     const checkStart = booking.dataValues.startDate.getTime();
     const checkEnd = booking.dataValues.endDate.getTime();
-    if (start >= checkStart && start <= checkEnd) {
+    if (
+      (start >= checkStart && start <= checkEnd) ||
+      (end > checkEnd && start >= checkStart && start <= checkEnd)
+    ) {
       errSet.add("Start date conflicts with an existing booking");
     }
-    if (end >= checkStart && end <= checkEnd) {
+    if (
+      (end >= checkStart && end <= checkEnd) ||
+      (start < checkStart && end >= checkStart && end <= checkEnd)
+    ) {
       errSet.add("End date conflicts with an existing booking");
     }
   }
