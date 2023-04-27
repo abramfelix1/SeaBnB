@@ -32,6 +32,10 @@ router.put("/:id", requireAuth, validateBooking, async (req, res, next) => {
   const bookingId = req.params.id;
   const booking = await Booking.findByPk(bookingId);
 
+  if (!booking) {
+    return next({ message: "Booking not found", status: 404 });
+  }
+
   const checkBooking = await Booking.findAll({
     where: {
       spotId: booking.spotId,
@@ -52,10 +56,6 @@ router.put("/:id", requireAuth, validateBooking, async (req, res, next) => {
       },
     },
   });
-
-  if (!booking) {
-    return next({ message: "Booking not found", status: 404 });
-  }
 
   if (booking.userId !== user.dataValues.id) {
     return next({ message: "Unauthorized Action", status: 403 });

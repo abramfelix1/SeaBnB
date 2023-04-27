@@ -175,6 +175,7 @@ const checkBookingError = (bookings, { startDate, endDate }) => {
       (start >= checkStart && start <= checkEnd) ||
       (end > checkEnd && start >= checkStart && start <= checkEnd)
     ) {
+      console.log("AA")
       errSet.add("Start date conflicts with an existing booking");
     }
     if (
