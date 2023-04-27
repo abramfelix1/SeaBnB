@@ -151,6 +151,10 @@ router.post("/:id/reviews", requireAuth, validateReview, async (req, res, next) 
       return next({ message: "Spot couldn't be found", status: 404 });
     }
 
+    if(spot.ownerId === user.dataValues.id){
+      return next({message: "Cannot review owned spots", status:400})
+    }
+
     if (!booking) {
       return next({ message: "User hasn't booked this spot", status: 403 });
     }
