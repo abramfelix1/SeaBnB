@@ -10,12 +10,10 @@ module.exports = (sequelize, DataTypes) => {
 
       Booking.belongsTo(models.User, {
         foreignKey: "userId",
-        onDelete: "CASCADE",
       });
 
       Booking.belongsTo(models.Spot, {
         foreignKey: "spotId",
-        onDelete: "CASCADE",
       });
     }
   }
@@ -32,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       reviewId: {
         type: DataTypes.INTEGER,
         allowNull: true,
+        validate: { notNull: false },
       },
       startDate: {
         type: DataTypes.DATE,
