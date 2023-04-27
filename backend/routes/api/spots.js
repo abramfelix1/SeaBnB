@@ -8,15 +8,19 @@ const {
   validateImage,
   validateReview,
   validateBooking,
+  validateQueries,
 } = require("../../utils/validation");
 const sequelize = require("sequelize");
 const { Op } = require("sequelize");
 const {
   setPreview,
+  setQuery,
+  changePreview,
   buildReview,
   updateOrCreateSpot,
   updateOrCreateReview,
   buildBookings,
+  checkBookingError,
 } = require("../../utils/helpers");
 
 const aggregates = {
@@ -62,7 +66,7 @@ router.get("/:id/bookings", async (req, res, next) => {
 
   if (spot.ownerId === user.dataValues.id) {
     const Bookings = buildBookings(bookings, "isOwner");
-    res.json({ Bookings: Bookings });
+    return res.json({ Bookings: Bookings });
   }
 
   res.json(bookings);
@@ -80,7 +84,11 @@ router.post( "/:id/bookings", requireAuth, validateBooking, async (req, res, nex
       return next({ message: "Spot couldn't be found", status: 404 });
     }
 
-    const booking = await spot.getBookings({
+    if(spot.ownerId === user.dataValues.id){
+      return next({message: "Cannot book owned spots", status:400})
+    }
+
+    const checkBooking = await spot.getBookings({
       where: {
         [Op.or]:{
         startDate: { [Op.between]: [`${new Date(startDate).toISOString()}`,`${new Date(endDate).toISOString()}`]},
@@ -89,15 +97,8 @@ router.post( "/:id/bookings", requireAuth, validateBooking, async (req, res, nex
       },
     });
 
-    if (booking.length) {
-      return next({
-        message: `Spot is already booked within the specified dates`,
-        status: 403,
-        errors: [
-          "Start date conflicts with an existing booking",
-          "End date conflicts with an existing booking",
-        ],
-      });
+    if (checkBooking.length) {
+      return next(checkBookingError(checkBooking, req.body));
     }
 
     const newBooking = await Booking.create({
@@ -232,61 +233,22 @@ router.get("/:id", async (req, res, next) => {
 });
 
 /* Get All Spots */
-router.get("/", async (req, res, next) => {
+router.get("/", validateQueries, async (req, res, next) => {
   /* Query Filters */
-  let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } =
-    req.query;
-  const where = {};
+  let { page, size } = req.query;
+  const where = setQuery(req.query);
   const attributes = {};
   attributes.include = [aggregates.numReviews, aggregates.avgRating];
 
-  //Validate Query Values
-  const validateQueries = [
-    page,
-    size,
-    minLat,
-    maxLat,
-    minLng,
-    maxLng,
-    minPrice,
-    maxPrice,
-  ];
-
-  const check = (value) =>
-    (!isNaN(+value) && value >= 0) || value === undefined;
-
-  if (!validateQueries.every((el) => check(el)))
-    next({ message: "Invalid Queries", status: 400 });
-
   // Pagination
-  const pagination = { offset: 0, limit: 10 };
+  const pagination = { offset: 0, limit: 20 };
+
   if (page || size) {
-    if (!page || page <= 0) page = 1;
-    if (!size || size <= 0) size = 10;
+    if (page <= 0) page = 1;
+    if (size > 20) size = 20;
     pagination.offset = size * (page - 1);
     pagination.limit = size;
   }
-
-  // Min/Max LAT
-  if (minLat && maxLat) {
-    where.lat = { [Op.between]: [minLat, maxLat] };
-  } else if (minLat) {
-    where.lat = { [Op.gte]: minLat };
-  } else if (maxLat) where.lat = { [Op.lte]: maxLat };
-
-  // Min/Max LNG
-  if (minLng && maxLng) {
-    where.Lng = { [Op.between]: [minLng, maxLng] };
-  } else if (minLng) {
-    where.Lng = { [Op.gte]: minLng };
-  } else if (maxLng) where.Lng = { [Op.lte]: maxLng };
-
-  // Min/Max Price
-  if (minPrice && maxPrice) {
-    where.Price = { [Op.between]: [minPrice, maxPrice] };
-  } else if (minPrice) {
-    where.Price = { [Op.gte]: minPrice };
-  } else if (maxPrice) where.Price = { [Op.lte]: maxPrice };
 
   const spots = await Spot.scope({
     method: [
@@ -300,7 +262,22 @@ router.get("/", async (req, res, next) => {
 
   setPreview(spots);
 
-  res.json({ Spots: spots, page: +page || 1, size: +size || 10 });
+  const totalItems = await Spot.findAll({ where });
+  const showing = Math.min(totalItems.length - (page - 1) * size, size);
+  const totalPages = Math.ceil(totalItems.length / size);
+  const pageDirectory = `${+page || 1} / ${totalPages}`;
+
+  if (page > totalPages) {
+    next({ message: "No results found", status: 404 });
+  }
+
+  res.json({
+    Spots: spots,
+    page: pageDirectory,
+    size: +size || 10,
+    results: totalItems.length,
+    showing: showing,
+  });
 });
 
 /* Create Spot */
@@ -316,10 +293,15 @@ router.post("/", requireAuth, validateSpot, async (req, res, next) => {
 // prettier-ignore
 router.post(
   "/:id/image", requireAuth, validateImage, async (req, res, next) => {
-    const { url, preview } = req.body;
+    const { url } = req.body;
+    let { preview } = req.body;
     const { user } = req;
     const spotId = req.params.id;
-    const spot = await Spot.findByPk(spotId);
+    const spot = await Spot.findOne({
+      where:{id:spotId},
+      include:[{ model: Image, as: "images"}],
+      group: "Images.id",
+    });
 
     if (!spot) {
       return next({ message: "Spot could not be found", status: 404 });
@@ -329,6 +311,17 @@ router.post(
       return next({ message: "Unauthorized Action", status: 403 });
     }
 
+    if(spot.dataValues.images.length >= 10){
+      return next({ message: "10 image limit reached, remove an image to add new image", status: 400 });
+    }
+
+    if(spot.dataValues.images.length === 0){
+      preview = true
+    }
+
+
+    if(preview === "true") await changePreview(spot)
+
     const image = await Image.create({
       url,
       preview: preview || false,
@@ -337,7 +330,7 @@ router.post(
     });
     const {id} = image.dataValues
 
-    res.json({id,url,preview:image.dataValues.preview});
+    res.json({id,url,preview});
   }
 );
 

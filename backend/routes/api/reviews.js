@@ -4,8 +4,6 @@ const router = express.Router();
 const { Spot, Image, User, Review, Booking } = require("../../db/models");
 const { requireAuth } = require("../../utils/auth");
 const { validateReview, validateImage } = require("../../utils/validation");
-const sequelize = require("sequelize");
-const { Op } = require("sequelize");
 const {
   setPreview,
   buildReview,
@@ -54,11 +52,18 @@ router.post("/:id/image", requireAuth, validateImage, async (req, res, next) => 
           as: "User",
           where: { userId: user.dataValues.id },
         },
+        {
+          model:Image, as:"Images"
+        }
       ],
     });
 
     if (!review) {
       return next({ message: "Unauthorized Action", status: 403 });
+    }
+
+    if(review.dataValues.Images.length >= 10){
+      return next({ message: "10 image limit reached, remove an image to add new image", status: 400 });
     }
 
     const image = await Image.create({

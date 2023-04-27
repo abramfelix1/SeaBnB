@@ -1,5 +1,6 @@
 const sequelize = require("sequelize");
 const { Spot, Image, User, Review, Booking } = require("../db/models");
+const { Op } = require("sequelize");
 
 const setPreview = (spots) => {
   if (Array.isArray(spots)) {
@@ -16,6 +17,44 @@ const setPreview = (spots) => {
     spots.dataValues.previewImage = url;
   } else {
     spots.dataValues.previewImage = "Preview Image Unavailable";
+  }
+};
+
+const setQuery = ({ minLat, maxLat, minLng, maxLng, minPrice, maxPrice }) => {
+  const where = {};
+  // Min/Max LAT
+  if (minLat && maxLat) {
+    where.lat = { [Op.between]: [minLat, maxLat] };
+  } else if (minLat) {
+    where.lat = { [Op.gte]: minLat };
+  } else if (maxLat) where.lat = { [Op.lte]: maxLat };
+
+  // Min/Max LNG
+  if (minLng && maxLng) {
+    where.Lng = { [Op.between]: [minLng, maxLng] };
+  } else if (minLng) {
+    where.Lng = { [Op.gte]: minLng };
+  } else if (maxLng) where.Lng = { [Op.lte]: maxLng };
+
+  // Min/Max Price
+  if (minPrice && maxPrice) {
+    where.Price = { [Op.between]: [minPrice, maxPrice] };
+  } else if (minPrice) {
+    where.Price = { [Op.gte]: minPrice };
+  } else if (maxPrice) where.Price = { [Op.lte]: maxPrice };
+
+  return where;
+};
+
+const changePreview = async (spot) => {
+  for (const image of spot.dataValues.images) {
+    if (image.dataValues.preview === true) {
+      const id = image.dataValues.id;
+      const imageToUpdate = await Image.findByPk(id);
+      await imageToUpdate.update({
+        preview: false,
+      });
+    }
   }
 };
 
@@ -121,10 +160,35 @@ const updateOrCreateReview = async (obj, attributes, task) => {
   }
 };
 
+const checkBookingError = (bookings, { startDate, endDate }) => {
+  const start = new Date(startDate).getTime();
+  const end = new Date(endDate).getTime();
+  const err = {
+    message: "Spot is already booked within the specified dates",
+    status: 403,
+  };
+  const errSet = new Set();
+  for (const booking of bookings) {
+    const checkStart = booking.dataValues.startDate.getTime();
+    const checkEnd = booking.dataValues.endDate.getTime();
+    if (start >= checkStart && start <= checkEnd) {
+      errSet.add("Start date conflicts with an existing booking");
+    }
+    if (end >= checkStart && end <= checkEnd) {
+      errSet.add("End date conflicts with an existing booking");
+    }
+  }
+  err.errors = [...errSet];
+  return err;
+};
+
 module.exports = {
   setPreview,
+  setQuery,
+  changePreview,
   updateOrCreateSpot,
   updateOrCreateReview,
   buildReview,
   buildBookings,
+  checkBookingError,
 };

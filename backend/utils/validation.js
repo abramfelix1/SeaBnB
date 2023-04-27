@@ -1,5 +1,5 @@
 const { validationResult } = require("express-validator");
-const { check } = require("express-validator");
+const { check, query } = require("express-validator");
 
 // middleware for formatting errors from express-validator middleware
 // (to customize, see express-validator's documentation)
@@ -161,6 +161,42 @@ const validateBooking = [
   handleValidationErrors,
 ];
 
+const validateQueries = [
+  query("page")
+    .optional({ checkFalsy: true })
+    .isInt({ min: 0 })
+    .withMessage("Page must be greater then or equal to 0"),
+  query("size")
+    .optional({ checkFalsy: true })
+    .isInt({ min: 0 })
+    .withMessage("Size must be greater than or equal to 0"),
+  query("maxLat")
+    .optional({ checkFalsy: true })
+    .isDecimal()
+    .withMessage("Maximum latitude is invalid"),
+  query("minLat")
+    .optional({ checkFalsy: true })
+    .isDecimal()
+    .withMessage("Minimum latitude is invalid"),
+  query("maxLng")
+    .optional({ checkFalsy: true })
+    .isDecimal()
+    .withMessage("Maximum longitude is invalid"),
+  query("minLng")
+    .optional({ checkFalsy: true })
+    .isDecimal()
+    .withMessage("Minimum longitude is invalid"),
+  query("maxPrice")
+    .optional({ checkFalsy: true })
+    .isFloat({ min: 0 })
+    .withMessage("Maximum price must be greater than or equal to 0"),
+  query("minPrice")
+    .optional({ checkFalsy: true })
+    .isFloat({ min: 0 })
+    .withMessage("Minimum price must be greater than or equal to 0"),
+  handleValidationErrors,
+];
+
 module.exports = {
   handleValidationErrors,
   validateSpot,
@@ -169,4 +205,5 @@ module.exports = {
   validateImage,
   validateReview,
   validateBooking,
+  validateQueries,
 };
