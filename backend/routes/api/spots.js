@@ -219,7 +219,7 @@ router.get("/:id", async (req, res, next) => {
     attributes: {
       include: [aggregates.numReviews, aggregates.avgRating],
     },
-    group: "Image.id",
+    group: "images.id",
   });
 
   if (!spot) {
