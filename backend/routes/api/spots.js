@@ -188,7 +188,10 @@ router.get("/current", requireAuth, async (req, res, next) => {
       "getAllSpots",
       where,
       attributes,
-      { group: "Spot.id", subQuery: false },
+      {
+        group: ["Spot.id", "previewImage.id", "Bookings.Review.id"],
+        subQuery: false,
+      },
       "Spot",
     ],
   }).findAll();
@@ -219,7 +222,7 @@ router.get("/:id", async (req, res, next) => {
     attributes: {
       include: [aggregates.numReviews, aggregates.avgRating],
     },
-    group: ["images.id", "Spot.id", "Bookings.Review.id", "owner.id"],
+    group: ["Spot.id", "images.id", "Bookings.Review.id", "owner.id"],
   });
 
   if (!spot) {
