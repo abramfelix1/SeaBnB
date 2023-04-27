@@ -1,5 +1,6 @@
 const sequelize = require("sequelize");
 const { Spot, Image, User, Review, Booking } = require("../db/models");
+const { Op } = require("sequelize");
 
 const setPreview = (spots) => {
   if (Array.isArray(spots)) {
@@ -17,6 +18,32 @@ const setPreview = (spots) => {
   } else {
     spots.dataValues.previewImage = "Preview Image Unavailable";
   }
+};
+
+const setQuery = ({ minLat, maxLat, minLng, maxLng, minPrice, maxPrice }) => {
+  const where = {};
+  // Min/Max LAT
+  if (minLat && maxLat) {
+    where.lat = { [Op.between]: [minLat, maxLat] };
+  } else if (minLat) {
+    where.lat = { [Op.gte]: minLat };
+  } else if (maxLat) where.lat = { [Op.lte]: maxLat };
+
+  // Min/Max LNG
+  if (minLng && maxLng) {
+    where.Lng = { [Op.between]: [minLng, maxLng] };
+  } else if (minLng) {
+    where.Lng = { [Op.gte]: minLng };
+  } else if (maxLng) where.Lng = { [Op.lte]: maxLng };
+
+  // Min/Max Price
+  if (minPrice && maxPrice) {
+    where.Price = { [Op.between]: [minPrice, maxPrice] };
+  } else if (minPrice) {
+    where.Price = { [Op.gte]: minPrice };
+  } else if (maxPrice) where.Price = { [Op.lte]: maxPrice };
+
+  return where;
 };
 
 const changePreview = async (spot) => {
@@ -137,7 +164,7 @@ const checkBookingError = (bookings, { startDate, endDate }) => {
   const start = new Date(startDate).getTime();
   const end = new Date(endDate).getTime();
   const err = {
-    message: "Spot is already booked withing the specified dates",
+    message: "Spot is already booked within the specified dates",
     status: 403,
   };
   const errSet = new Set();
@@ -157,6 +184,7 @@ const checkBookingError = (bookings, { startDate, endDate }) => {
 
 module.exports = {
   setPreview,
+  setQuery,
   changePreview,
   updateOrCreateSpot,
   updateOrCreateReview,

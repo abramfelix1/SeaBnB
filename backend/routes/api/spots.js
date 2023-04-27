@@ -8,11 +8,13 @@ const {
   validateImage,
   validateReview,
   validateBooking,
+  validateQueries,
 } = require("../../utils/validation");
 const sequelize = require("sequelize");
 const { Op } = require("sequelize");
 const {
   setPreview,
+  setQuery,
   changePreview,
   buildReview,
   updateOrCreateSpot,
@@ -231,72 +233,22 @@ router.get("/:id", async (req, res, next) => {
 });
 
 /* Get All Spots */
-router.get("/", async (req, res, next) => {
+router.get("/", validateQueries, async (req, res, next) => {
   /* Query Filters */
-  let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } =
-    req.query;
-  const where = {};
+  let { page, size } = req.query;
+  const where = setQuery(req.query);
   const attributes = {};
   attributes.include = [aggregates.numReviews, aggregates.avgRating];
 
-  //Validate Query Values
-  const validateQueries = [
-    { page },
-    { size },
-    { minLat },
-    { maxLat },
-    { minLng },
-    { maxLng },
-    { minPrice },
-    { maxPrice },
-  ];
-
-  console.log(validateQueries);
-
-  const check = (value) =>
-    (!isNaN(+value) && value >= 0) || value === undefined;
-
-  if (!validateQueries.every((el) => check(el)))
-    return next({
-      message: "Invalid Queries, please provide only numbers",
-      status: 400,
-    });
-
   // Pagination
-  const pagination = { offset: 0, limit: 10 };
+  const pagination = { offset: 0, limit: 20 };
+
   if (page || size) {
-    if (!page || page <= 0) page = 1;
-    if (!size || size <= 0 || size > 20) size = 20;
+    if (page <= 0) page = 1;
+    if (size > 20) size = 20;
     pagination.offset = size * (page - 1);
     pagination.limit = size;
-    if (!Number.isInteger(+page) || !Number.isInteger(+size)) {
-      return next({
-        message: "Please provide whole Numbers for page and size",
-        status: 400,
-      });
-    }
   }
-
-  // Min/Max LAT
-  if (minLat && maxLat) {
-    where.lat = { [Op.between]: [minLat, maxLat] };
-  } else if (minLat) {
-    where.lat = { [Op.gte]: minLat };
-  } else if (maxLat) where.lat = { [Op.lte]: maxLat };
-
-  // Min/Max LNG
-  if (minLng && maxLng) {
-    where.Lng = { [Op.between]: [minLng, maxLng] };
-  } else if (minLng) {
-    where.Lng = { [Op.gte]: minLng };
-  } else if (maxLng) where.Lng = { [Op.lte]: maxLng };
-
-  // Min/Max Price
-  if (minPrice && maxPrice) {
-    where.Price = { [Op.between]: [minPrice, maxPrice] };
-  } else if (minPrice) {
-    where.Price = { [Op.gte]: minPrice };
-  } else if (maxPrice) where.Price = { [Op.lte]: maxPrice };
 
   const spots = await Spot.scope({
     method: [
@@ -310,19 +262,21 @@ router.get("/", async (req, res, next) => {
 
   setPreview(spots);
 
-  let totalItems = await Spot.findAll({ where });
-  totalItems = Math.ceil(totalItems.length / size);
+  const totalItems = await Spot.findAll({ where });
+  const showing = Math.min(totalItems.length - (page - 1) * size, size);
+  const totalPages = Math.ceil(totalItems.length / size);
+  const pageDirectory = `${+page || 1} / ${totalPages}`;
 
-  const pageDirectory = `${+page || 1} / ${totalItems}`;
-
-  if (page > totalItems) {
-    next({ message: "Page not be found", status: 404 });
+  if (page > totalPages) {
+    next({ message: "No results found", status: 404 });
   }
 
   res.json({
     Spots: spots,
     page: pageDirectory,
     size: +size || 10,
+    results: totalItems.length,
+    showing: showing,
   });
 });
 
