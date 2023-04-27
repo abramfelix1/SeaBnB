@@ -255,7 +255,7 @@ router.get("/", validateQueries, async (req, res, next) => {
       "getAllSpots",
       where,
       attributes,
-      { group: "Spot.id", subQuery: false, ...pagination },
+      { group: ["Spot.id", "previewImage.id"], subQuery: false, ...pagination },
       "Spot",
     ],
   }).findAll();
