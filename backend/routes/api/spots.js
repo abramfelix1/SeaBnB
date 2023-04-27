@@ -308,7 +308,7 @@ router.post(
     const spot = await Spot.findOne({
       where:{id:spotId},
       include:[{ model: Image, as: "images"}],
-      group: "images.id",
+      group: ["Spot.id","images.id"],
     });
 
     if (!spot) {
