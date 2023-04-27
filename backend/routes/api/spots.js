@@ -241,15 +241,17 @@ router.get("/", async (req, res, next) => {
 
   //Validate Query Values
   const validateQueries = [
-    page,
-    size,
-    minLat,
-    maxLat,
-    minLng,
-    maxLng,
-    minPrice,
-    maxPrice,
+    { page },
+    { size },
+    { minLat },
+    { maxLat },
+    { minLng },
+    { maxLng },
+    { minPrice },
+    { maxPrice },
   ];
+
+  console.log(validateQueries);
 
   const check = (value) =>
     (!isNaN(+value) && value >= 0) || value === undefined;
@@ -264,7 +266,7 @@ router.get("/", async (req, res, next) => {
   const pagination = { offset: 0, limit: 10 };
   if (page || size) {
     if (!page || page <= 0) page = 1;
-    if (!size || size <= 0) size = 10;
+    if (!size || size <= 0 || size > 20) size = 20;
     pagination.offset = size * (page - 1);
     pagination.limit = size;
     if (!Number.isInteger(+page) || !Number.isInteger(+size)) {
