@@ -6,7 +6,6 @@ const { requireAuth } = require("../../utils/auth");
 const { validateBooking } = require("../../utils/validation");
 const { buildBookings, checkBookingError } = require("../../utils/helpers");
 const { Op } = require("sequelize");
-const { check } = require("express-validator");
 
 /* Get All Bookings of Current */
 router.get("/current", requireAuth, async (req, res, next) => {
@@ -32,8 +31,6 @@ router.put("/:id", requireAuth, validateBooking, async (req, res, next) => {
   const { user } = req;
   const bookingId = req.params.id;
   const booking = await Booking.findByPk(bookingId);
-  const originalStart = startDate;
-  const originalEnd = endDate;
 
   const checkBooking = await Booking.findAll({
     where: {
