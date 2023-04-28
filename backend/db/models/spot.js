@@ -102,7 +102,7 @@ module.exports = (sequelize, DataTypes) => {
               model: Booking,
               include: [{ model: Review }],
               attributes: [],
-              group: ["Bookings.Review.id"],
+              group: [],
             });
             return {
               where,
