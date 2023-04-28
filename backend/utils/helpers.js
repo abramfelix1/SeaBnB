@@ -50,10 +50,12 @@ const setReviewsRatings = async (spots) => {
         [sequelize.fn("AVG", sequelize.col("Review.stars")), "avgRating"],
       ],
       group: [],
+      raw: true,
+      nest: true,
     });
 
-    spots[i].dataValues.numReviews = bookings[0].dataValues.numReviews || 0;
-    spots[i].dataValues.avgRating = bookings[0].dataValues.avgRating || null;
+    spots[i].dataValues.numReviews = bookings[0].numReviews || 0;
+    spots[i].dataValues.avgRating = bookings[0].avgRating || null;
   }
 };
 
