@@ -40,22 +40,41 @@ const setQuery = ({ minLat, maxLat, minLng, maxLng, minPrice, maxPrice }) => {
   return where;
 };
 
+// const setReviewsRatings = async (spots) => {
+//   if (!Array.isArray(spots)) spots = [spots];
+//   for (const i in spots) {
+//     let bookings = await spots[i].getBookings({
+//       include: [{ model: Review }],
+//       attributes: [
+//         [sequelize.fn("COUNT", sequelize.col("Review.id")), "numReviews"],
+//         [sequelize.fn("AVG", sequelize.col("Review.stars")), "avgRating"],
+//       ],
+//       group: ["Booking.id"],
+//     });
+
+//     spots[i].dataValues.numReviews = bookings[0].numReviews || 0;
+//     spots[i].dataValues.avgRating = bookings[0].avgRating || null;
+//   }
+// };
+
 const setReviewsRatings = async (spots) => {
   if (!Array.isArray(spots)) spots = [spots];
   for (const i in spots) {
+    let numReviews = 0;
+    let totalRatings = 0;
     let bookings = await spots[i].getBookings({
-      include: [{ model: Review }],
-      attributes: [
-        [sequelize.fn("COUNT", sequelize.col("Review.id")), "numReviews"],
-        [sequelize.fn("AVG", sequelize.col("Review.stars")), "avgRating"],
-      ],
-      group: [],
-      raw: true,
-      nest: true,
+      include: [{ model: Review, attributes: ["id", "stars"] }],
     });
 
-    spots[i].dataValues.numReviews = bookings[0].numReviews || 0;
-    spots[i].dataValues.avgRating = bookings[0].avgRating || null;
+    for (const booking of bookings) {
+      if (booking.dataValues.Review) {
+        numReviews += 1;
+        totalRatings += booking.dataValues.Review.stars;
+      }
+    }
+
+    spots[i].dataValues.numReviews = numReviews || 0;
+    spots[i].dataValues.avgRating = totalRatings / numReviews || null;
   }
 };
 
