@@ -244,7 +244,7 @@ router.get("/", validateQueries, async (req, res, next) => {
   let { page, size } = req.query;
   const where = setQuery(req.query);
   const attributes = {};
-  attributes.include = [aggregates.numReviews, aggregates.avgRating];
+  // attributes.include = [aggregates.numReviews, aggregates.avgRating];
 
   /*
   [
@@ -273,7 +273,7 @@ router.get("/", validateQueries, async (req, res, next) => {
       where,
       attributes,
       {
-        group: ["Spot.id", "previewImage.id", "Bookings.id"],
+        group: ["Spot.id", "previewImage.id"],
         subQuery: false,
         ...pagination,
       },
