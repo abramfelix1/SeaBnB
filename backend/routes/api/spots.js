@@ -297,9 +297,9 @@ router.get("/", validateQueries, async (req, res, next) => {
             attributes: [],
           },
         ],
-        group: ["Spot.id", "Bookings.id"],
       },
     ],
+    group: ["Spot.id", "Bookings.id"],
   });
 
   const totalItems = await Spot.findAll({ where });
