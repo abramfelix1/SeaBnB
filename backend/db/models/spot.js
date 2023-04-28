@@ -117,7 +117,7 @@ module.exports = (sequelize, DataTypes) => {
               attributes: {
                 include: [
                   [
-                    sequelize.fn("COUNT", sequelize.col("Bookings.Review.id")),
+                    sequelize.fn("COUNT", sequelize.col("Bookings.id")),
                     "numReviews",
                   ],
                   [
