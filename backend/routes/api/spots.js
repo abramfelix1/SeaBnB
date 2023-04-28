@@ -264,7 +264,7 @@ router.get("/", validateQueries, async (req, res, next) => {
       where,
       attributes,
       {
-        group: ["Spot.id", "previewImage.id", "Bookings.Review.id"],
+        group: ["Spot.id", "previewImage.id"],
         subQuery: false,
         ...pagination,
       },
