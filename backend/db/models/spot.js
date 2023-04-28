@@ -119,6 +119,7 @@ module.exports = (sequelize, DataTypes) => {
                   ],
                 ],
               },
+              subQuery: true,
               ...extras,
             };
           }
