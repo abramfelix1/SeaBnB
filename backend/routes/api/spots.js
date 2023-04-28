@@ -254,6 +254,8 @@ router.get("/", validateQueries, async (req, res, next) => {
     pagination.limit = size;
   }
 
+  console.log(where);
+
   const spots = await Spot.findAll({
     where,
     include: [
