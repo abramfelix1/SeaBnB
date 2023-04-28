@@ -25,16 +25,16 @@ const setQuery = ({ minLat, maxLat, minLng, maxLng, minPrice, maxPrice }) => {
 
   // Min/Max LNG
   if (minLng && maxLng) {
-    where.Lng = { [Op.between]: [minLng, maxLng] };
+    where.lng = { [Op.between]: [minLng, maxLng] };
   } else if (minLng) {
-    where.Lng = { [Op.gte]: minLng };
+    where.lng = { [Op.gte]: minLng };
   } else if (maxLng) where.Lng = { [Op.lte]: maxLng };
 
   // Min/Max Price
   if (minPrice && maxPrice) {
-    where.Price = { [Op.between]: [minPrice, maxPrice] };
+    where.price = { [Op.between]: [minPrice, maxPrice] };
   } else if (minPrice) {
-    where.Price = { [Op.gte]: minPrice };
+    where.price = { [Op.gte]: minPrice };
   } else if (maxPrice) where.Price = { [Op.lte]: maxPrice };
 
   return where;
