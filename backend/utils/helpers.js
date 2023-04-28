@@ -52,8 +52,8 @@ const setReviewsRatings = async (spots) => {
       group: [],
     });
 
-    spots[i].dataValues.numReviews = bookings[0].dataValues.numReviews || 0;
-    spots[i].dataValues.avgRating = bookings[0].dataValues.avgRating || null;
+    // spots[i].dataValues.numReviews = bookings[0].dataValues.numReviews || 0;
+    // spots[i].dataValues.avgRating = bookings[0].dataValues.avgRating || null;
   }
 };
 
