@@ -246,8 +246,6 @@ router.get("/", validateQueries, async (req, res, next) => {
   const attributes = {};
   attributes.include = [aggregates.numReviews, aggregates.avgRating];
 
-  console.log(req.query);
-
   // Pagination
   const pagination = { offset: 0, limit: 20 };
 
