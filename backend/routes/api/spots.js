@@ -254,26 +254,52 @@ router.get("/", validateQueries, async (req, res, next) => {
     pagination.limit = size;
   }
 
-  const spots = await Spot.findAll({
-    where,
+  // const spots = await Spot.findAll({
+  //   where,
+  //   include: [
+  //     {
+  //       model: Image,
+  //       as: "previewImage",
+  //       where: { preview: true },
+  //       attributes: ["url"],
+  //       required: false,
+  //     },
+  //   ],
+  //   ...pagination,
+  //   group: [],
+  // });
+
+  // setPreview(spots);
+
+  // await setReviewsRatings(spots);
+
+  // const Spots = buildSpots(spots);
+
+  const Spots = await Spot.findAll({
+    attributes: [
+      "id",
+      "name",
+      [
+        sequelize.fn("AVG", sequelize.col("Bookings.Review.stars")),
+        "avg_rating",
+      ],
+      [
+        sequelize.fn("COUNT", sequelize.col("Bookings.Review.id")),
+        "num_reviews",
+      ],
+    ],
     include: [
       {
-        model: Image,
-        as: "previewImage",
-        where: { preview: true },
-        attributes: ["url"],
-        required: false,
+        model: Booking,
+        include: [
+          {
+            model: Review,
+          },
+        ],
       },
     ],
-    ...pagination,
     group: ["Spot.id"],
   });
-
-  setPreview(spots);
-
-  await setReviewsRatings(spots);
-
-  const Spots = buildSpots(spots);
 
   const totalItems = await Spot.findAll({ where });
   const showing = Math.min(totalItems.length - (page - 1) * size, size);

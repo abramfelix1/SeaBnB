@@ -44,19 +44,13 @@ const setReviewsRatings = async (spots) => {
   if (!Array.isArray(spots)) spots = [spots];
   for (const i in spots) {
     let bookings = await spots[i].getBookings({
-      include: [{ model: Review, attributes: [] }],
-      attributes: {
-        include: [
-          [sequelize.fn("COUNT", sequelize.col("Review.id")), "numReviews"],
-          [sequelize.fn("AVG", sequelize.col("Review.stars")), "avgRating"],
-        ],
-      },
-      group: ["Booking.id"],
-      raw: true,
+      include: [{ model: Review }],
+      attributes: [
+        [sequelize.fn("COUNT", sequelize.col("Review.id")), "numReviews"],
+        [sequelize.fn("AVG", sequelize.col("Review.stars")), "avgRating"],
+      ],
+      group: [],
     });
-    console.log("AAAAAAAAAAAAAA");
-    console.log(spots[i]);
-    console.log("AAAAAAAAAAAAAA");
 
     spots[i].dataValues.numReviews = bookings[0].dataValues.numReviews || 0;
     spots[i].dataValues.avgRating = bookings[0].dataValues.avgRating || null;
