@@ -37,7 +37,7 @@ const aggregates = {
 };
 
 /* Get All Bookings By Spot Id */
-router.get("/:id/bookings", async (req, res, next) => {
+router.get("/:id/bookings", requireAuth, async (req, res, next) => {
   const { user } = req;
   const spotId = req.params.id;
   const spot = await Spot.findByPk(spotId);

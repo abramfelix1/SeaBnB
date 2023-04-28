@@ -2,7 +2,7 @@ const express = require("express");
 const { Op } = require("sequelize");
 const bcrypt = require("bcryptjs");
 
-const { setTokenCookie } = require("../../utils/auth");
+const { setTokenCookie, requireAuth } = require("../../utils/auth");
 const { User } = require("../../db/models");
 
 const { validateLogin } = require("../../utils/validation");
@@ -54,7 +54,7 @@ router.delete("/", (_req, res) => {
 });
 
 /* Restore session user */
-router.get("/", (req, res) => {
+router.get("/", requireAuth, (req, res) => {
   const { user } = req;
   if (user) {
     const safeUser = {
