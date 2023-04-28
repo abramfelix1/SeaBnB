@@ -104,24 +104,28 @@ module.exports = (sequelize, DataTypes) => {
                 {
                   model: Review,
                   attributes: [],
+                  group: [],
                 },
               ],
-              attributes: [
-                [
-                  sequelize.fn("COUNT", sequelize.col("Bookings.Review.id")),
-                  "numReviews",
-                ],
-                [
-                  sequelize.fn("AVG", sequelize.col("Bookings.Review.stars")),
-                  "avgRating",
-                ],
-              ],
-              group: ["Bookings.id"],
+              attributes: {},
+              group: [],
+              subQuery: false,
             });
             return {
               where,
               include: [...includeObjects],
-              attributes,
+              attributes: {
+                include: [
+                  [
+                    sequelize.fn("COUNT", sequelize.col("Bookings.Review.id")),
+                    "numReviews",
+                  ],
+                  [
+                    sequelize.fn("AVG", sequelize.col("Bookings.Review.stars")),
+                    "avgRating",
+                  ],
+                ],
+              },
               ...extras,
             };
           }
