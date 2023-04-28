@@ -58,8 +58,8 @@ const setReviewsRatings = async (spots) => {
     console.log(spots[i]);
     console.log("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
 
-    spots[i].dataValues.numReviews = bookings[0].dataValues.numReviews;
-    spots[i].dataValues.avgRating = bookings[0].dataValues.avgRating;
+    spots[i].dataValues.numReviews = bookings[0].dataValues.numReviews || 0;
+    spots[i].dataValues.avgRating = bookings[0].dataValues.avgRating || null;
   }
 };
 
