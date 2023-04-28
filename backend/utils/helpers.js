@@ -46,14 +46,16 @@ const setReviewsRatings = async (spots) => {
     let bookings = await spots[i].getBookings({
       include: [{ model: Review, attributes: [] }],
       attributes: {
-        // [sequelize.fn("COUNT", sequelize.col("Review.id")), "numReviews"],
-        // [sequelize.fn("AVG", sequelize.col("Review.stars")), "avgRating"],
+        include: [
+          [sequelize.fn("COUNT", sequelize.col("Review.id")), "numReviews"],
+          [sequelize.fn("AVG", sequelize.col("Review.stars")), "avgRating"],
+        ],
       },
       group: [],
     });
 
-    // spots[i].dataValues.numReviews = bookings[0].dataValues.numReviews || 0;
-    // spots[i].dataValues.avgRating = bookings[0].dataValues.avgRating || null;
+    spots[i].dataValues.numReviews = bookings[0].dataValues.numReviews || 0;
+    spots[i].dataValues.avgRating = bookings[0].dataValues.avgRating || null;
   }
 };
 
