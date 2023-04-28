@@ -54,6 +54,9 @@ const setReviewsRatings = async (spots) => {
       group: ["Booking.id"],
       raw: true,
     });
+    console.log("AAAAAAAAAAAAAA");
+    console.log(spots[i]);
+    console.log("AAAAAAAAAAAAAA");
 
     spots[i].dataValues.numReviews = bookings[0].dataValues.numReviews || 0;
     spots[i].dataValues.avgRating = bookings[0].dataValues.avgRating || null;
