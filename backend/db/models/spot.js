@@ -101,7 +101,16 @@ module.exports = (sequelize, DataTypes) => {
             includeObjects.push({
               model: Booking,
               include: [{ model: Review }],
-              attributes: [],
+              attributes: [
+                [
+                  sequelize.fn("COUNT", sequelize.col("Bookings.Review.id")),
+                  "numReviews",
+                ],
+                [
+                  sequelize.fn("AVG", sequelize.col("Bookings.Review.stars")),
+                  "avgRating",
+                ],
+              ],
               group: [],
             });
             return {

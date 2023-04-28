@@ -244,7 +244,18 @@ router.get("/", validateQueries, async (req, res, next) => {
   let { page, size } = req.query;
   const where = setQuery(req.query);
   const attributes = {};
-  // attributes.include = [aggregates.numReviews, aggregates.avgRating];
+  attributes.include = [aggregates.numReviews, aggregates.avgRating];
+
+  /*
+  [
+    sequelize.fn("COUNT", sequelize.col("Bookings.Review.id")),
+    "numReviews",
+  ],
+  avgRating: [
+    sequelize.fn("AVG", sequelize.col("Bookings.Review.stars")),
+    "avgRating",
+  ],
+  */
 
   // Pagination
   const pagination = { offset: 0, limit: 20 };
