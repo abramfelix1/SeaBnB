@@ -100,13 +100,15 @@ module.exports = (sequelize, DataTypes) => {
           if (task === "Spot") {
             includeObjects.push({
               model: Booking,
-              include: [{ model: Review }],
-              attributes: [],
-              group: [],
-            });
-            return {
-              where,
-              include: [...includeObjects],
+              include: [
+                {
+                  model: Review,
+                  attributes: [
+                    // [sequelize.fn("COUNT", sequelize.col("id")), "numReviews"],
+                    [sequelize.fn("AVG", sequelize.col("stars")), "avgRating"],
+                  ],
+                },
+              ],
               attributes: {
                 include: [
                   [
@@ -119,7 +121,12 @@ module.exports = (sequelize, DataTypes) => {
                   ],
                 ],
               },
-              subQuery: true,
+              group: [],
+            });
+            return {
+              where,
+              include: [...includeObjects],
+              attributes,
               ...extras,
             };
           }
