@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       Review.hasOne(models.Booking, {
         foreignKey: "reviewId",
         as: "User",
+        hooks: true,
       });
 
       Review.hasMany(models.Image, {
