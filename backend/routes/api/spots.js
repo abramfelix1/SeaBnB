@@ -266,6 +266,7 @@ router.get("/", validateQueries, async (req, res, next) => {
       },
     ],
     ...pagination,
+    group: ["Spot.id"],
   });
 
   setPreview(spots);
