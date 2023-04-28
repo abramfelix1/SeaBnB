@@ -103,13 +103,10 @@ module.exports = (sequelize, DataTypes) => {
               include: [
                 {
                   model: Review,
-                  attributes: [],
-                  group: [],
+                  attributes: ["id", "stars"],
                 },
               ],
               attributes: {},
-              group: [],
-              subQuery: false,
             });
             return {
               where,
@@ -117,7 +114,7 @@ module.exports = (sequelize, DataTypes) => {
               attributes: {
                 include: [
                   [
-                    sequelize.fn("COUNT", sequelize.col("Bookings.id")),
+                    sequelize.fn("COUNT", sequelize.col("Bookings.Review.id")),
                     "numReviews",
                   ],
                   [

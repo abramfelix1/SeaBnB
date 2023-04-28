@@ -267,21 +267,51 @@ router.get("/", validateQueries, async (req, res, next) => {
     pagination.limit = size;
   }
 
-  const spots = await Spot.scope({
-    method: [
-      "getAllSpots",
-      where,
-      attributes,
+  // const spots = await Spot.scope({
+  //   method: [
+  //     "getAllSpots",
+  //     where,
+  //     attributes,
+  //     {
+  //       group: ["Spot.id", "previewImage.id"],
+  //       subQuery: false,
+  //       ...pagination,
+  //     },
+  //     "Spot",
+  //   ],
+  // }).findAll();
+
+  const spots = await Spot.findAll({
+    include: [
       {
-        group: ["Spot.id", "previewImage.id"],
-        subQuery: false,
-        ...pagination,
+        model: Image,
+        as: "previewImage",
+        where: { preview: true },
+        attributes: ["url"],
+        required: false,
       },
-      "Spot",
     ],
-  }).findAll();
+    ...pagination,
+  });
 
   setPreview(spots);
+
+  for (const spot of spots) {
+    let numReviews = 0;
+    let totalStars = 0;
+    let bookings = await spot.getBookings(
+      { include: [{ model: Review }] },
+      attributes
+    );
+    for (const booking of bookings) {
+      if (booking.dataValues.reviewId !== null) {
+        numReviews += 1;
+        totalStars += booking.Review.stars;
+      }
+    }
+    spot.dataValues.numReviews = numReviews;
+    spot.dataValues.avgRating = totalStars / numReviews;
+  }
 
   const totalItems = await Spot.findAll({ where });
   const showing = Math.min(totalItems.length - (page - 1) * size, size);
