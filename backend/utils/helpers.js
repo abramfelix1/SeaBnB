@@ -3,20 +3,14 @@ const { Spot, Image, User, Review, Booking } = require("../db/models");
 const { Op } = require("sequelize");
 
 const setPreview = (spots) => {
-  if (Array.isArray(spots)) {
-    for (const i in spots) {
-      if (spots[i].dataValues.previewImage.length) {
-        const url = spots[i].dataValues.previewImage[0].dataValues.url;
-        spots[i].dataValues.previewImage = url;
-      } else {
-        spots[i].dataValues.previewImage = "Preview Image Unavailable";
-      }
+  if (!Array.isArray(spots)) spots = [spots];
+  for (const i in spots) {
+    if (spots[i].dataValues.previewImage.length) {
+      const url = spots[i].dataValues.previewImage[0].dataValues.url;
+      spots[i].dataValues.previewImage = url;
+    } else {
+      spots[i].dataValues.previewImage = "Preview Image Unavailable";
     }
-  } else if (spots.dataValues.previewImage.length) {
-    const url = spots.dataValues.previewImage[0].dataValues.url;
-    spots.dataValues.previewImage = url;
-  } else {
-    spots.dataValues.previewImage = "Preview Image Unavailable";
   }
 };
 
@@ -46,6 +40,21 @@ const setQuery = ({ minLat, maxLat, minLng, maxLng, minPrice, maxPrice }) => {
   return where;
 };
 
+const setReviewsRatings = async (spots) => {
+  if (!Array.isArray(spots)) spots = [spots];
+  for (const i in spots) {
+    let bookings = await spots[i].getBookings({
+      include: [{ model: Review, attributes: [] }],
+      attributes: [
+        [sequelize.fn("COUNT", sequelize.col("Review.id")), "numReviews"],
+        [sequelize.fn("AVG", sequelize.col("Review.stars")), "avgRating"],
+      ],
+    });
+    spots[i].dataValues.numReviews = bookings[0].dataValues.numReviews;
+    spots[i].dataValues.avgRating = bookings[0].dataValues.avgRating;
+  }
+};
+
 const changePreview = async (spot) => {
   for (const image of spot.dataValues.images) {
     if (image.dataValues.preview === true) {
@@ -56,6 +65,35 @@ const changePreview = async (spot) => {
       });
     }
   }
+};
+
+const buildSpots = (spotsObj) => {
+  const Spots = [];
+  if (!Array.isArray(spotsObj)) spotsObj = [spotsObj];
+  for (const i in spotsObj) {
+    Spots[i] = {
+      id: spotsObj[i].dataValues.id,
+      ownerId: spotsObj[i].dataValues.ownerId,
+      address: spotsObj[i].dataValues.address,
+      city: spotsObj[i].dataValues.city,
+      country: spotsObj[i].dataValues.country,
+      state: spotsObj[i].dataValues.state,
+      lat: spotsObj[i].dataValues.lat,
+      lng: spotsObj[i].dataValues.lng,
+      name: spotsObj[i].dataValues.name,
+      description: spotsObj[i].dataValues.description,
+      price: spotsObj[i].dataValues.price,
+      createdAt: spotsObj[i].dataValues.createdAt,
+      updatedAt: spotsObj[i].dataValues.updatedAt,
+      numReviews: spotsObj[i].dataValues.numReviews,
+      avgRating: spotsObj[i].dataValues.avgRating,
+      previewImage: spotsObj[i].dataValues.previewImage,
+      images: spotsObj[i].dataValues.images,
+      owner: spotsObj[i].dataValues.owner,
+    };
+  }
+  if (Spots.length === 1) return Spots[0];
+  return Spots;
 };
 
 const buildReview = (reviewsObj, spotObj) => {
@@ -189,6 +227,8 @@ const checkBookingError = (bookings, { startDate, endDate }) => {
 module.exports = {
   setPreview,
   setQuery,
+  setReviewsRatings,
+  buildSpots,
   changePreview,
   updateOrCreateSpot,
   updateOrCreateReview,

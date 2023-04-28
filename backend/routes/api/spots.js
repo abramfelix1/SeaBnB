@@ -15,6 +15,8 @@ const { Op } = require("sequelize");
 const {
   setPreview,
   setQuery,
+  setReviewsRatings,
+  buildSpots,
   changePreview,
   buildReview,
   updateOrCreateSpot,
@@ -118,13 +120,13 @@ router.get("/:id/reviews", async (req, res, next) => {
   const where = { spotId: spotId };
   const spot = await Spot.findByPk(spotId);
 
-  const reviews = await Review.scope({
-    method: ["getAllReviews", where],
-  }).findAll();
-
   if (!spot) {
     return next({ message: "Spot couldn't be found", status: 404 });
   }
+
+  const reviews = await Review.scope({
+    method: ["getAllReviews", where],
+  }).findAll();
 
   const Reviews = buildReview(reviews, spot);
 
@@ -184,49 +186,43 @@ router.post("/:id/reviews", requireAuth, validateReview, async (req, res, next) 
 router.get("/current", requireAuth, async (req, res, next) => {
   const { user } = req;
   const where = { ownerId: user.dataValues.id };
-  const attributes = {};
-  attributes.include = [aggregates.numReviews, aggregates.avgRating];
 
-  const spots = await Spot.scope({
-    method: [
-      "getAllSpots",
-      where,
-      attributes,
+  const spots = await Spot.findAll({
+    where,
+    include: [
       {
-        group: ["Spot.id", "previewImage.id", "Bookings.Review.id"],
-        subQuery: false,
+        model: Image,
+        as: "previewImage",
+        where: { preview: true },
+        attributes: ["url"],
+        required: false,
       },
-      "Spot",
     ],
-  }).findAll();
+  });
 
   if (!spots.length) {
     res.json({ Spots: [] });
   }
 
-  if (spots[0].dataValues.id) {
-    setPreview(spots);
-    res.json(spots);
-  }
+  setPreview(spots);
+
+  await setReviewsRatings(spots);
+
+  const Spots = buildSpots(spots);
+
+  res.json({ Spots: Spots });
 });
 
 /* Get Spot By Id */
 router.get("/:id", async (req, res, next) => {
   const { id } = req.params;
+
   const spot = await Spot.findByPk(id, {
     include: [
       { model: Image, as: "images", attributes: ["id", "url", "preview"] },
-      {
-        model: Booking,
-        attributes: [],
-        include: [{ model: Review, attributes: [] }],
-      },
       { model: User, attributes: ["id", "firstName", "lastName"], as: "owner" },
     ],
-    attributes: {
-      include: [aggregates.numReviews, aggregates.avgRating],
-    },
-    group: ["Spot.id", "images.id", "Bookings.Review.id", "owner.id"],
+    group: ["Spot.id", "images.id", "owner.id"],
   });
 
   if (!spot) {
@@ -236,7 +232,9 @@ router.get("/:id", async (req, res, next) => {
     });
   }
 
-  res.json(spot);
+  await setReviewsRatings(spot);
+
+  res.json(buildSpots(spot));
 });
 
 /* Get All Spots */
@@ -244,18 +242,7 @@ router.get("/", validateQueries, async (req, res, next) => {
   let { page, size } = req.query;
   const where = setQuery(req.query);
   const attributes = {};
-  // attributes.include = [aggregates.numReviews, aggregates.avgRating];
-
-  /*
-  [
-    sequelize.fn("COUNT", sequelize.col("Bookings.Review.id")),
-    "numReviews",
-  ],
-  avgRating: [
-    sequelize.fn("AVG", sequelize.col("Bookings.Review.stars")),
-    "avgRating",
-  ],
-  */
+  attributes.include = [aggregates.numReviews, aggregates.avgRating];
 
   // Pagination
   const pagination = { offset: 0, limit: 20 };
@@ -267,21 +254,8 @@ router.get("/", validateQueries, async (req, res, next) => {
     pagination.limit = size;
   }
 
-  // const spots = await Spot.scope({
-  //   method: [
-  //     "getAllSpots",
-  //     where,
-  //     attributes,
-  //     {
-  //       group: ["Spot.id", "previewImage.id"],
-  //       subQuery: false,
-  //       ...pagination,
-  //     },
-  //     "Spot",
-  //   ],
-  // }).findAll();
-
   const spots = await Spot.findAll({
+    where,
     include: [
       {
         model: Image,
@@ -296,22 +270,9 @@ router.get("/", validateQueries, async (req, res, next) => {
 
   setPreview(spots);
 
-  for (const spot of spots) {
-    let numReviews = 0;
-    let totalStars = 0;
-    let bookings = await spot.getBookings(
-      { include: [{ model: Review }] },
-      attributes
-    );
-    for (const booking of bookings) {
-      if (booking.dataValues.reviewId !== null) {
-        numReviews += 1;
-        totalStars += booking.Review.stars;
-      }
-    }
-    spot.dataValues.numReviews = numReviews;
-    spot.dataValues.avgRating = totalStars / numReviews;
-  }
+  await setReviewsRatings(spots);
+
+  const Spots = buildSpots(spots);
 
   const totalItems = await Spot.findAll({ where });
   const showing = Math.min(totalItems.length - (page - 1) * size, size);
@@ -323,7 +284,7 @@ router.get("/", validateQueries, async (req, res, next) => {
   }
 
   res.json({
-    Spots: spots,
+    Spots: Spots,
     page: pageDirectory,
     size: +size || 10,
     results: totalItems.length,
