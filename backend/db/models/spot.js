@@ -111,7 +111,7 @@ module.exports = (sequelize, DataTypes) => {
                   "avgRating",
                 ],
               ],
-              group: [],
+              group: ["Bookings.id"],
             });
             return {
               where,
