@@ -276,29 +276,30 @@ router.get("/", validateQueries, async (req, res, next) => {
   // const Spots = buildSpots(spots);
 
   const Spots = await Spot.findAll({
-    attributes: [
-      "id",
-      "name",
-      [
-        sequelize.fn("AVG", sequelize.col("Bookings.Review.stars")),
-        "avg_rating",
-      ],
-      [
-        sequelize.fn("COUNT", sequelize.col("Bookings.Review.id")),
-        "num_reviews",
-      ],
-    ],
+    attributes: ["id", "name"], // Add any other attributes you need
     include: [
       {
         model: Booking,
+        attributes: [
+          [
+            sequelize.fn("COUNT", sequelize.col("Bookings->Review.id")),
+            "numReviews",
+          ],
+          [
+            sequelize.fn("AVG", sequelize.col("Bookings->Review.stars")),
+            "avgRating",
+          ],
+        ],
         include: [
           {
             model: Review,
+            as: "Review",
+            attributes: [],
           },
         ],
+        group: ["Spot.id", "Bookings.id"],
       },
     ],
-    group: ["Spot.id"],
   });
 
   const totalItems = await Spot.findAll({ where });
