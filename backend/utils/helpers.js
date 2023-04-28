@@ -51,7 +51,7 @@ const setReviewsRatings = async (spots) => {
           [sequelize.fn("AVG", sequelize.col("Review.stars")), "avgRating"],
         ],
       },
-      group: [],
+      group: ["Booking.id"],
       raw: true,
     });
 
