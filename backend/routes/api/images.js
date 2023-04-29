@@ -27,7 +27,10 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
 
     await image.destroy();
 
-    if (image.dataValues.preview === true) {
+    if (
+      image.dataValues.preview === true &&
+      spot.dataValues.images.length > 1
+    ) {
       let newPreviewId = spot.dataValues.images[0].dataValues.id;
 
       if (imageId === newPreviewId) {
