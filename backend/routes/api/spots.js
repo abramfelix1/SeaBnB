@@ -292,7 +292,9 @@ router.get("/", validateQueries, async (req, res, next) => {
     page: pageDirectory,
     size: +size || 20,
     results: totalItems.length,
-    showing: showing,
+    showing: `${1 + showing + showing * (page - 1) - showing}-${
+      showing + showing * (page - 1)
+    }`,
   });
 });
 
