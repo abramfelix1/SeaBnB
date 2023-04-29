@@ -287,7 +287,7 @@ router.get("/", validateQueries, async (req, res, next) => {
   res.json({
     Spots: Spots,
     page: pageDirectory,
-    size: +size || 10,
+    size: +size || 20,
     results: totalItems.length,
     showing: showing,
   });
