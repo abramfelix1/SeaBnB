@@ -31,15 +31,18 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
       console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
       let imageId = spot.dataValues.images[0].dataValues.id;
       console.log("BBBBBBBBBBBBBBBBBBBBBBBBBBB");
-
+      console.log(deletedImage.dataValues.id);
       if (deletedImage.dataValues.id === imageId) {
+        console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCCC");
+
+        console.log(spot.dataValues.images[1].dataValues.id);
         imageId = spot.dataValues.images[1].dataValues.id;
       }
-      console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCCC");
 
-      const newPreviewImage = await Image.findByPk(imageId);
       console.log("DDDDDDDDDDDDDDDDDDDDDDDDDDD");
 
+      const newPreviewImage = await Image.findByPk(imageId);
+      console.log("EEEEEEEEEEEEEEEEEEEEEEEEEEE");
       await newPreviewImage.update({
         preview: true,
       });
