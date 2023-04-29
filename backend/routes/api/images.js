@@ -25,28 +25,17 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
       return next({ message: "Unauthorized action", status: 403 });
     }
 
-    const deletedImage = await image.destroy();
+    await image.destroy();
 
     if (image.dataValues.preview === true) {
-      console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
-      let imageId = spot.dataValues.images[0].dataValues.id;
-      console.log("BBBBBBBBBBBBBBBBBBBBBBBBBBB");
-      console.log(deletedImage);
-      console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-      console.log(deletedImage.dataValues);
-      console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-      console.log(deletedImage.dataValues.id);
-      if (deletedImage.dataValues.id === imageId) {
-        console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCCC");
+      let newPreviewId = spot.dataValues.images[0].dataValues.id;
 
-        console.log(spot.dataValues.images[1].dataValues.id);
-        imageId = spot.dataValues.images[1].dataValues.id;
+      if (imageId === newPreviewId) {
+        newPreviewId = spot.dataValues.images[1].dataValues.id;
       }
 
-      console.log("DDDDDDDDDDDDDDDDDDDDDDDDDDD");
+      const newPreviewImage = await Image.findByPk(newPreviewId);
 
-      const newPreviewImage = await Image.findByPk(imageId);
-      console.log("EEEEEEEEEEEEEEEEEEEEEEEEEEE");
       await newPreviewImage.update({
         preview: true,
       });
