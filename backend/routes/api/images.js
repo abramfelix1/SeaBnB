@@ -28,7 +28,9 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
     const deletedImage = await image.destroy();
 
     if (image.dataValues.preview === true) {
+      console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
       let imageId = spot.dataValues.images[0].dataValues.id;
+      console.log("BBBBBBBBBBBBBBBBBBBBBBBBBBB");
 
       if (deletedImage.dataValues.id === imageId) {
         imageId = spot.dataValues.images[1].dataValues.id;
