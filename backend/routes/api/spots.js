@@ -93,13 +93,11 @@ router.post( "/:id/bookings", requireAuth, validateBooking, async (req, res, nex
     const hasActiveBooking = await spot.getBookings({
       where:{
         userId: user.dataValues.id,
-        [Op.or]:{
-          startDate: { [Op.gte]: [`${new Date().toISOString()}`]},
-        }
+        startDate: { [Op.gte]: [`${new Date().toISOString()}`]},
       }
     })
 
-    if(hasActiveBooking){
+    if(hasActiveBooking.length){
       return next({message:"User already has an active booking", status:403})
     }
 
