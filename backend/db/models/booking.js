@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       Booking.belongsTo(models.Review, {
         foreignKey: "reviewId",
         hooks: true,
+        onDelete: "CASCADE",
       });
 
       Booking.belongsTo(models.User, {
