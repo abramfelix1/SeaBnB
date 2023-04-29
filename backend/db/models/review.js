@@ -76,6 +76,9 @@ module.exports = (sequelize, DataTypes) => {
             },
           });
           await Promise.all(images.map((image) => image.destroy()));
+          console.log(
+            "AAAAAAAAAAAAAAAA REVIEW IMAGES DELETED AAAAAAAAAAAAAAAA"
+          );
         },
       },
     }
