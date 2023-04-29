@@ -13,7 +13,7 @@ const {
 const sequelize = require("sequelize");
 const { Op } = require("sequelize");
 const {
-  setPreview,
+  buildPreview,
   setQuery,
   setReviewsRatings,
   buildSpots,
@@ -215,7 +215,7 @@ router.get("/current", requireAuth, async (req, res, next) => {
     res.json({ Spots: [] });
   }
 
-  setPreview(spots);
+  buildPreview(spots);
 
   await setReviewsRatings(spots);
 
@@ -283,7 +283,7 @@ router.get("/", validateQueries, async (req, res, next) => {
     group: [],
   });
 
-  setPreview(spots);
+  buildPreview(spots);
 
   await setReviewsRatings(spots);
 
@@ -345,7 +345,7 @@ router.post(
     }
 
     if(spot.dataValues.images.length === 0){
-      preview = true
+      preview = "true"
     }
 
 

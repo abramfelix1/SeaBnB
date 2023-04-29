@@ -5,7 +5,7 @@ const { Spot, Image, User, Review, Booking } = require("../../db/models");
 const { requireAuth } = require("../../utils/auth");
 const { validateReview, validateImage } = require("../../utils/validation");
 const {
-  setPreview,
+  buildPreview,
   buildReview,
   updateOrCreateReview,
 } = require("../../utils/helpers");
@@ -24,7 +24,7 @@ router.get("/current", requireAuth, async (req, res, next) => {
     method: ["getAllSpots", where, attributes, {}, "Review"],
   }).findAll();
 
-  setPreview(spot);
+  buildPreview(spot);
 
   const Reviews = buildReview(reviews, spot);
 

@@ -1,5 +1,6 @@
 "use strict";
 const { Model, TEXT } = require("sequelize");
+const review = require("./review");
 module.exports = (sequelize, DataTypes) => {
   class Spot extends Model {
     static associate(models) {
@@ -143,14 +144,15 @@ module.exports = (sequelize, DataTypes) => {
       },
       hooks: {
         beforeDestroy: async (spot, options) => {
-          const { Image } = require("../models");
-          const images = await Image.findAll({
+          const { Image, Review } = require("../models");
+
+          const spotImages = await Image.findAll({
             where: {
               imageableId: spot.id,
               imageableType: "Spot",
             },
           });
-          await Promise.all(images.map((image) => image.destroy()));
+          await Promise.all(spotImages.map((image) => image.destroy()));
         },
       },
     }

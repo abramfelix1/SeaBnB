@@ -2,7 +2,7 @@ const sequelize = require("sequelize");
 const { Spot, Image, User, Review, Booking } = require("../db/models");
 const { Op } = require("sequelize");
 
-const setPreview = (spots) => {
+const buildPreview = (spots) => {
   if (!Array.isArray(spots)) spots = [spots];
   for (const i in spots) {
     if (spots[i].dataValues.previewImage.length) {
@@ -144,7 +144,7 @@ const buildBookings = (bookingObj, task) => {
 
   for (const i in bookingObj) {
     if (task === "current") {
-      setPreview(bookingObj[i].dataValues.Spot);
+      buildPreview(bookingObj[i].dataValues.Spot);
     }
 
     Bookings[i] = {
@@ -240,7 +240,9 @@ const checkBookingError = (bookings, { startDate, endDate }, userId) => {
       errSet.add("End date conflicts with an existing booking");
     }
     if (start < checkStart && end > checkEnd) {
-      errSet.add("Specified dates conflict with an existing booking");
+      delete err.errors;
+      err.errors = ["Specified dates conflict with an existing booking"];
+      return err;
     }
   }
 
@@ -249,7 +251,7 @@ const checkBookingError = (bookings, { startDate, endDate }, userId) => {
 };
 
 module.exports = {
-  setPreview,
+  buildPreview,
   setQuery,
   setReviewsRatings,
   buildSpots,

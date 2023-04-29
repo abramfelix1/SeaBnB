@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         scope: {
           imageableType: "Review",
         },
+        onDelete: "CASCADE",
       });
     }
   }

@@ -17,10 +17,33 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
   const imageType = image.imageableType;
 
   if (imageType === "Spot") {
-    const spot = await image.getSpot();
+    const spot = await image.getSpot({
+      include: { model: Image, as: "images" },
+    });
 
     if (+spot.ownerId !== user.dataValues.id) {
       return next({ message: "Unauthorized action", status: 403 });
+    }
+
+    const deletedImage = await image.destroy();
+
+    if (image.dataValues.preview === true) {
+      let imageId = spot.dataValues.images[0].dataValues.id;
+
+      if (deletedImage.dataValues.id === imageId) {
+        imageId = spot.dataValues.images[1].dataValues.id;
+      }
+
+      const newPreviewImage = await Image.findByPk(imageId);
+
+      await newPreviewImage.update({
+        preview: true,
+      });
+
+      return res.json({
+        message: "Successfully deleted, new previewImage set",
+        statusCode: 200,
+      });
     }
   }
 
@@ -32,9 +55,8 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
     if (+review.User.userId !== user.dataValues.id) {
       return next({ message: "Unauthorized action", status: 403 });
     }
+    await image.destroy();
   }
-
-  await image.destroy();
 
   res.json({
     message: "Successfully deleted",
