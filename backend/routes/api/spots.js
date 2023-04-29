@@ -132,7 +132,7 @@ router.get("/:id/reviews", async (req, res, next) => {
   const spot = await Spot.findByPk(spotId);
 
   if (!spot) {
-    return next({ message: "Spot couldn't be found", status: 404 });
+    return next({ message: "Review couldn't be found", status: 404 });
   }
 
   const reviews = await Review.scope({
@@ -230,10 +230,10 @@ router.get("/:id", async (req, res, next) => {
 
   const spot = await Spot.findByPk(id, {
     include: [
-      { model: Image, as: "images", attributes: ["id", "url", "preview"] },
-      { model: User, attributes: ["id", "firstName", "lastName"], as: "owner" },
+      { model: Image, as: "SpotImages", attributes: ["id", "url", "preview"] },
+      { model: User, attributes: ["id", "firstName", "lastName"], as: "Owner" },
     ],
-    group: ["Spot.id", "images.id", "owner.id"],
+    group: ["Spot.id", "SpotImages.id", "Owner.id"],
   });
 
   if (!spot) {
@@ -295,7 +295,7 @@ router.get("/", validateQueries, async (req, res, next) => {
   const pageDirectory = `${+page || 1} / ${totalPages}`;
 
   if (page > totalPages) {
-    next({ message: "No results found", status: 404 });
+    next({ message: "No Spots found", status: 404 });
   }
 
   res.json({
@@ -328,8 +328,8 @@ router.post(
     const spotId = req.params.id;
     const spot = await Spot.findOne({
       where:{id:spotId},
-      include:[{ model: Image, as: "images"}],
-      group: ["Spot.id","images.id"],
+      include:[{ model: Image, as: "SpotImages"}],
+      group: ["Spot.id","SpotImages.id"],
     });
 
     if (!spot) {
@@ -340,11 +340,11 @@ router.post(
       return next({ message: "Unauthorized Action", status: 403 });
     }
 
-    if(spot.dataValues.images.length >= 10){
+    if(spot.dataValues.SpotImages.length >= 10){
       return next({ message: "10 image limit reached, remove an image to add new image", status: 400 });
     }
 
-    if(spot.dataValues.images.length === 0){
+    if(spot.dataValues.SpotImages.length === 0){
       preview = "true"
     }
 

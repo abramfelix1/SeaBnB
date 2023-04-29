@@ -1,4 +1,3 @@
-const sequelize = require("sequelize");
 const { Spot, Image, User, Review, Booking } = require("../db/models");
 const { Op } = require("sequelize");
 
@@ -79,7 +78,7 @@ const setReviewsRatings = async (spots) => {
 };
 
 const changePreview = async (spot) => {
-  for (const image of spot.dataValues.images) {
+  for (const image of spot.dataValues.SpotImages) {
     if (image.dataValues.preview === true) {
       const id = image.dataValues.id;
       const imageToUpdate = await Image.findByPk(id);
@@ -111,8 +110,8 @@ const buildSpots = (spotsObj) => {
       numReviews: spotsObj[i].dataValues.numReviews,
       avgRating: spotsObj[i].dataValues.avgRating,
       previewImage: spotsObj[i].dataValues.previewImage,
-      images: spotsObj[i].dataValues.images,
-      owner: spotsObj[i].dataValues.owner,
+      SpotImages: spotsObj[i].dataValues.SpotImages,
+      Owner: spotsObj[i].dataValues.Owner,
     };
   }
   if (Spots.length === 1) return Spots[0];
