@@ -90,6 +90,19 @@ router.post( "/:id/bookings", requireAuth, validateBooking, async (req, res, nex
       return next({message: "Cannot book owned spots", status:400})
     }
 
+    const hasActiveBooking = await spot.getBookings({
+      where:{
+        userId: user.dataValues.id,
+        [Op.or]:{
+          startDate: { [Op.gte]: [`${new Date().toISOString()}`]},
+        }
+      }
+    })
+
+    if(hasActiveBooking){
+      return next({message:"User already has an active booking", status:403})
+    }
+
     const checkBooking = await spot.getBookings({
       where: {
         [Op.or]:{
@@ -100,7 +113,7 @@ router.post( "/:id/bookings", requireAuth, validateBooking, async (req, res, nex
     });
 
     if (checkBooking.length) {
-      return next(checkBookingError(checkBooking, req.body));
+      return next(checkBookingError(checkBooking, req.body, user.dataValues.id));
     }
 
     const newBooking = await Booking.create({

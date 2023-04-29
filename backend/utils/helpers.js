@@ -221,7 +221,7 @@ const updateOrCreateReview = async (obj, attributes, task) => {
   }
 };
 
-const checkBookingError = (bookings, { startDate, endDate }) => {
+const checkBookingError = (bookings, { startDate, endDate }, userId) => {
   const start = new Date(startDate).getTime();
   const end = new Date(endDate).getTime();
   const err = {
@@ -243,6 +243,7 @@ const checkBookingError = (bookings, { startDate, endDate }) => {
       errSet.add("Specified dates conflict with an existing booking");
     }
   }
+
   err.errors = [...errSet];
   return err;
 };
