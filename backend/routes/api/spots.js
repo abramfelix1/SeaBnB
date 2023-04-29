@@ -252,6 +252,9 @@ router.get("/", validateQueries, async (req, res, next) => {
     if (size > 20) size = 20;
     pagination.offset = size * (page - 1);
     pagination.limit = size;
+  } else {
+    page = 1;
+    size = 20;
   }
 
   const spots = await Spot.findAll({
