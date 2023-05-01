@@ -44,7 +44,10 @@ router.get("/:id/bookings", requireAuth, async (req, res, next) => {
   const attributes = {};
 
   if (!spot) {
-    return next({ message: "Spot couldn't be found", status: 404 });
+    return next({
+      message: "Bookings for spot couldn't be found",
+      status: 404,
+    });
   }
 
   if (spot.ownerId === user.dataValues.id) {
@@ -132,7 +135,7 @@ router.get("/:id/reviews", async (req, res, next) => {
   const spot = await Spot.findByPk(spotId);
 
   if (!spot) {
-    return next({ message: "Review couldn't be found", status: 404 });
+    return next({ message: "Reviews for spot couldn't be found", status: 404 });
   }
 
   const reviews = await Review.scope({
