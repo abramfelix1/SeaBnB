@@ -212,6 +212,7 @@ router.get("/current", requireAuth, async (req, res, next) => {
         required: false,
       },
     ],
+    group: ["Spot.id"],
   });
 
   if (!spots.length) {
