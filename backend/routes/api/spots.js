@@ -212,7 +212,7 @@ router.get("/current", requireAuth, async (req, res, next) => {
         required: false,
       },
     ],
-    group: ["Spot.id", "PreviewImage.id"],
+    group: ["Spot.id", "previewImage.id"],
   });
 
   if (!spots.length) {
