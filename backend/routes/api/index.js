@@ -26,7 +26,7 @@ router.use("/bookings", bookingsRouter);
 
 router.use("/images", imagesRouter);
 
-router.post("/test", (req, res) => {
+router.post("/test", function (req, res) {
   res.json({ requestBody: req.body });
 });
 
