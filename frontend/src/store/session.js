@@ -17,10 +17,16 @@ const removeUser = () => {
 };
 
 export const restoreUser = () => async (dispatch) => {
-  const response = await csrfFetch("/api/current");
-  const data = await response.json();
-  dispatch(setUser(data.user));
-  return response;
+  try {
+    const response = await csrfFetch("/api/current");
+    console.log("AAAA");
+    console.log(response);
+    const data = await response.json();
+    dispatch(setUser(data.user));
+    return response;
+  } catch (err) {
+    return null;
+  }
 };
 
 export const logout = () => async (dispatch) => {
@@ -65,7 +71,7 @@ export const signup = (user) => async (dispatch) => {
 const initialState = { user: null };
 
 const sessionReducer = (state = initialState, action) => {
-  let newState = { ...state };
+  let newState;
   switch (action.type) {
     case SET_USER:
       newState = Object.assign({}, state);
