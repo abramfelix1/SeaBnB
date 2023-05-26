@@ -26,5 +26,6 @@
     "pg": "^8.10.0",
     "pg-hstore": "^2.3.4",
     "postgres": "^3.3.4"
-  }
+  },
+  "devDependencies": {}
 }
