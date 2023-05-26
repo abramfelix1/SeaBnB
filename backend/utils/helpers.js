@@ -232,7 +232,6 @@ const checkBookingError = (bookings, { startDate, endDate }, userId) => {
     const checkStart = booking.dataValues.startDate.getTime();
     const checkEnd = booking.dataValues.endDate.getTime();
     if (start >= checkStart && start <= checkEnd) {
-      console.log("AA");
       errSet.add("Start date conflicts with an existing booking");
     }
     if (end >= checkStart && end <= checkEnd) {
