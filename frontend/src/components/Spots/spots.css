@@ -1,59 +1,87 @@
+.spot-container {
+  display: flex;
+  justify-content: center;
+}
+
 .spot-list {
   display: grid;
   grid-auto-flow: row dense;
   grid-auto-rows: minmax(min-content, max-content);
-  gap: 30px 20px;
-  padding-left: 40px;
-  padding-right: 40px;
-  background-color: gray;
+  gap: 50px 30px;
+  padding-left: 30px;
+  padding-right: 30px;
+  background-color: rgb(255, 255, 255);
   width: 100%;
+  margin: 60px;
 }
 
 .spot-card {
-  background-color: rgb(240, 97, 97);
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(255, 255, 255);
+  height: 450px;
   width: 100%;
-  aspect-ratio: 2/1;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 10px;
 }
 
 .spot-preview-img {
-  border-radius: 12px;
-  height: 100%;
-  width: 100%;
+  height: 85%;
+  border-radius: 16px;
   object-fit: cover;
 }
 
 .spot-card-info-container {
   display: flex;
   flex-direction: column;
-  background-color: blue;
-  margin: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  position: relative;
+  margin: 15px 0 0 0;
 }
 
-.spot-card-info-container span {
-  right: 120px;
-  color: orange;
+.spot-card-rating {
+  position: absolute;
+  right: 0;
+  color: rgb(0, 0, 0);
 }
 
-@media (min-width: 1200px) {
+.spot-price {
+  position: absolute;
+  top: 30px;
+}
+
+.spot-price span {
+  font-weight: 300;
+}
+
+@media (min-width: 1920px) {
   .spot-list {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
-@media (min-width: 780px) and (max-width: 1199px) {
+@media (min-width: 1745px) and (max-width: 1919px) {
+  .spot-list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1537px) and (max-width: 1744px) {
   .spot-list {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
-@media (min-width: 539px) and (max-width: 779px) {
+@media (min-width: 1280px) and (max-width: 1536px) {
   .spot-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
-@media (min-width: 0px) and (max-width: 538px) {
+@media (min-width: 1097px) and (max-width: 1279px) {
   .spot-list {
-    grid-template-columns: repeat(1, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

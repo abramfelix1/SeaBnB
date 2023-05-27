@@ -3,10 +3,14 @@ export default function SpotInfo({ spot }) {
     <div className="spot-card-info-container">
       <div>
         {`${spot.city},${spot.state}`}
-        <span> ★{spot.avgRating ? `${spot.avgRating}` : "new"}</span>
+        <span className="spot-card-rating">
+          {" "}
+          ★{spot.avgRating ? `${spot.avgRating}` : "new"}
+        </span>
       </div>
-      <div>{spot.address}</div>
-      <div>${spot.price} night</div>
+      <div className="spot-price">
+        ${spot.price} <span>night</span>
+      </div>
     </div>
   );
 }

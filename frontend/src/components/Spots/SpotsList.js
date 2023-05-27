@@ -14,13 +14,15 @@ export default function SpotsList() {
   }, [dispatch]);
 
   return (
-    <div className="spot-list">
-      {spots.length &&
-        spots.map((spot) => (
-          <NavLink key={spot.id} to={`/spots/${spot.id}`}>
-            <SpotsCard spot={spot} />
-          </NavLink>
-        ))}
+    <div className="spot-container">
+      <div className="spot-list">
+        {spots.length &&
+          spots.map((spot) => (
+            <NavLink key={spot.id} to={`/spots/${spot.id}`}>
+              <SpotsCard spot={spot} />
+            </NavLink>
+          ))}
+      </div>
     </div>
   );
 }
