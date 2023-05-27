@@ -4,11 +4,19 @@ const initialState = {};
 
 const POPULATE = "spots/POPULATE";
 
-export const populateSpots = (spots) => {
+const populateSpots = (spots) => {
   return {
     type: POPULATE,
     spots,
   };
+};
+
+export const getSpots = () => async (dispatch) => {
+  const response = await fetch("/api/spots");
+  if (response.ok) {
+    const spots = await response.json();
+    dispatch(populateSpots(spots));
+  }
 };
 
 export default function spotsReducer(state = initialState, action) {
