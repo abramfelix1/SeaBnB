@@ -154,7 +154,6 @@ module.exports = (sequelize, DataTypes) => {
             },
           });
           await Promise.all(spotImages.map((image) => image.destroy()));
-          console.log("AAAAAAAAAAAAAAAA SPOT IMAGES DELETED AAAAAAAAAAAAAAAA");
         },
       },
     }
