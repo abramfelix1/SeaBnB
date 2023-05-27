@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSpots } from "../../store/spots";
+import { NavLink } from "react-router-dom/";
+import SpotsCard from "./SpotsCard";
+import "./spots.css";
 
 export default function SpotsList() {
   const dispatch = useDispatch();
@@ -11,11 +14,13 @@ export default function SpotsList() {
   }, [dispatch]);
 
   return (
-    <>
-      <h1>AAAAA</h1>
-      {spots.map((spot) => {
-        return <div key={spot.id}>[SPOT PLACEHOLDER]</div>;
-      })}
-    </>
+    <div className="spot-list">
+      {spots.length &&
+        spots.map((spot) => (
+          <NavLink key={spot.id} to={`/spots/${spot.id}`}>
+            <SpotsCard spot={spot} />
+          </NavLink>
+        ))}
+    </div>
   );
 }

@@ -11,6 +11,14 @@ function ProfileButton({ user }) {
 
   const ulRef = useRef();
 
+  const demoHandler = (e) => {
+    e.preventDefault();
+    const credential = "Demo-lition";
+    const password = "password";
+
+    return dispatch(sessionActions.login({ credential, password }));
+  };
+
   const openMenu = () => {
     if (showMenu) return;
     setShowMenu(true);
@@ -72,6 +80,9 @@ function ProfileButton({ user }) {
                 closeMenu={closeMenu}
                 modalComponent={<SignupFormModal />}
               />
+            </li>
+            <li>
+              <button onClick={demoHandler}>Demo User</button>
             </li>
           </>
         )}

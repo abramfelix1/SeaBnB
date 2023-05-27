@@ -1,0 +1,59 @@
+.spot-list {
+  display: grid;
+  grid-auto-flow: row dense;
+  grid-auto-rows: minmax(min-content, max-content);
+  gap: 30px 20px;
+  padding-left: 40px;
+  padding-right: 40px;
+  background-color: gray;
+  width: 100%;
+}
+
+.spot-card {
+  background-color: rgb(240, 97, 97);
+  width: 100%;
+  aspect-ratio: 2/1;
+}
+
+.spot-preview-img {
+  border-radius: 12px;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.spot-card-info-container {
+  display: flex;
+  flex-direction: column;
+  background-color: blue;
+  margin: 20px;
+}
+
+.spot-card-info-container span {
+  right: 120px;
+  color: orange;
+}
+
+@media (min-width: 1200px) {
+  .spot-list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 780px) and (max-width: 1199px) {
+  .spot-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 539px) and (max-width: 779px) {
+  .spot-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 0px) and (max-width: 538px) {
+  .spot-list {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
