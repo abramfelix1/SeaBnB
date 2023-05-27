@@ -31,5 +31,5 @@
 3. Navigate to `frontend`
    1. Run `npm install` then `npm start`
 
-NOTE: Must have 2 active terminals running both backend and frontend.
+NOTE: Must have 2 active terminals running the backend and frontend.
 
