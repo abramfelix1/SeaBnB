@@ -2,24 +2,25 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
+import logo from "../../images/logo.png";
 import "./Navigation.css";
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
 
   return (
-    <ul>
-      <li>
+    <nav className="nav-container">
+      <div className="nav-logo">
         <NavLink exact to="/">
-          Home
+          <img src={logo} alt="logo" />
         </NavLink>
-      </li>
+      </div>
       {isLoaded && (
-        <li>
+        <div className="nav-button">
           <ProfileButton user={sessionUser} />
-        </li>
+        </div>
       )}
-    </ul>
+    </nav>
   );
 }
 

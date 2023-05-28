@@ -1,3 +1,27 @@
 .hidden {
   display: none;
 }
+
+.nav-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 80px;
+  width: 100%;
+  border-bottom: 1px solid #ebebeb;
+  padding: 50px 0px;
+}
+
+.nav-logo {
+  align-self: center;
+}
+.nav-logo img {
+  align-self: center;
+  margin-left: 90px;
+  width: 150px;
+}
+
+.nav-button {
+  align-self: center;
+  margin-right: 90px;
+}

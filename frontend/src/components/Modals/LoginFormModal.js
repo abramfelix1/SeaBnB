@@ -1,11 +1,11 @@
 import LoginFormPage from "../LoginFormPage";
 import "./Modal.css";
 
-export default function LoginFormModal({ setShowModal }) {
+export default function LoginFormModal({ closeModal }) {
   const handleClick = (e) => {
     e.stopPropagation();
     if (e.target.className === "modal") {
-      setShowModal(false);
+      closeModal(false);
     }
   };
 

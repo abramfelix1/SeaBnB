@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import * as sessionActions from "../../store/session";
-import OpenModalButton from "../Modals/OpenModalButton";
 import LoginFormModal from "../Modals/LoginFormModal";
 import SignupFormModal from "../Modals/SignupFormModal";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showSignupModal, setShowSignupModal] = useState(false);
 
   const ulRef = useRef();
 
@@ -50,6 +51,8 @@ function ProfileButton({ user }) {
 
   return (
     <>
+      {showLoginModal && <LoginFormModal closeModal={setShowLoginModal} />}
+      {showSignupModal && <SignupFormModal closeModal={setShowSignupModal} />}
       <button onClick={openMenu}>
         <i className="fas fa-user-circle" />
       </button>
@@ -68,18 +71,24 @@ function ProfileButton({ user }) {
         ) : (
           <>
             <li>
-              <OpenModalButton
-                buttonText="Log In"
-                closeMenu={closeMenu}
-                modalComponent={<LoginFormModal />}
-              />
+              <button
+                onClick={() => {
+                  closeMenu();
+                  setShowLoginModal(!showLoginModal);
+                }}
+              >
+                Log In
+              </button>
             </li>
             <li>
-              <OpenModalButton
-                buttonText="Sign Up"
-                closeMenu={closeMenu}
-                modalComponent={<SignupFormModal />}
-              />
+              <button
+                onClick={() => {
+                  closeMenu();
+                  setShowSignupModal(!showSignupModal);
+                }}
+              >
+                Sign Up
+              </button>
             </li>
             <li>
               <button onClick={demoHandler}>Demo User</button>

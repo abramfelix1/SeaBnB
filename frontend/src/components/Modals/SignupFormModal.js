@@ -1,10 +1,10 @@
 import SignupFormPage from "../SignupFormPage";
 
-export default function SignupFormModal({ setShowModal }) {
+export default function SignupFormModal({ closeModal }) {
   const handleClick = (e) => {
     e.stopPropagation();
     if (e.target.className === "modal") {
-      setShowModal(false);
+      closeModal(false);
     }
   };
 
