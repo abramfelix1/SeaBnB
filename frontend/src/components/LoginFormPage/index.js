@@ -15,17 +15,31 @@ export default function LoginFormPage({ closeModal }) {
 
   if (sessionUser) return <Redirect to="/" />;
 
-  const handleSubmit = (e) => {
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   setErrors({});
+  //   dispatch(sessionActions.login({ credential, password })).catch(
+  //     async (res) => {
+  //       const data = await res.json();
+  //       if (data && data.errors) {
+  //         setErrors(data.errors);
+  //       }
+  //     }
+  //   );
+  // };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({});
-    dispatch(sessionActions.login({ credential, password })).catch(
-      async (res) => {
-        const data = await res.json();
-        if (data && data.errors) {
-          setErrors(data.errors);
-        }
+    try {
+      await dispatch(sessionActions.login({ credential, password }));
+      closeModal();
+    } catch (err) {
+      const data = await err.json();
+      if (data && data.errors) {
+        setErrors(data.errors);
       }
-    );
+    }
   };
 
   return (
