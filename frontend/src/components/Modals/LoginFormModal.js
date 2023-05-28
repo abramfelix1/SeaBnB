@@ -12,7 +12,7 @@ export default function LoginFormModal({ closeModal }) {
   return (
     <div className="modal" onClick={handleClick}>
       <div className="modal-content">
-        <LoginFormPage />
+        <LoginFormPage closeModal={closeModal} />
       </div>
     </div>
   );

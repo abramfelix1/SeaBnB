@@ -11,7 +11,7 @@ export default function SignupFormModal({ closeModal }) {
   return (
     <div className="modal" onClick={handleClick}>
       <div className="modal-content">
-        <SignupFormPage />
+        <SignupFormPage closeModal={closeModal} />
       </div>
     </div>
   );

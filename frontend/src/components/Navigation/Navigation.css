@@ -22,6 +22,89 @@
 }
 
 .nav-button {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
   align-self: center;
   margin-right: 90px;
+  width: 100px;
+  height: 50px;
+  border: 1px solid #ebebeb;
+  border-radius: 30px;
+}
+
+button {
+  position: relative;
+  background: none;
+  border: none;
+}
+
+.bars {
+  position: absolute;
+  left: 18px;
+  top: 16px;
+  font-size: 18px;
+  color: #222222;
+}
+
+.profile {
+  position: absolute;
+  right: 10px;
+  top: 6px;
+  font-size: 36px;
+  color: #717171;
+}
+
+.profile-dropdown {
+  position: absolute;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid #ebebeb;
+  border-radius: 12px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+  top: 76px;
+  right: 90px;
+  width: 200px;
+  height: 150px;
+  z-index: 999;
+}
+
+.profile-dropdown-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
+}
+
+.profile-dropdown-content-break-line {
+  border-bottom: 1px solid #ebebeb;
+}
+
+.profile-dropdown-logged-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
+}
+
+.profile-dropdown-logged-info li {
+  padding-left: 10px;
+}
+
+.profile-dropdown-logged-info button {
+  padding: 0px;
+  height: 30px;
+}
+.profile-dropdown-logged-info button:hover {
+  background-color: #f7f7f7;
+}
+
+.profile-dropdown-content li button {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  text-align: left;
+}
+
+.profile-dropdown-content li button:hover {
+  background-color: #f7f7f7;
 }

@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import * as sessionActions from "../../store/session";
 import LoginFormModal from "../Modals/LoginFormModal";
 import SignupFormModal from "../Modals/SignupFormModal";
+import "./Navigation.css";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -21,8 +22,7 @@ function ProfileButton({ user }) {
   };
 
   const openMenu = () => {
-    if (showMenu) return;
-    setShowMenu(true);
+    setShowMenu(!showMenu);
   };
 
   useEffect(() => {
@@ -53,49 +53,53 @@ function ProfileButton({ user }) {
     <>
       {showLoginModal && <LoginFormModal closeModal={setShowLoginModal} />}
       {showSignupModal && <SignupFormModal closeModal={setShowSignupModal} />}
-      <button onClick={openMenu}>
-        <i className="fas fa-user-circle" />
-      </button>
-      <ul className={ulClassName} ref={ulRef}>
-        {user ? (
-          <>
-            <li>{user.username}</li>
-            <li>
-              {user.firstName} {user.lastName}
-            </li>
-            <li>{user.email}</li>
-            <li>
-              <button onClick={logout}>Log Out</button>
-            </li>
-          </>
-        ) : (
-          <>
-            <li>
-              <button
-                onClick={() => {
-                  closeMenu();
-                  setShowLoginModal(!showLoginModal);
-                }}
-              >
-                Log In
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => {
-                  closeMenu();
-                  setShowSignupModal(!showSignupModal);
-                }}
-              >
-                Sign Up
-              </button>
-            </li>
-            <li>
-              <button onClick={demoHandler}>Demo User</button>
-            </li>
-          </>
-        )}
-      </ul>
+      <div className="nav-button" onClick={openMenu}>
+        <button>
+          <i class="fa-solid fa-bars bars"></i>
+          <i class="fa-solid fa-circle-user profile"></i>
+        </button>
+        <ul className={ulClassName} ref={ulRef}>
+          <div className="profile-dropdown-content">
+            {user ? (
+              <div className="profile-dropdown-logged-info">
+                <li>{user.username}</li>
+                <li>
+                  {user.firstName} {user.lastName}
+                </li>
+                <li>{user.email}</li>
+                <li class="profile-dropdown-content-break-line"></li>
+                <button onClick={logout}>Log Out</button>
+              </div>
+            ) : (
+              <>
+                <li>
+                  <button
+                    onClick={() => {
+                      closeMenu();
+                      setShowLoginModal(!showLoginModal);
+                    }}
+                  >
+                    Log In
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => {
+                      closeMenu();
+                      setShowSignupModal(!showSignupModal);
+                    }}
+                  >
+                    Sign Up
+                  </button>
+                </li>
+                <li>
+                  <button onClick={demoHandler}>Demo User</button>
+                </li>
+              </>
+            )}
+          </div>
+        </ul>
+      </div>
     </>
   );
 }
