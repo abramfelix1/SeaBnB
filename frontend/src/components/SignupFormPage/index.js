@@ -17,11 +17,42 @@ export default function SignupFormPage({ closeModal }) {
 
   if (sessionUser) return <Redirect to="/" />;
 
-  const handleSubmit = (e) => {
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (password === confirmPassword) {
+  //     setErrors({});
+  //     return dispatch(
+  //       sessionActions.signup({
+  //         email,
+  //         username,
+  //         firstName,
+  //         lastName,
+  //         password,
+  //       })
+  //     ).catch(async (res) => {
+  //       const data = await res.json();
+  //       if (data && data.errors) {
+  //         setErrors(data.errors);
+  //       }
+  //     });
+  //   }
+  //   return setErrors({
+  //     confirmPassword:
+  //       "Confirm Password field must be the same as the Password field",
+  //   });
+  // };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password === confirmPassword) {
+    if (password !== confirmPassword) {
+      return setErrors({
+        confirmPassword:
+          "Confirm Password field must be the same as the Password field",
+      });
+    }
+    try {
       setErrors({});
-      return dispatch(
+      await dispatch(
         sessionActions.signup({
           email,
           username,
@@ -29,17 +60,14 @@ export default function SignupFormPage({ closeModal }) {
           lastName,
           password,
         })
-      ).catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) {
-          setErrors(data.errors);
-        }
-      });
+      );
+      closeModal();
+    } catch (err) {
+      const data = await err.json();
+      if (data && data.errors) {
+        setErrors(data.errors);
+      }
     }
-    return setErrors({
-      confirmPassword:
-        "Confirm Password field must be the same as the Password field",
-    });
   };
 
   return (
