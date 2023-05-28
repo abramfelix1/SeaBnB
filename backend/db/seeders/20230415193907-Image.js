@@ -32,7 +32,7 @@ module.exports = {
       {
         imageableId: 1,
         imageableType: "Spot",
-        url: "https://i.imgur.com/DCyhd6X.png",
+        url: "https://i.imgur.com/pUxa0Eb.jpg",
         preview: false,
       },
       {
