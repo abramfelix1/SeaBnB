@@ -16,7 +16,7 @@ export default function SpotsList() {
   return (
     <div className="spot-container">
       <div className="spot-list">
-        {spots.length &&
+        {spots.length > 0 &&
           spots.map((spot) => (
             <NavLink key={spot.id} to={`/spots/${spot.id}`}>
               <SpotsCard spot={spot} />

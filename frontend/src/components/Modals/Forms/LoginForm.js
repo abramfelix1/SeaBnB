@@ -46,7 +46,7 @@ export default function LoginForm({ closeModal }) {
     <div className="form-signup-container">
       <div className="form-header">
         <i
-          class="fa-solid fa-x"
+          className="fa-solid fa-x"
           onClick={() => {
             closeModal();
           }}

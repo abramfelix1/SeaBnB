@@ -55,8 +55,8 @@ function ProfileButton({ user }) {
       {showSignupModal && <SignupFormModal closeModal={setShowSignupModal} />}
       <div className="nav-button" onClick={openMenu}>
         <button>
-          <i class="fa-solid fa-bars bars"></i>
-          <i class="fa-solid fa-circle-user profile"></i>
+          <i className="fa-solid fa-bars bars"></i>
+          <i className="fa-solid fa-circle-user profile"></i>
         </button>
         <ul className={ulClassName} ref={ulRef}>
           <div className="profile-dropdown-content">
