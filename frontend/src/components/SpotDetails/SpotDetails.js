@@ -1,54 +1,49 @@
 import { useParams } from "react-router-dom/";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getSpotDetails } from "../../store/spots";
+import SpotDetailsHeader from "./SpotDetailsHeader";
 import PhotoGrid from "./PhotoGrid";
+import SpotDetailsDescription from "./SpotDetailsDescription";
+import SpotReviews from "./SpotReviews";
 import "./spotDetails.css";
 
 export default function SpotDetails() {
   const dispatch = useDispatch();
   const { id } = useParams();
+  const [startRender, setStartRender] = useState(false);
   const spot = useSelector((state) => state.spots);
   console.log(spot);
 
   useEffect(() => {
-    console.log("SPOT DETAILS");
     dispatch(getSpotDetails(id));
+    const timer = setTimeout(() => {
+      setStartRender(true);
+    }, 500);
+    return () => {
+      clearTimeout(timer);
+    };
   }, [dispatch, id]);
 
-  return (
+  return !startRender ? (
+    <div className="spot-loader">
+      <h1>. . .</h1>
+    </div>
+  ) : (
     <div className="details-container">
       <div className="details-header">
-        <h1>{spot.name}</h1>
-        <div className="details-sub-header">
-          <div className="details-sub-header-info">
-            <p>
-              <i className="fa-solid fa-star"></i> {spot.avgRating} ·{" "}
-              <span>{spot.numReviews} reviews</span>
-              {""}
-              <span className="period"> . </span>
-              {""}
-              <span>
-                {spot.city}, {spot.state}, {spot.country}
-              </span>
-            </p>
-          </div>
-          <div className="details-sub-header-buttons">
-            <button>
-              <i className="fa-solid fa-arrow-up-from-bracket"></i> <p>Share</p>
-            </button>
-            <button>
-              <i class="fa-regular fa-heart"></i>
-              <p>Save</p>
-            </button>
-          </div>
-        </div>
+        <SpotDetailsHeader spot={spot} />
       </div>
       <div className="details-images-container">
-        <PhotoGrid />
+        <PhotoGrid spot={spot} />
       </div>
-      <div className="details-description"></div>
-      <div className="details-reviews"></div>
+      <div className="details-description-container">
+        <SpotDetailsDescription spot={spot} />
+        <h1>AAAAAAAAAAAAAAAAAAA</h1>
+      </div>
+      <div className="details-reviews-container">
+        <SpotReviews />
+      </div>
     </div>
   );
 }
