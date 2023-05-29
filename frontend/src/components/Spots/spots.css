@@ -8,11 +8,12 @@
   grid-auto-flow: row dense;
   grid-auto-rows: minmax(min-content, max-content);
   gap: 50px 30px;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding-top: 80px;
+  padding-left: 90px;
+  padding-right: 90px;
   background-color: rgb(255, 255, 255);
   width: 100%;
-  margin: 60px;
+  margin-top: 100px;
 }
 
 .spot-card {
@@ -65,18 +66,27 @@
 @media (min-width: 1745px) and (max-width: 1919px) {
   .spot-list {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+    padding-top: 80px;
+    padding-left: 55px;
+    padding-right: 55px;
   }
 }
 
-@media (min-width: 1537px) and (max-width: 1744px) {
+@media (min-width: 1536px) and (max-width: 1744px) {
   .spot-list {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding-top: 80px;
+    padding-left: 55px;
+    padding-right: 55px;
   }
 }
 
-@media (min-width: 1280px) and (max-width: 1536px) {
+@media (min-width: 1280px) and (max-width: 1535px) {
   .spot-list {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding-top: 80px;
+    padding-left: 55px;
+    padding-right: 55px;
   }
 }
 
