@@ -1,6 +1,7 @@
 .details-container {
   color: #222222;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   padding-top: 125px;
   padding-left: 80px;
@@ -9,7 +10,6 @@
 
 .details-header {
   position: relative;
-  width: 100%;
   margin: 5px 175px;
   display: flex;
   flex-direction: column;
@@ -42,7 +42,7 @@
   position: absolute;
   display: flex;
   flex-direction: row;
-  right: 0;
+  right: -12px;
   top: -3px;
 }
 

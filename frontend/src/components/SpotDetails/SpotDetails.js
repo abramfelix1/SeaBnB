@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom/";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getSpotDetails } from "../../store/spots";
+import PhotoGrid from "./PhotoGrid";
 import "./spotDetails.css";
 
 export default function SpotDetails() {
@@ -40,7 +41,9 @@ export default function SpotDetails() {
           </div>
         </div>
       </div>
-      <div className="details-images"></div>
+      <div className="details-images-container">
+        <PhotoGrid />
+      </div>
       <div className="details-description"></div>
       <div className="details-reviews"></div>
     </div>
