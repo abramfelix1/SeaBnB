@@ -6,7 +6,7 @@
 .photo-big {
   margin-right: 10px;
   width: 700px;
-  height: 550px;
+  height: 514px;
   border-top-left-radius: 12px;
   border-bottom-left-radius: 12px;
 }
@@ -31,19 +31,19 @@
 .c2r1-container {
   grid-area: c2r1;
   width: 350px;
-  height: 270px;
+  height: 252px;
 }
 
 .c2r2-container {
   grid-area: c2r2;
   width: 350px;
-  height: 270px;
+  height: 252px;
 }
 
 .c3r1-container {
   grid-area: c3r1;
   width: 350px;
-  height: 270px;
+  height: 252px;
   border-top-right-radius: 12px;
   border-bottom-right-radius: 12px;
 }
@@ -51,7 +51,7 @@
 .c3r2-container {
   grid-area: c3r2;
   width: 350px;
-  height: 270px;
+  height: 252px;
   border-top-right-radius: 12px;
   border-bottom-right-radius: 12px;
 }

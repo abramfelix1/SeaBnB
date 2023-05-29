@@ -5,7 +5,8 @@ export default function SpotInfo({ spot }) {
         {`${spot.city},${spot.state}`}
         <span className="spot-card-rating">
           {" "}
-          ★ {spot.avgRating ? `${spot.avgRating}` : "new"}
+          <i className="fa-solid fa-star"></i>{" "}
+          {spot.avgRating ? `${spot.avgRating}` : "new"}
         </span>
       </div>
       <div className="spot-price">

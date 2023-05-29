@@ -22,7 +22,8 @@ export default function SpotDetails() {
         <h1>{spot.name}</h1>
         <div className="details-sub-header">
           <p>
-            ★ {spot.avgRating} · <span>{spot.numReviews} reviews</span>
+            <i className="fa-solid fa-star"></i> {spot.avgRating} ·{" "}
+            <span>{spot.numReviews} reviews</span>
             {""}
             <span className="period"> . </span>
             {""}
@@ -32,7 +33,7 @@ export default function SpotDetails() {
           </p>
           <div className="details-sub-header-buttons">
             <button>
-              <i class="fa-solid fa-arrow-up-from-bracket"></i> <p>Share</p>
+              <i className="fa-solid fa-arrow-up-from-bracket"></i> <p>Share</p>
             </button>
             <button>
               <i class="fa-regular fa-heart"></i>

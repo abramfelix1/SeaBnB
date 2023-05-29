@@ -58,6 +58,10 @@
   color: rgb(0, 0, 0);
 }
 
+.spot-card-rating i {
+  font-size: 14px;
+}
+
 .spot-price {
   position: absolute;
   top: 30px;
