@@ -6,8 +6,12 @@ export default function SpotInfo({ spot }) {
         <span className="spot-card-rating">
           {" "}
           <i className="fa-solid fa-star"></i>{" "}
-          {spot.avgRating ? `${spot.avgRating}` : "new"}
+          <p>{spot.avgRating ? `${spot.avgRating}` : "new"}</p>
         </span>
+      </div>
+      <div className="spot-distance">
+        <p>Somewhere +/- ~100000 mi away</p>
+        <p>Any Day</p>
       </div>
       <div className="spot-price">
         ${spot.price} <span>night</span>
