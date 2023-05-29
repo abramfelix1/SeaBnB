@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import logo from "../../images/logo.png";
 import "./Navigation.css";
@@ -15,7 +15,10 @@ function Navigation({ isLoaded }) {
           <img src={logo} alt="logo" />
         </NavLink>
       </div>
-      {isLoaded && <ProfileButton user={sessionUser} />}
+      <div className="nav-right">
+        <button className="nav-create-button">Seabnb your home</button>
+        {isLoaded && <ProfileButton user={sessionUser} />}
+      </div>
     </nav>
   );
 }

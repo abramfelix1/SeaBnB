@@ -1,4 +1,4 @@
-import LoginFormPage from "../LoginFormPage";
+import LoginForm from "./Forms/LoginForm";
 import "./Modal.css";
 
 export default function LoginFormModal({ closeModal }) {
@@ -12,7 +12,7 @@ export default function LoginFormModal({ closeModal }) {
   return (
     <div className="modal" onClick={handleClick}>
       <div className="modal-content">
-        <LoginFormPage closeModal={closeModal} />
+        <LoginForm closeModal={closeModal} />
       </div>
     </div>
   );

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import * as sessionActions from "../../store/session";
+import * as sessionActions from "../../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
-import "./LoginForm.css";
+import "./form.css";
 
-export default function LoginFormPage({ closeModal }) {
+export default function LoginForm({ closeModal }) {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => {
     return state.session.user;
@@ -43,30 +43,40 @@ export default function LoginFormPage({ closeModal }) {
   };
 
   return (
-    <>
-      <h1>Log In</h1>
+    <div className="form-signup-container">
+      <div className="form-header">
+        <i
+          class="fa-solid fa-x"
+          onClick={() => {
+            closeModal();
+          }}
+        ></i>
+        <h1>Log In</h1>
+      </div>
+      {errors.credential && (
+        <div className="form-errors">
+          <p>{errors.credential}</p>
+        </div>
+      )}
       <form onSubmit={handleSubmit}>
-        <label>
-          Username or Email
-          <input
-            type="text"
-            value={credential}
-            onChange={(e) => setCredential(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Password
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        {errors.credential && <p>{errors.credential}</p>}
-        <button type="submit">Log In</button>
+        <input
+          placeholder="Username or Email"
+          type="text"
+          value={credential}
+          onChange={(e) => setCredential(e.target.value)}
+          required
+        />
+        <input
+          placeholder="Password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <button className="form-button" type="submit">
+          Log In
+        </button>
       </form>
-    </>
+    </div>
   );
 }
