@@ -11,6 +11,7 @@ export default function SpotDetails() {
   console.log(spot);
 
   useEffect(() => {
+    console.log("SPOT DETAILS");
     dispatch(getSpotDetails(id));
   }, [dispatch, id]);
 
