@@ -42,6 +42,7 @@
   font-size: 42px;
   color: #717171;
   padding-right: 20px;
+  cursor: pointer;
 }
 
 .reviews-item-header-right p {

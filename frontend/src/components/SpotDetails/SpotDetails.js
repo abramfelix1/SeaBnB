@@ -37,7 +37,7 @@ export default function SpotDetails() {
         <SpotDetailsHeader spot={spot} />
       </div>
       <div className="details-images-container">
-        <PhotoGrid spot={spot} />
+        <PhotoGrid images={spot.SpotImages} />
       </div>
       <div className="details-description-container">
         <SpotDetailsDescription spot={spot} />
