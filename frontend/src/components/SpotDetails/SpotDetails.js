@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom/";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getSpotDetails } from "../../store/spots";
+import { getSpotReviews } from "../../store/reviews";
 import SpotDetailsHeader from "./SpotDetailsHeader";
 import PhotoGrid from "./PhotoGrid";
 import SpotDetailsDescription from "./SpotDetailsDescription";
@@ -13,10 +14,11 @@ export default function SpotDetails() {
   const { id } = useParams();
   const [startRender, setStartRender] = useState(false);
   const spot = useSelector((state) => state.spots);
-  console.log(spot);
+  const reviews = useSelector((state) => Object.values(state.reviews));
 
   useEffect(() => {
     dispatch(getSpotDetails(id));
+    dispatch(getSpotReviews(id));
     const timer = setTimeout(() => {
       setStartRender(true);
     }, 500);
@@ -39,10 +41,12 @@ export default function SpotDetails() {
       </div>
       <div className="details-description-container">
         <SpotDetailsDescription spot={spot} />
-        <h1>AAAAAAAAAAAAAAAAAAA</h1>
+        <div className="booking-card-container">
+          <h1>BOOKING CARD HERE</h1>
+        </div>
       </div>
       <div className="details-reviews-container">
-        <SpotReviews spot={spot} />
+        <SpotReviews spot={spot} reviews={reviews} />
       </div>
     </div>
   );

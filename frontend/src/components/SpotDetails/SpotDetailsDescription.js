@@ -16,7 +16,7 @@ export default function SpotDetailsDescription({ spot }) {
       </div>
       <div className="details-description-extras-container">
         <div className="details-description-extras">
-          <i class="fa-solid fa-door-open"></i>
+          <i className="fa-solid fa-door-open"></i>
           <div>
             <p>Self check-in</p>
             <p className="details-description-extras-light">
@@ -25,7 +25,7 @@ export default function SpotDetailsDescription({ spot }) {
           </div>
         </div>
         <div className="details-description-extras">
-          <i class="fa-solid fa-calendar-days"></i>
+          <i className="fa-solid fa-calendar-days"></i>
           <div>
             <p>Free cancellation anytime.</p>
           </div>

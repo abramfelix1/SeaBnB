@@ -64,8 +64,9 @@ function ProfileButton({ user }) {
               <div className="profile-dropdown-logged-info">
                 <li>Hello, {user.username}</li>
                 <li>{user.email}</li>
-                <li class="profile-dropdown-content-break-line"></li>
-                <button onClick={logout}>Manage Listings</button>
+                <li className="profile-dropdown-content-break-line"></li>
+                <button onClick={logout}>Manage Spots</button>
+                <button onClick={logout}>Manage Reviews</button>
                 <button onClick={logout}>Log Out</button>
               </div>
             ) : (

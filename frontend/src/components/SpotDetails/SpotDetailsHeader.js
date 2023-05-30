@@ -22,7 +22,7 @@ export default function SpotDetailsHeader({ spot }) {
             <i className="fa-solid fa-arrow-up-from-bracket"></i> <p>Share</p>
           </button>
           <button>
-            <i class="fa-regular fa-heart"></i>
+            <i className="fa-regular fa-heart"></i>
             <p>Save</p>
           </button>
         </div>

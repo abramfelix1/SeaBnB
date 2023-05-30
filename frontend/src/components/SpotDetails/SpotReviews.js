@@ -1,6 +1,7 @@
+import ReviewsList from "./ReviewsList";
 import "./reviews.css";
 
-export default function SpotReviews({ spot }) {
+export default function SpotReviews({ spot, reviews }) {
   return (
     <div className="reviews-content-container">
       <div className="reviews-header-container">
@@ -13,20 +14,11 @@ export default function SpotReviews({ spot }) {
         </div>
         <button className="reviews-button">Post Your Review</button>
       </div>
-      <div className="reviews-list-container">
-        <div className="reviews-item-header-container">
-          <div className="reviews-item-header-left">
-            <i className="fa-solid fa-circle-user"></i>
-          </div>
-          <div className="reviews-item-header-right">
-            <p>NAME </p>
-            <p>Date</p>
-          </div>
-        </div>
-        <div className="reviews-review">
-          <p>REVIEW HERE</p>
-        </div>
-      </div>
+      {reviews.length > 0 ? (
+        reviews.map((review) => <ReviewsList review={review} />)
+      ) : (
+        <p>Be the first to post a review!</p>
+      )}
     </div>
   );
 }
