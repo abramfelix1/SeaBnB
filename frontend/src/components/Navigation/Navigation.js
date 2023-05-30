@@ -17,8 +17,12 @@ function Navigation({ isLoaded }) {
         </NavLink>
       </div>
       <div className="nav-right">
-        <button className="nav-create-button">Seabnb your home</button>
-        <img src={tree} alt="tree" />
+        <button className="nav-create-button">
+          <NavLink to="/spots/new">Create a New Spot</NavLink>
+        </button>
+        <button className="nav-right-img">
+          <img src={tree} alt="tree" />
+        </button>
         {isLoaded && <ProfileButton user={sessionUser} />}
       </div>
     </nav>

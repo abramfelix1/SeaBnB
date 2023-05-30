@@ -32,26 +32,41 @@
   justify-content: center;
 }
 
-.nav-right > button {
-  color: #222222;
-  left: -50px;
-}
-
 .nav-right img {
-  cursor: pointer;
-  position: absolute;
   width: 25px;
   height: 25px;
-  bottom: -10px;
-  right: 212px;
   /* top: 0px; */
 }
 
+.nav-right-img {
+  cursor: pointer;
+  position: absolute;
+  bottom: -25px;
+  right: 200px;
+  width: 55px;
+  height: 55px;
+  border-radius: 32px;
+}
+
+.nav-right-img:hover {
+  background-color: #f7f7f7;
+}
+
 .nav-create-button {
+  text-align: center;
+  color: #222222;
+  left: -30px;
+  width: 200px;
+  height: 55px;
+  border-radius: 32px;
   font-size: 18px;
   font-weight: bold;
   margin: 30px;
   align-self: center;
+}
+
+.nav-create-button:hover {
+  background-color: #f7f7f7;
 }
 
 .nav-button {
@@ -65,6 +80,10 @@
   border: 1px solid #ebebeb;
   border-radius: 30px;
   cursor: pointer;
+}
+
+.nav-button:hover {
+  box-shadow: 0px 3px 5px 1px #dbdbdb;
 }
 
 button {
