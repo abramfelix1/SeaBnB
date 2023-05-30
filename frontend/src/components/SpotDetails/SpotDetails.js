@@ -42,7 +42,7 @@ export default function SpotDetails() {
         <h1>AAAAAAAAAAAAAAAAAAA</h1>
       </div>
       <div className="details-reviews-container">
-        <SpotReviews />
+        <SpotReviews spot={spot} />
       </div>
     </div>
   );

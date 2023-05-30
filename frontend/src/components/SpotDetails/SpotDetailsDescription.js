@@ -32,7 +32,7 @@ export default function SpotDetailsDescription({ spot }) {
         </div>
       </div>
       <div className="details-description-description-container">
-        <div>{spot.description}</div>
+        <div>{spot.description} </div>
       </div>
     </div>
   );

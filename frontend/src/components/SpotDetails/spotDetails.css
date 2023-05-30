@@ -89,7 +89,7 @@ i {
 .details-description-container {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  margin: 30px 175px;
+  margin: 30px 175px 0px 175px;
 }
 
 .details-description-content-container {
@@ -154,5 +154,5 @@ i {
 
 .details-reviews-container {
   border-top: 1px solid #ebebeb;
-  margin: 30px 175px;
+  margin: 0 175px;
 }
