@@ -9,14 +9,14 @@ export default function CreateSpotForm() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const [country, setCountry] = useState("asdf");
-  const [address, setAddress] = useState("asdf");
-  const [city, setCity] = useState("asdf");
-  const [state, setState] = useState("as");
+  const [country, setCountry] = useState("");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
-  const [description, setDescription] = useState("asdf");
-  const [name, setName] = useState("asdf");
+  const [description, setDescription] = useState("");
+  const [name, setName] = useState("");
   const [price, setPrice] = useState(1);
   const [preview, setPreview] = useState({});
   const [images, setImages] = useState([]);
@@ -57,16 +57,15 @@ export default function CreateSpotForm() {
         for (const img of imageList) {
           console.log(img);
           try {
-            await dispatch(createImage(spotId, img));
+            let isError = await dispatch(createImage(spotId, img));
+            if (!isError) history.push(`/spots/${spotId}`);
           } catch (err) {
             const data = await err.json();
-            setErrors(data.errors);
+            setErrors((prevState) => ({ ...prevState, ...data.errors }));
           }
         }
       }
     };
-
-    if (Object.values(errors).length === 0) history.push(`/spots/${spotId}`);
     submit();
   };
 

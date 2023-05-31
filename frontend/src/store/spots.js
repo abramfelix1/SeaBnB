@@ -79,6 +79,8 @@ export const createImage = (id, payload) => async (dispatch) => {
   if (response.ok) {
     const image = await response.json();
     dispatch(addImage(id, image));
+  } else {
+    return true;
   }
 };
 
