@@ -1,20 +1,74 @@
 import { useState, useEffect } from "react";
-import { useDispatch, use } from "react-redux";
-
+import { useDispatch } from "react-redux";
+import { createSpot } from "../../store/spots";
+import { createImage } from "../../store/spots";
+import { useHistory } from "react-router-dom";
 import "./formPages.css";
 
 export default function CreateSpotForm() {
   const dispatch = useDispatch();
+  const history = useHistory();
 
-  const [country, setCountry] = useState("");
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("asdf");
+  const [address, setAddress] = useState("asdf");
+  const [city, setCity] = useState("asdf");
+  const [state, setState] = useState("as");
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
-  const [description, setDescription] = useState("");
-  const [name, setName] = useState("");
-  const [preview, setPreview] = useState(null);
+  const [description, setDescription] = useState("asdf");
+  const [name, setName] = useState("asdf");
+  const [price, setPrice] = useState(1);
+  const [preview, setPreview] = useState({});
   const [images, setImages] = useState([]);
+  const [errors, setErrors] = useState({});
+
+  const addImageHandler = (newImage) => {
+    setImages((prevImages) => [...prevImages, newImage]);
+  };
+
+  const submitHandler = (e) => {
+    const payload = {
+      country,
+      address,
+      city,
+      state,
+      latitude,
+      longitude,
+      description,
+      name,
+      price,
+    };
+
+    const imageList = [preview, ...images];
+
+    let spotId = null;
+
+    const submit = async () => {
+      e.preventDefault();
+
+      try {
+        spotId = await dispatch(createSpot(payload));
+      } catch (err) {
+        const data = await err.json();
+        setErrors(data.errors);
+      }
+
+      if (spotId) {
+        for (const img of imageList) {
+          console.log(img);
+          try {
+            await dispatch(createImage(spotId, img));
+          } catch (err) {
+            const data = await err.json();
+            setErrors(data.errors);
+          }
+        }
+      }
+    };
+
+    if (Object.values(errors).length === 0) history.push(`/spots/${spotId}`);
+    submit();
+  };
 
   return (
     <div className="create-spot-container">
@@ -24,7 +78,7 @@ export default function CreateSpotForm() {
         </div>
       </div>
       <div className="create-spot-form-container">
-        <form>
+        <form onSubmit={submitHandler}>
           <div className="section-container">
             <div className="section-header">
               <p>Where's your place located?</p>
@@ -86,7 +140,17 @@ export default function CreateSpotForm() {
                 makes your place special.
               </p>
             </div>
-            $ <input className="name" placeholder="Name of your spot" />
+            <input placeholder="Name of your spot" />
+          </div>
+          <div className="section-container">
+            <div className="section-header">
+              <p>Set a base price for your spot</p>
+              <p>
+                Competitive pricing can help your listing stand out and rank
+                higher in search results.
+              </p>
+            </div>
+            $ <input className="price" placeholder="Price per night (USD)" />
           </div>
           <div className="section-container">
             <div className="section-header">

@@ -85,11 +85,11 @@ const validateSpot = [
     .isAlpha("en-US", { ignore: " " })
     .withMessage("Please provide a valid state"),
   check("lat")
-    .exists({ checkFalsy: true })
+    .optional({ checkFalsy: true })
     .isDecimal()
     .withMessage("Please provide a valid lattitude"),
   check("lng")
-    .exists({ checkFalsy: true })
+    .optional({ checkFalsy: true })
     .isDecimal()
     .withMessage("Please provide a valid longitude"),
   check("name")
@@ -117,9 +117,9 @@ const validateImage = [
   check("url")
     .exists({ checkFalsy: true })
     .notEmpty()
-    .withMessage("Please provide a URL")
-    .isURL()
-    .withMessage("Please provide a valid URL"),
+    .withMessage("Please provide a URL"),
+  // .isURL()
+  // .withMessage("Please provide a valid URL"),
   check("preview")
     .optional({ checkFalsy: true })
     .isIn(["true", "false"])

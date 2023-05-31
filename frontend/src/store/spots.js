@@ -3,7 +3,9 @@ import { csrfFetch } from "./csrf";
 const initialState = {};
 
 const POPULATE = "spots/POPULATE";
-const DETAILS = "spots/DETAILS";
+const READ = "spots/READ";
+const ADD = "spots/ADD";
+const ADDIMG = "spots/ADDIMG";
 
 const populateSpots = (spots) => {
   return {
@@ -14,8 +16,23 @@ const populateSpots = (spots) => {
 
 const spotDetails = (spot) => {
   return {
-    type: DETAILS,
+    type: READ,
     spot,
+  };
+};
+
+const addSpot = (spot) => {
+  return {
+    type: ADD,
+    spot,
+  };
+};
+
+const addImage = (id, img) => {
+  return {
+    type: ADDIMG,
+    id,
+    img,
   };
 };
 
@@ -35,6 +52,36 @@ export const getSpotDetails = (id) => async (dispatch) => {
   }
 };
 
+export const createSpot = (payload) => async (dispatch) => {
+  const response = await csrfFetch("/api/spots", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+  if (response.ok) {
+    const spot = await response.json();
+    dispatch(addSpot(spot));
+    return spot.id;
+  }
+};
+
+export const createImage = (id, payload) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${id}/image`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (response.ok) {
+    const image = await response.json();
+    dispatch(addImage(id, image));
+  }
+};
+
 export default function spotsReducer(state = initialState, action) {
   const newState = { ...state };
   switch (action.type) {
@@ -43,8 +90,23 @@ export default function spotsReducer(state = initialState, action) {
         spots[spot.id] = spot;
         return spots;
       }, {});
-    case DETAILS:
+    case READ:
       return action.spot;
+    case ADD:
+      newState[action.spot.id] = action.spot;
+      return newState;
+    case ADDIMG:
+      console.log(newState.spots);
+      // if (!newState[action.id].SpotImages) {
+      //   newState[action.id].SpotImages = [action.img];
+      // }
+      // if (newState[action.id].SpotImages.length > 0) {
+      //   newState[action.id].SpotImages = [
+      //     ...newState[action.id].SpotImages,
+      //     action.img,
+      //   ];
+      // }
+      return newState;
     default:
       return state;
   }
