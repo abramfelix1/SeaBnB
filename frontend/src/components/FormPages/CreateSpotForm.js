@@ -1,6 +1,21 @@
+import { useState, useEffect } from "react";
+import { useDispatch, use } from "react-redux";
+
 import "./formPages.css";
 
 export default function CreateSpotForm() {
+  const dispatch = useDispatch();
+
+  const [country, setCountry] = useState("");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
+  const [description, setDescription] = useState("");
+  const [name, setName] = useState("");
+  const [preview, setPreview] = useState(null);
+  const [images, setImages] = useState([]);
+
   return (
     <div className="create-spot-container">
       <div className="create-spot-header-container">
@@ -79,10 +94,10 @@ export default function CreateSpotForm() {
               <p>Submit a link to at least one photo to publish your spot.</p>
             </div>
             <input className="image" placeholder="Preview Image URL" />
-            <input className="image" placeholder="Preview Image URL" />
-            <input className="image" placeholder="Preview Image URL" />
-            <input className="image" placeholder="Preview Image URL" />
-            <input className="image" placeholder="Preview Image URL" />
+            <input className="image" placeholder="Image URL" />
+            <input className="image" placeholder="Image URL" />
+            <input className="image" placeholder="Image URL" />
+            <input className="image" placeholder="Image URL" />
           </div>
           <div className="button-container">
             <button className="form-button">Create Spot</button>

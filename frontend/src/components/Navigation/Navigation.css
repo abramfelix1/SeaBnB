@@ -52,6 +52,12 @@
   background-color: #f7f7f7;
 }
 
+.nav-create-button-container {
+  position: absolute;
+  right: 190px;
+  top: -57px;
+}
+
 .nav-create-button {
   text-align: center;
   color: #222222;

@@ -18,8 +18,9 @@ function Navigation({ isLoaded }) {
       </div>
       <div className="nav-right">
         <button className="nav-create-button">
-          <NavLink to="/spots/new">Create a New Spot</NavLink>
+          <NavLink to="/spots/new">Create a Spot</NavLink>
         </button>
+
         <button className="nav-right-img">
           <img src={tree} alt="tree" />
         </button>
