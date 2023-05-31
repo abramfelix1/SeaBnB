@@ -1,0 +1,146 @@
+.create-spot-container {
+  color: #222222;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 125px;
+  padding-left: 80px;
+  padding-right: 80px;
+  margin-bottom: 45px;
+}
+
+.create-spot-header-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.create-spot-header h1 {
+  width: 520px;
+}
+
+.create-spot-form-container {
+  display: flex;
+  flex-direction: column;
+  width: 520px;
+}
+
+.create-spot-form-container form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.create-spot-form-container label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.create-spot-form-container input {
+  margin: 3px 0;
+  padding: 10px;
+  width: 520px;
+  height: 25px;
+  border: 2px solid #222222;
+}
+
+.section-container {
+  border-bottom: 1px solid #222222;
+  padding: 20px 0;
+}
+
+.section-header p:nth-child(1) {
+  font-size: 24px;
+  font-weight: bold;
+  padding-bottom: 10px;
+}
+
+.section-header {
+  padding-bottom: 10px;
+}
+
+.section-header p:nth-child(2) {
+  font-size: 18px;
+}
+
+.city-state {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.city-state p {
+  position: absolute;
+  font-size: 18px;
+  font-weight: bold;
+  right: 190px;
+  bottom: 10px;
+}
+
+.city input {
+  width: 315px;
+  margin-right: 25px;
+}
+
+.state input {
+  width: 175px;
+}
+
+.lat-lng {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.lat-lng p {
+  position: absolute;
+  font-size: 18px;
+  font-weight: bold;
+  right: 263px;
+  bottom: 10px;
+}
+
+.lat input {
+  width: 247.5px;
+  margin-right: 25px;
+}
+
+.lng input {
+  width: 247.5px;
+}
+
+.text-box {
+  width: 520px;
+  height: 120px;
+  resize: none;
+  border: 2px solid #222222;
+  padding: 10px;
+}
+
+.section-container .name {
+  height: 20px;
+  width: 508px;
+}
+
+.section-container .image {
+  margin-bottom: 20px;
+}
+
+.button-container {
+  margin-top: 40px;
+}
+
+.form-button {
+  color: white;
+  width: 200px;
+  background-color: #53bceb;
+  border-radius: 12px;
+  height: 45px;
+  margin-bottom: 40px;
+  font-size: 18px;
+}

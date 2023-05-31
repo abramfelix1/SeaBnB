@@ -9,6 +9,7 @@
   border-radius: 12px;
   height: 45px;
   margin-bottom: 40px;
+  font-size: 18px;
 }
 
 .form-header {
@@ -84,7 +85,6 @@
   position: relative;
   align-items: center;
   padding: 10px;
-  outline: none !important;
   width: 100%;
   height: 50px;
 }
