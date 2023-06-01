@@ -87,11 +87,11 @@ const validateSpot = [
   check("lat")
     .optional({ checkFalsy: true })
     .isDecimal()
-    .withMessage("Please provide a valid lattitude"),
+    .withMessage("Please provide a valid lat"),
   check("lng")
     .optional({ checkFalsy: true })
     .isDecimal()
-    .withMessage("Please provide a valid longitude"),
+    .withMessage("Please provide a valid lng"),
   check("name")
     .exists({ checkFalsy: true })
     .notEmpty()
@@ -115,15 +115,19 @@ const validateSpot = [
 
 const validateImage = [
   check("url")
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .withMessage("Please provide a URL"),
-  // .isURL()
-  // .withMessage("Please provide a valid URL"),
-  check("preview")
-    .optional({ checkFalsy: true })
-    .isIn(["true", "false"])
-    .withMessage("Please provide true or false"),
+    .isURL()
+    .withMessage("AAAAAAAAAA")
+    .custom((value) => {
+      if (!value) {
+        throw new Error("Please provide a valid URL");
+      }
+      if (!/\.(png|jpe?g)$/.test(value)) {
+        console.log("AAA " + value);
+        throw new Error("URL must end with a .png, .jpg, or .jpeg");
+      }
+      return true;
+    }),
+  check("preview").optional({ checkFalsy: true }),
   handleValidationErrors,
 ];
 

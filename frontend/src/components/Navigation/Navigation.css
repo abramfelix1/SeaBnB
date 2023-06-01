@@ -59,6 +59,7 @@
 }
 
 .nav-create-button {
+  position: relative;
   text-align: center;
   color: #222222;
   left: -30px;
@@ -73,6 +74,17 @@
 
 .nav-create-button:hover {
   background-color: #f7f7f7;
+}
+
+.nav-create-link {
+  position: absolute;
+  top: 17.5px;
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+  text-align: center;
 }
 
 .nav-button {

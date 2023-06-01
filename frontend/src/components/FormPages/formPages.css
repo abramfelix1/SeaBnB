@@ -72,21 +72,21 @@
   justify-content: space-between;
 }
 
-.city-state p {
+.city-state .comma {
   position: absolute;
   font-size: 18px;
   font-weight: bold;
-  right: 195px;
+  right: 210px;
   bottom: 10px;
 }
 
 .city input {
-  width: 315px;
+  width: 300px;
   margin-right: 25px;
 }
 
 .state input {
-  width: 175px;
+  width: 195px;
 }
 
 .lat-lng {
@@ -96,7 +96,7 @@
   justify-content: space-between;
 }
 
-.lat-lng p {
+.lat-lng .comma {
   position: absolute;
   font-size: 18px;
   font-weight: bold;
@@ -119,6 +119,10 @@
   resize: none;
   border: 2px solid #222222;
   padding: 10px;
+}
+
+.no-label-inputs {
+  margin-bottom: 10px;
 }
 
 .section-container .price {
