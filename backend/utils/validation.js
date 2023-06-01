@@ -119,11 +119,11 @@ const validateImage = [
     .withMessage("AAAAAAAAAA")
     .custom((value) => {
       if (!value) {
-        throw new Error("Please provide a valid URL");
+        throw new Error("Please provide at least one valid URL");
       }
       if (!/\.(png|jpe?g)$/.test(value)) {
         console.log("AAA " + value);
-        throw new Error("URL must end with a .png, .jpg, or .jpeg");
+        throw new Error("URLs must end with a .png, .jpg, or .jpeg");
       }
       return true;
     }),

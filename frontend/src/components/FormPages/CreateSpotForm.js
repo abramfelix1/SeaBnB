@@ -18,92 +18,89 @@ export default function CreateSpotForm() {
   const [description, setDescription] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
-  const [preview, setPreview] = useState({});
+  const [preview, setPreview] = useState({ url: null, preview: true });
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
   const [image3, setImage3] = useState(null);
   const [image4, setImage4] = useState(null);
   const [errors, setErrors] = useState({});
 
-  const validateURL = (url, name) => {
-    if (
-      !url.includes(".png") ||
-      !url.includes(".jpg") ||
-      !url.includes(".jpeg")
-    ) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        [name]: "URL must end with a .png, .jpg, or .jpeg",
-      }));
-    } else {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        [name]: undefined,
-      }));
-    }
+  // const validateURL = (url, name) => {
+  //   if (!/\.(png|jpe?g)$/.test(url)) {
+  //     setErrors((prevErrors) => ({
+  //       ...prevErrors,
+  //       [name]: "URL must end with a .png, .jpg, or .jpeg",
+  //     }));
+  //   }
+  // };
+
+  const resetError = (prevState, name) => {
+    const newState = { ...prevState };
+    delete newState[name];
+    return newState;
   };
 
   const inputHandler = (e) => {
     if (e.target.name === "country") {
-      setErrors((prevState) => ({ ...prevState, country: undefined }));
+      setErrors((prevState) => resetError(prevState, e.target.name));
       setCountry(e.target.value);
     }
     if (e.target.name === "city") {
-      setErrors((prevState) => ({ ...prevState, city: undefined }));
+      setErrors((prevState) => resetError(prevState, e.target.name));
       setCity(e.target.value);
     }
     if (e.target.name === "address") {
-      setErrors((prevState) => ({ ...prevState, address: undefined }));
+      setErrors((prevState) => resetError(prevState, e.target.name));
       setAddress(e.target.value);
     }
     if (e.target.name === "state") {
-      setErrors((prevState) => ({ ...prevState, state: undefined }));
+      setErrors((prevState) => resetError(prevState, e.target.name));
       setState(e.target.value);
     }
     if (e.target.name === "latitude") {
-      setErrors((prevState) => ({ ...prevState, lat: undefined }));
+      setErrors((prevState) => resetError(prevState, e.target.name));
       setLatitude(e.target.value);
     }
     if (e.target.name === "longitude") {
-      setErrors((prevState) => ({ ...prevState, lng: undefined }));
+      setErrors((prevState) => resetError(prevState, e.target.name));
       setLongitude(e.target.value);
     }
     if (e.target.name === "description") {
-      setErrors((prevState) => ({ ...prevState, description: undefined }));
+      setErrors((prevState) => resetError(prevState, e.target.name));
       setDescription(e.target.value);
     }
     if (e.target.name === "name") {
-      setErrors((prevState) => ({ ...prevState, name: undefined }));
+      setErrors((prevState) => resetError(prevState, e.target.name));
       setName(e.target.value);
     }
     if (e.target.name === "price") {
-      setErrors((prevState) => ({ ...prevState, price: undefined }));
+      setErrors((prevState) => resetError(prevState, e.target.name));
       setPrice(e.target.value);
     }
     if (e.target.name === "preview") {
-      setErrors((prevState) => ({ ...prevState, preview: undefined }));
+      setErrors((prevState) => resetError(prevState, "url"));
       setPreview({ url: e.target.value, preview: true });
     }
     if (e.target.name === "image1") {
-      validateURL(e.target.value, e.target.name);
-      setErrors((prevState) => ({ ...prevState, image1: undefined }));
+      // validateURL(e.target.value, e.target.name);
+      setErrors((prevState) => resetError(prevState, e.target.name));
       setImage1({ url: e.target.value, preview: false });
-      validateURL(e.target.value, e.target.name);
+      // validateURL(e.target.value, e.target.name);
     }
     if (e.target.name === "image2") {
-      setErrors((prevState) => ({ ...prevState, image2: undefined }));
+      setErrors((prevState) => resetError(prevState, e.target.name));
       setImage2({ url: e.target.value, preview: false });
-      validateURL(e.target.value, e.target.name);
+      // validateURL(e.target.value, e.target.name);
     }
     if (e.target.name === "image3") {
-      setErrors((prevState) => ({ ...prevState, image3: undefined }));
+      setErrors((prevState) => resetError(prevState, e.target.name));
       setImage3({ url: e.target.value, preview: false });
-      validateURL(e.target.value, e.target.name);
+      // validateURL(e.target.value, e.target.name);
     }
     if (e.target.name === "image4") {
-      setErrors((prevState) => ({ ...prevState, image4: undefined }));
+      setErrors((prevState) => resetError(prevState, e.target.name));
       setImage4({ url: e.target.value, preview: false });
-      validateURL(e.target.value, e.target.name);
+      // validateURL(e.target.value, e.target.name);
     }
   };
 
@@ -120,13 +117,31 @@ export default function CreateSpotForm() {
       price,
     };
 
-    const imageList = [preview, image1, image2, image3, image4];
+    const filteredImages = [image1, image2, image3, image4].filter(
+      (el) => el !== null && el.url !== ""
+    );
+
+    const imageList = [preview, ...filteredImages];
+
+    console.log(imageList);
 
     let spotId = null;
-    let isError = null;
 
     const submit = async () => {
       e.preventDefault();
+
+      // if (image1.length) validateURL(image1, "image1");
+      // if (image1.length) validateURL(image2, "image2");
+      // if (image1.length) validateURL(image3, "image3");
+      // if (image1.length) validateURL(image4, "image4");
+      // console.log(image1,image2,image3,image4)
+
+      if (preview.url === null || preview.url === "") {
+        setErrors((prevState) => ({
+          ...prevState,
+          preview: "Please provide a preview image",
+        }));
+      }
 
       try {
         spotId = await dispatch(createSpot(payload));
@@ -138,18 +153,17 @@ export default function CreateSpotForm() {
       if (spotId) {
         try {
           for (const img of imageList) {
-            if (img) {
-              console.log(spotId, img);
-              isError = await dispatch(createImage(spotId, img));
-            }
+            await dispatch(createImage(spotId, img));
           }
+          history.push(`/spots/${spotId}`);
         } catch (err) {
-          const data = await err.json();
-          setErrors((prevState) => ({ ...prevState, ...data.errors }));
+          const error = await err.json();
+          setErrors((prevState) => ({ ...prevState, ...error.errors }));
+          if (Object.values(errors).length > 0) {
+            dispatch(deleteSpot(spotId));
+          }
         }
       }
-      if(isError) await dispatch(deleteSpot(spotId))
-      if (!isError) history.push(`/spots/${spotId}`);
     };
     submit();
   };
@@ -325,34 +339,45 @@ export default function CreateSpotForm() {
               placeholder="Preview Image URL"
               onChange={inputHandler}
             />
+            {errors.image1 && (
+              <span className="form-errors">{errors.image1}</span>
+            )}
             <input
               name="image1"
               className="image"
-              placeholder="Image URL"
+              placeholder="Image URL (Optional)"
               onChange={inputHandler}
             />
-            {errors.url1 && <span className="form-errors">{errors.url1}</span>}
+
+            {errors.image2 && (
+              <span className="form-errors">{errors.image2}</span>
+            )}
             <input
               name="image2"
               className="image"
-              placeholder="Image URL"
+              placeholder="Image URL (Optional)"
               onChange={inputHandler}
             />
-            {errors.url2 && <span className="form-errors">{errors.url1}</span>}
+
+            {errors.image3 && (
+              <span className="form-errors">{errors.image3}</span>
+            )}
             <input
               name="image3"
               className="image"
-              placeholder="Image URL"
+              placeholder="Image URL (Optional)"
               onChange={inputHandler}
             />
-            {errors.url3 && <span className="form-errors">{errors.url1}</span>}
+
+            {errors.image4 && (
+              <span className="form-errors">{errors.image4}</span>
+            )}
             <input
               name="image4"
               className="image"
-              placeholder="Image URL"
+              placeholder="Image URL (Optional)"
               onChange={inputHandler}
             />
-            {errors.url4 && <span className="form-errors">{errors.url1}</span>}
           </div>
           <div className="button-container">
             <button className="form-button">Create Spot</button>
