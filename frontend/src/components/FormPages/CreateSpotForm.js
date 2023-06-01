@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createSpot, deleteSpot } from "../../store/spots";
 import { createImage } from "../../store/spots";
@@ -25,15 +25,6 @@ export default function CreateSpotForm() {
   const [image4, setImage4] = useState(null);
   const [errors, setErrors] = useState({});
 
-  // const validateURL = (url, name) => {
-  //   if (!/\.(png|jpe?g)$/.test(url)) {
-  //     setErrors((prevErrors) => ({
-  //       ...prevErrors,
-  //       [name]: "URL must end with a .png, .jpg, or .jpeg",
-  //     }));
-  //   }
-  // };
-
   const resetError = (prevState, name) => {
     const newState = { ...prevState };
     delete newState[name];
@@ -58,11 +49,11 @@ export default function CreateSpotForm() {
       setState(e.target.value);
     }
     if (e.target.name === "latitude") {
-      setErrors((prevState) => resetError(prevState, e.target.name));
+      setErrors((prevState) => resetError(prevState, "lat"));
       setLatitude(e.target.value);
     }
     if (e.target.name === "longitude") {
-      setErrors((prevState) => resetError(prevState, e.target.name));
+      setErrors((prevState) => resetError(prevState, "lng"));
       setLongitude(e.target.value);
     }
     if (e.target.name === "description") {
@@ -82,25 +73,20 @@ export default function CreateSpotForm() {
       setPreview({ url: e.target.value, preview: true });
     }
     if (e.target.name === "image1") {
-      // validateURL(e.target.value, e.target.name);
       setErrors((prevState) => resetError(prevState, e.target.name));
       setImage1({ url: e.target.value, preview: false });
-      // validateURL(e.target.value, e.target.name);
     }
     if (e.target.name === "image2") {
       setErrors((prevState) => resetError(prevState, e.target.name));
       setImage2({ url: e.target.value, preview: false });
-      // validateURL(e.target.value, e.target.name);
     }
     if (e.target.name === "image3") {
       setErrors((prevState) => resetError(prevState, e.target.name));
       setImage3({ url: e.target.value, preview: false });
-      // validateURL(e.target.value, e.target.name);
     }
     if (e.target.name === "image4") {
       setErrors((prevState) => resetError(prevState, e.target.name));
       setImage4({ url: e.target.value, preview: false });
-      // validateURL(e.target.value, e.target.name);
     }
   };
 
@@ -113,7 +99,6 @@ export default function CreateSpotForm() {
       latitude,
       longitude,
       description,
-      name,
       price,
     };
 
@@ -123,25 +108,10 @@ export default function CreateSpotForm() {
 
     const imageList = [preview, ...filteredImages];
 
-    console.log(imageList);
-
     let spotId = null;
 
     const submit = async () => {
       e.preventDefault();
-
-      // if (image1.length) validateURL(image1, "image1");
-      // if (image1.length) validateURL(image2, "image2");
-      // if (image1.length) validateURL(image3, "image3");
-      // if (image1.length) validateURL(image4, "image4");
-      // console.log(image1,image2,image3,image4)
-
-      if (preview.url === null || preview.url === "") {
-        setErrors((prevState) => ({
-          ...prevState,
-          preview: "Please provide a preview image",
-        }));
-      }
 
       try {
         spotId = await dispatch(createSpot(payload));
@@ -339,45 +309,15 @@ export default function CreateSpotForm() {
               placeholder="Preview Image URL"
               onChange={inputHandler}
             />
-            {errors.image1 && (
-              <span className="form-errors">{errors.image1}</span>
-            )}
-            <input
-              name="image1"
-              className="image"
-              placeholder="Image URL (Optional)"
-              onChange={inputHandler}
-            />
-
-            {errors.image2 && (
-              <span className="form-errors">{errors.image2}</span>
-            )}
-            <input
-              name="image2"
-              className="image"
-              placeholder="Image URL (Optional)"
-              onChange={inputHandler}
-            />
-
-            {errors.image3 && (
-              <span className="form-errors">{errors.image3}</span>
-            )}
-            <input
-              name="image3"
-              className="image"
-              placeholder="Image URL (Optional)"
-              onChange={inputHandler}
-            />
-
-            {errors.image4 && (
-              <span className="form-errors">{errors.image4}</span>
-            )}
-            <input
-              name="image4"
-              className="image"
-              placeholder="Image URL (Optional)"
-              onChange={inputHandler}
-            />
+            {new Array(4).fill(null).map((el, i) => (
+              <input
+                key={i + "create-spot"}
+                name={`image${i + 1}`}
+                className="image"
+                placeholder="Image URL (Optional)"
+                onChange={inputHandler}
+              />
+            ))}
           </div>
           <div className="button-container">
             <button className="form-button">Create Spot</button>
