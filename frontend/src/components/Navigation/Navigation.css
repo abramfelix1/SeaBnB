@@ -184,6 +184,12 @@ button {
   background-color: #f7f7f7;
 }
 
+.drop-down-nav-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 @media (min-width: 1745px) and (max-width: 1919px) {
   .nav-container {
     height: 110px;

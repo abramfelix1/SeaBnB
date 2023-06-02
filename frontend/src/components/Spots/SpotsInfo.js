@@ -10,7 +10,7 @@ export default function SpotInfo({ spot }) {
         </span>
       </div>
       <div className="spot-distance">
-        <p>Somewhere +/- ~100000 mi away</p>
+        <p>Somewhere +/- ~24,902 mi away</p>
         <p>Any Day</p>
       </div>
       <div className="spot-price">

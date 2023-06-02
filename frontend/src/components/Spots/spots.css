@@ -79,6 +79,26 @@
   font-weight: 300;
 }
 
+.current-buttons-container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+}
+
+.current-buttons-container button {
+  margin-right: 10px;
+  width: 100px;
+  height: 35px;
+  background-color: #53bceb;
+  border-radius: 12px;
+  color: white;
+  font-size: 18px;
+}
+
+.current-buttons-container button:nth-child(2) {
+  background-color: red;
+}
+
 @media (min-width: 1920px) {
   .spot-list {
     grid-template-columns: repeat(4, minmax(0, 1fr));

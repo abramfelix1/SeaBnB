@@ -84,6 +84,14 @@ export const deleteSpot = (id) => async (dispatch) => {
   }
 };
 
+export const getCurrentSpots = () => async (dispatch) => {
+  const response = await csrfFetch("/api/spots/current");
+  if (response.ok) {
+    const spots = await response.json();
+    dispatch(populateSpots(spots));
+  }
+};
+
 export const createImage = (id, payload) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${id}/image`, {
     method: "POST",
