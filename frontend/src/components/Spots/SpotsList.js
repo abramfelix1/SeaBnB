@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getSpots, getCurrentSpots } from "../../store/spots";
+import { getSpots, getCurrentSpots, deleteSpot } from "../../store/spots";
 import { NavLink } from "react-router-dom/";
 import SpotsCard from "./SpotsCard";
 import "./spots.css";
@@ -43,7 +43,15 @@ export default function SpotsList({ userId }) {
               {userId && (
                 <div className="current-buttons-container">
                   <button onClick={(e) => e.stopPropagation()}>Update</button>
-                  <button onClick={(e) => e.stopPropagation()}>Delete</button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      dispatch(deleteSpot(spot.id));
+                      console.log("A");
+                    }}
+                  >
+                    Delete
+                  </button>
                 </div>
               )}
             </div>

@@ -121,6 +121,7 @@ export default function spotsReducer(state = initialState, action) {
       newState[action.spot.id] = action.spot;
       return newState;
     case DELETE:
+      console.log("B");
       delete newState[action.id];
       return newState;
     case ADDIMG:
