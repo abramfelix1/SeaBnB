@@ -43,7 +43,7 @@ export default function LoginForm({ closeModal }) {
   };
 
   return (
-    <div className="form-signup-container">
+    <div className="form-container cred">
       <div className="form-header">
         <i
           className="fa-solid fa-x"

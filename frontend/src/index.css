@@ -15,6 +15,11 @@ a {
   margin: 0;
 }
 
+textarea:focus,
+input:focus {
+  outline: none;
+}
+
 .spot-loader {
   display: flex;
   justify-content: center;

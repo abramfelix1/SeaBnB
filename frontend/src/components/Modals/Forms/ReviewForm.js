@@ -5,7 +5,7 @@ import "./form.css";
 export default function ReviewForm({ closeModal }) {
   const dispatch = useDispatch;
   const [review, setReview] = useState(null);
-  const [filled, setFilled] = useState(false);
+  const [filled, setFilled] = useState(-1);
   const [errors, setErrors] = useState({});
 
   const inputHandler = (e) => {
@@ -26,7 +26,7 @@ export default function ReviewForm({ closeModal }) {
   };
 
   return (
-    <div className="form-review-container">
+    <div className="form-container">
       <div className="form-header">
         <i
           className="fa-solid fa-x"
@@ -59,6 +59,9 @@ export default function ReviewForm({ closeModal }) {
           ))}
           <p>Stars</p>
         </div>
+        <button className="form-button" type="submit">
+          Submit Your Review
+        </button>
       </form>
     </div>
   );
