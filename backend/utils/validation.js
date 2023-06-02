@@ -149,7 +149,7 @@ const validateReview = [
     .isNumeric()
     .withMessage("Please give a valid rating")
     .isInt({ min: 0, max: 5 })
-    .withMessage("Please rate 0-5"),
+    .withMessage("Please provide a rating"),
   handleValidationErrors,
 ];
 

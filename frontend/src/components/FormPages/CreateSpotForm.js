@@ -103,12 +103,11 @@ export default function CreateSpotForm() {
       description,
       price,
     };
-    console.log(typeof longitude);
+
     const filteredImages = [image1, image2, image3, image4].filter(
       (el) => el !== null && el.url !== ""
     );
     const imageList = [preview, ...filteredImages];
-    console.log(+latitude);
 
     const submit = async () => {
       e.preventDefault();
@@ -133,6 +132,7 @@ export default function CreateSpotForm() {
       }
     };
     submit();
+    window.scrollTo(0, 0);
   };
 
   return (

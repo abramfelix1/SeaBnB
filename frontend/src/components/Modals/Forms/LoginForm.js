@@ -15,19 +15,6 @@ export default function LoginForm({ closeModal }) {
 
   if (sessionUser) return <Redirect to="/" />;
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   setErrors({});
-  //   dispatch(sessionActions.login({ credential, password })).catch(
-  //     async (res) => {
-  //       const data = await res.json();
-  //       if (data && data.errors) {
-  //         setErrors(data.errors);
-  //       }
-  //     }
-  //   );
-  // };
-
   const submitHandler = async (e) => {
     e.preventDefault();
     setErrors({});

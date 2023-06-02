@@ -157,11 +157,11 @@ router.post("/:id/reviews", requireAuth, validateReview, async (req, res, next) 
     const attributes = {userId: user.dataValues.id, ...req.body}
 
     if (!spot) {
-      return next({ message: "Spot couldn't be found", status: 404 });
+      return next({ errors: {review:"Spot couldn't be found"}, status: 404 });
     }
 
     if(spot.ownerId === user.dataValues.id){
-      return next({message: "Cannot review owned spots", status:400})
+      return next({errors: {review: "Cannot review owned spots"}, status:400})
     }
 
     const booking = await Booking.findOne({
@@ -172,12 +172,12 @@ router.post("/:id/reviews", requireAuth, validateReview, async (req, res, next) 
     });
 
     if (!booking) {
-      return next({ message: "User hasn't booked this spot", status: 403 });
+      return next({ errors: {review:"User hasn't booked this spot"}, status: 403 });
     }
 
     if (booking.reviewId) {
         return next({
-          message: "Review already exists, please edit or delete",
+          errors: {review:"Review already exists, please edit or delete"},
           status: 409,
         });
       }

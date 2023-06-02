@@ -1,28 +1,70 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { createReview } from "../../../store/reviews";
 import "./form.css";
+import { useParams } from "react-router-dom/";
 
 export default function ReviewForm({ closeModal }) {
-  const dispatch = useDispatch;
+  const dispatch = useDispatch();
+  const { id } = useParams();
   const [review, setReview] = useState(null);
+  const [rating, setRatings] = useState(-1);
   const [filled, setFilled] = useState(-1);
   const [errors, setErrors] = useState({});
-
-  const inputHandler = (e) => {
-    if (e.target.name === "review") setReview(e.target.value);
-  };
 
   const handleMouseEnter = (index) => {
     setFilled(index);
   };
 
-  const handleMouseLeave = () => {
-    setFilled(-1);
+  const handleMouseLeave = (index) => {
+    setFilled(rating);
+  };
+
+  useEffect(() => {
+    setFilled(rating);
+  }, [rating]);
+
+  const inputHandler = (e) => {
+    if (e.target.name === "review") setReview(e.target.value);
+    if (e.target.name === "star0") {
+      setRatings(1);
+      setFilled(rating);
+    }
+    if (e.target.name === "star1") {
+      setRatings(2);
+      setFilled(rating);
+    }
+    if (e.target.name === "star2") {
+      setRatings(3);
+      setFilled(rating);
+    }
+    if (e.target.name === "star3") {
+      setRatings(4);
+      setFilled(rating);
+    }
+    if (e.target.name === "star4") {
+      setRatings(5);
+      setFilled(rating);
+    }
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    closeModal(false);
+    const payload = {
+      review,
+      stars: rating,
+    };
+    console.log(id);
+    const submit = async () => {
+      e.preventDefault();
+      try {
+        await dispatch(createReview(id, payload));
+        closeModal(false);
+      } catch (err) {
+        const data = await err.json();
+        setErrors(data.errors);
+      }
+    };
+    submit();
   };
 
   return (
@@ -35,12 +77,13 @@ export default function ReviewForm({ closeModal }) {
           }}
         ></i>
         <h1>How was your stay?</h1>
-        {errors.credential && (
-          <div className="form-errors">
-            <p>{errors.credential}</p>
-          </div>
-        )}
       </div>
+      {Object.values(errors).length > 0 && (
+        <div className="form-errors">
+          {errors.review && <p>{errors.review}</p>}
+          {errors.stars && <p>{errors.stars}</p>}
+        </div>
+      )}
       <form onSubmit={handleSubmit}>
         <textarea
           name="review"
@@ -49,13 +92,21 @@ export default function ReviewForm({ closeModal }) {
         />
         <div className="review-rating-container">
           {new Array(5).fill(null).map((el, i) => (
-            <i
-              key={"rating" + i}
-              name={`star${i}`}
-              className={`fa-solid fa-star ${i <= filled ? "fill" : ""}`}
+            <label
               onMouseEnter={() => handleMouseEnter(i)}
               onMouseLeave={handleMouseLeave}
-            />
+            >
+              <input
+                name={"star" + i}
+                type="checkbox"
+                class="hidden"
+                onClick={inputHandler}
+              />
+              <i
+                key={"star" + i + 1}
+                className={`fa-solid fa-star ${i <= filled ? "fill" : ""}`}
+              />
+            </label>
           ))}
           <p>Stars</p>
         </div>
