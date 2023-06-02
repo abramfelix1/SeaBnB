@@ -150,6 +150,14 @@ i {
 .details-description-description-container {
   font-size: 18px;
   margin: 45px 0;
+  max-width: 825px;
+  max-height: 825px;
+}
+
+.details-description-description-container .description {
+  font-size: 18px;
+  margin: 45px 0;
+  overflow-wrap: break-word;
 }
 
 .details-reviews-container {
