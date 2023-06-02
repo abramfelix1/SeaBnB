@@ -28,7 +28,7 @@ export default function LoginForm({ closeModal }) {
   //   );
   // };
 
-  const handleSubmit = async (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     setErrors({});
     try {
@@ -58,7 +58,7 @@ export default function LoginForm({ closeModal }) {
           <p>{errors.credential}</p>
         </div>
       )}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={submitHandler}>
         <input
           placeholder="Username or Email"
           type="text"
