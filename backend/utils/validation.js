@@ -85,11 +85,15 @@ const validateSpot = [
     .isAlpha("en-US", { ignore: " " })
     .withMessage("Please provide a valid state"),
   check("lat")
-    .optional({ checkFalsy: true })
+    .optional()
+    .if((value, { req }) => req.body.lat !== "" && req.body.lat !== null)
+    .notEmpty()
     .isDecimal()
     .withMessage("Please provide a valid lat"),
   check("lng")
-    .optional({ checkFalsy: true })
+    .optional()
+    .if((value, { req }) => req.body.lng !== "" && req.body.lng !== null)
+    .notEmpty()
     .isDecimal()
     .withMessage("Please provide a valid lng"),
   check("name")

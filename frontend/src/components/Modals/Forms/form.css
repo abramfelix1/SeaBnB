@@ -98,3 +98,30 @@
   background-color: white;
   border-radius: 12px;
 }
+
+.form-review-container textarea {
+  resize: none;
+  width: 300px;
+  height: 150px;
+  padding: 10px;
+}
+
+.review-rating-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.review-rating-container p {
+  padding-left: 5px;
+  font-size: 18px;
+}
+
+.review-rating-container i {
+  font-weight: 100;
+  font-size: 18px;
+}
+
+.review-rating-container .fill {
+  font-weight: 600;
+}

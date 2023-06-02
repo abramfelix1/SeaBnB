@@ -5,7 +5,20 @@ import "./form.css";
 export default function ReviewForm({ closeModal }) {
   const dispatch = useDispatch;
   const [review, setReview] = useState(null);
+  const [filled, setFilled] = useState(false);
   const [errors, setErrors] = useState({});
+
+  const inputHandler = (e) => {
+    if (e.target.name === "review") setReview(e.target.value);
+  };
+
+  const handleMouseEnter = (index) => {
+    setFilled(index);
+  };
+
+  const handleMouseLeave = () => {
+    setFilled(-1);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -27,14 +40,26 @@ export default function ReviewForm({ closeModal }) {
             <p>{errors.credential}</p>
           </div>
         )}
-        <form
-          name="description"
-          onSubmit={handleSubmit}
-          onChange={inputHandler}
-        >
-          <textarea />
-        </form>
       </div>
+      <form onSubmit={handleSubmit}>
+        <textarea
+          name="review"
+          placeholder="Leave a review"
+          onChange={inputHandler}
+        />
+        <div className="review-rating-container">
+          {new Array(5).fill(null).map((el, i) => (
+            <i
+              key={"rating" + i}
+              name={`star${i}`}
+              className={`fa-solid fa-star ${i <= filled ? "fill" : ""}`}
+              onMouseEnter={() => handleMouseEnter(i)}
+              onMouseLeave={handleMouseLeave}
+            />
+          ))}
+          <p>Stars</p>
+        </div>
+      </form>
     </div>
   );
 }

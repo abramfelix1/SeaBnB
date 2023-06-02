@@ -24,7 +24,6 @@ export default function CreateSpotForm() {
   const [image3, setImage3] = useState(null);
   const [image4, setImage4] = useState(null);
   const [errors, setErrors] = useState({});
-  const [errors2, setErrors2] = useState({});
 
   const resetError = (prevState, name) => {
     const newState = { ...prevState };
@@ -99,44 +98,17 @@ export default function CreateSpotForm() {
       city,
       state,
       name,
-      latitude,
-      longitude,
+      lat: latitude,
+      lng: longitude,
       description,
       price,
     };
-
+    console.log(typeof longitude);
     const filteredImages = [image1, image2, image3, image4].filter(
       (el) => el !== null && el.url !== ""
     );
     const imageList = [preview, ...filteredImages];
-
-    if (typeof latitude !== "number") {
-      setErrors2((prevState) => ({
-        ...prevState,
-        lat: "Please provide a valid lat",
-      }));
-    } else {
-      setErrors2((prevState) => {
-        const newState = { ...prevState };
-        delete newState["lat"];
-        return newState;
-      });
-    }
-
-    if (typeof longitude !== "number") {
-      setErrors2((prevState) => ({
-        ...prevState,
-        lng: "Please provide a valid lng",
-      }));
-    } else {
-      setErrors2((prevState) => {
-        const newState = { ...prevState };
-        delete newState["lng"];
-        return newState;
-      });
-    }
-
-    console.log(errors2);
+    console.log(+latitude);
 
     const submit = async () => {
       e.preventDefault();
@@ -147,7 +119,6 @@ export default function CreateSpotForm() {
         const data = await err.json();
         setErrors(data.errors);
       }
-
       if (spotId) {
         try {
           for (const img of imageList) {
@@ -235,10 +206,10 @@ export default function CreateSpotForm() {
             </div>
             <div className="lat-lng">
               <label className="lat">
-                {!errors2.lat && <p>Latitude (Optional)</p>}{" "}
-                {errors2.lat && (
+                {!errors.lat && <p>Latitude (Optional)</p>}{" "}
+                {errors.lat && (
                   <p>
-                    Latitude <span className="form-errors">{errors2.lat}</span>
+                    Latitude <span className="form-errors">{errors.lat}</span>
                   </p>
                 )}{" "}
                 <input
@@ -249,10 +220,10 @@ export default function CreateSpotForm() {
               </label>
               <p className="comma">,</p>
               <label className="lng">
-                {!errors2.lng && <p>Longitude (Optional)</p>}{" "}
-                {errors2.lng && (
+                {!errors.lng && <p>Longitude (Optional)</p>}{" "}
+                {errors.lng && (
                   <p>
-                    Longitude <span className="form-errors">{errors2.lng}</span>
+                    Longitude <span className="form-errors">{errors.lng}</span>
                   </p>
                 )}{" "}
                 <input
