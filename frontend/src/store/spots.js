@@ -7,6 +7,7 @@ const READ = "spots/READ";
 const ADD = "spots/ADD";
 const DELETE = "spots/DELETE";
 const ADDIMG = "spots/ADDIMG";
+const UPDATE = "spots/UPDATE";
 
 const populateSpots = (spots) => {
   return {
@@ -41,6 +42,13 @@ const removeSpot = (id) => {
   return {
     type: DELETE,
     id,
+  };
+};
+
+const updateSpot = (spot) => {
+  return {
+    type: UPDATE,
+    spot,
   };
 };
 
@@ -107,6 +115,22 @@ export const createImage = (id, payload) => async (dispatch) => {
   }
 };
 
+export const editSpot = (id, payload) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (response.ok) {
+    const spot = await response.json();
+    dispatch(updateSpot(spot));
+    return spot.id;
+  }
+};
+
 export default function spotsReducer(state = initialState, action) {
   const newState = { ...state };
   switch (action.type) {
@@ -121,8 +145,10 @@ export default function spotsReducer(state = initialState, action) {
       newState[action.spot.id] = action.spot;
       return newState;
     case DELETE:
-      console.log("B");
       delete newState[action.id];
+      return newState;
+    case UPDATE:
+      newState[action.spot.id] = action.spot;
       return newState;
     case ADDIMG:
       newState[action.id].SpotImages = [action.img];

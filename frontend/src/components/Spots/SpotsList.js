@@ -42,7 +42,9 @@ export default function SpotsList({ userId }) {
               </NavLink>
               {userId && (
                 <div className="current-buttons-container">
-                  <button onClick={(e) => e.stopPropagation()}>Update</button>
+                  <button onClick={(e) => e.stopPropagation()}>
+                    <NavLink to={`/spots/${spot.id}/edit`}>Update</NavLink>
+                  </button>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
