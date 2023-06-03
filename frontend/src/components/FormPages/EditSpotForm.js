@@ -133,7 +133,6 @@ export default function EditSpotForm() {
         } catch (err) {
           const error = await err.json();
           setErrors((prevState) => ({ ...prevState, ...error.errors }));
-          dispatch(deleteSpot(spotId));
         }
       }
     };
@@ -319,6 +318,9 @@ export default function EditSpotForm() {
               <p>Submit a link to at least one photo to publish your spot.</p>
             </div>
             {errors.url && <span className="form-errors">{errors.url}</span>}
+            {errors.image && (
+              <span className="form-errors">{errors.image}</span>
+            )}
             <input
               name="preview"
               className="image"

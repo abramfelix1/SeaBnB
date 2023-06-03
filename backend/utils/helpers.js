@@ -78,6 +78,7 @@ const setReviewsRatings = async (spots) => {
 };
 
 const changePreview = async (spot) => {
+  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
   for (const image of spot.dataValues.SpotImages) {
     if (image.dataValues.preview === true) {
       const id = image.dataValues.id;

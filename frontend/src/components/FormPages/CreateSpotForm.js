@@ -300,6 +300,9 @@ export default function CreateSpotForm() {
               <p>Submit a link to at least one photo to publish your spot.</p>
             </div>
             {errors.url && <span className="form-errors">{errors.url}</span>}
+            {errors.image && (
+              <span className="form-errors">{errors.image}</span>
+            )}
             <input
               name="preview"
               className="image"

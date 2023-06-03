@@ -335,23 +335,22 @@ router.post(
     });
 
     if (!spot) {
-      return next({ message: "Spot could not be found", status: 404 });
+      return next({errors: { image: "Spot could not be found", status: 404 }});
     }
 
     if (+spot.ownerId !== +user.dataValues.id) {
-      return next({ message: "Unauthorized Action", status: 403 });
+      return next({errors: { image: "Unauthorized Action", status: 403 }});
     }
 
     if(spot.dataValues.SpotImages.length >= 10){
-      return next({ message: "10 image limit reached, remove an image to add new image", status: 400 });
+      return next({errors: { image: "10 image limit reached, remove an image to add new image", status: 400 }});
     }
 
     if(spot.dataValues.SpotImages.length === 0){
-      preview = "true"
+      preview = true
     }
 
-
-    if(preview === "true") await changePreview(spot)
+    if(preview === true) await changePreview(spot)
 
     const image = await Image.create({
       url,
