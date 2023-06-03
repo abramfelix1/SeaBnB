@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCurrentReviews } from "../../store/reviews";
+import { getCurrentReviews, getSpotReviews } from "../../store/reviews";
 import Modal from "../Modals/Modal";
 import ReviewsInfo from "./ReviewsInfo";
 import "./reviews.css";
@@ -14,8 +14,11 @@ export default function ReviewsList({ reviews, manage }) {
   reviews = useSelector((state) => Object.values(state.reviews));
 
   useEffect(() => {
-    if (manage) dispatch(getCurrentReviews());
-    console.log(reviewId);
+    if (manage) {
+      dispatch(getCurrentReviews());
+    } else {
+      if (!manage) dispatch(getSpotReviews(reviewId));
+    }
   }, [dispatch, manage, reviewId]);
 
   return (
@@ -26,6 +29,7 @@ export default function ReviewsList({ reviews, manage }) {
             <Modal
               closeModal={setShowDeleteModal}
               type={"delete"}
+              action={"review"}
               id={reviewId}
             />
           )}
@@ -33,12 +37,13 @@ export default function ReviewsList({ reviews, manage }) {
             <Modal
               closeModal={setShowReviewModal}
               type={"review"}
+              action={"edit"}
               id={reviewId}
             />
           )}
           {reviews.map((review) => (
-            <>
-              <ReviewsInfo key={review.id} review={review} />
+            <div key={review.id}>
+              <ReviewsInfo review={review} />
               <div
                 className={`current-buttons-container review ${
                   manage ? "manage" : "review"
@@ -66,7 +71,7 @@ export default function ReviewsList({ reviews, manage }) {
                   Delete
                 </button>
               </div>
-            </>
+            </div>
           ))}
         </>
       ) : (

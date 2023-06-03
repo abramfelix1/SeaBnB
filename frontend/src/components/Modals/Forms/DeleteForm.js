@@ -1,14 +1,20 @@
 import { useDispatch } from "react-redux";
 import { deleteSpot } from "../../../store/spots";
+import { deleteReview } from "../../../store/reviews";
 
 import "./form.css";
 
-export default function DeleteForm({ closeModal, id }) {
+export default function DeleteForm({ closeModal, id, type }) {
   const dispatch = useDispatch();
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(deleteSpot(id));
+    if (type === "review") {
+      dispatch(deleteReview(id));
+    } else {
+      console.log("AAAAAAAAAAAA");
+      dispatch(deleteSpot(id));
+    }
     closeModal();
   };
 

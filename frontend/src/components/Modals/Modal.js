@@ -6,14 +6,14 @@ import DeleteForm from "./Forms/DeleteForm";
 
 import "./Modal.css";
 
-export default function Modal({ closeModal, type, id }) {
+export default function Modal({ closeModal, type, action, id }) {
   const [formClicked, setFormClicked] = useState(false);
 
   const forms = {
     login: <LoginForm closeModal={closeModal} />,
     signup: <SignupForm closeModal={closeModal} />,
-    review: <ReviewForm closeModal={closeModal} type={"edit"} currentId={id} />,
-    delete: <DeleteForm closeModal={closeModal} id={id} />,
+    review: <ReviewForm closeModal={closeModal} type={action} currentId={id} />,
+    delete: <DeleteForm closeModal={closeModal} type={action} id={id} />,
   };
 
   const handleClick = (e) => {

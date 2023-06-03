@@ -83,6 +83,15 @@ export const editReview = (id, payload) => async (dispatch) => {
   }
 };
 
+export const deleteReview = (id) => async (dispatch) => {
+  const response = await csrfFetch(`/api/reviews/${id}`, {
+    method: "DELETE",
+  });
+  if (response.ok) {
+    dispatch(removeReview(id));
+  }
+};
+
 export default function reviewsReducer(state = initialState, action) {
   const newState = { ...state };
   switch (action.type) {
@@ -95,12 +104,14 @@ export default function reviewsReducer(state = initialState, action) {
       newState[action.review.id] = action.review;
       return newState;
     case UPDATE: {
-      console.log(newState[action.review.id]);
       newState[action.review.id] = {
         ...newState[action.review.id],
         ...action.review,
       };
-      console.log(newState[action.review.id]);
+      return newState;
+    }
+    case DELETE: {
+      delete newState[action.id];
       return newState;
     }
     default:
