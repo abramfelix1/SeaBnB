@@ -6,14 +6,21 @@ import DeleteForm from "./Forms/DeleteForm";
 
 import "./Modal.css";
 
-export default function Modal({ closeModal, type, action, id }) {
+export default function Modal({ closeModal, type, action, id, spotId }) {
   const [formClicked, setFormClicked] = useState(false);
 
   const forms = {
     login: <LoginForm closeModal={closeModal} />,
     signup: <SignupForm closeModal={closeModal} />,
     review: <ReviewForm closeModal={closeModal} type={action} currentId={id} />,
-    delete: <DeleteForm closeModal={closeModal} type={action} id={id} />,
+    delete: (
+      <DeleteForm
+        closeModal={closeModal}
+        type={action}
+        id={id}
+        spotId={spotId}
+      />
+    ),
   };
 
   const handleClick = (e) => {
@@ -21,7 +28,6 @@ export default function Modal({ closeModal, type, action, id }) {
     if (e.target.className === "modal" && formClicked === false) {
       closeModal(false);
     }
-    console.log(id);
     setFormClicked(false);
   };
 

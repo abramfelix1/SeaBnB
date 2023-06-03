@@ -1,4 +1,5 @@
 import { csrfFetch } from "./csrf";
+import { getSpotDetails } from "./spots";
 
 const initialState = {};
 
@@ -14,10 +15,10 @@ const populateReviews = (reviews) => {
   };
 };
 
-const addReview = (payload) => {
+const addReview = (review) => {
   return {
     type: ADD,
-    payload,
+    review,
   };
 };
 
@@ -55,7 +56,9 @@ export const createReview = (id, payload) => async (dispatch) => {
 
   if (response.ok) {
     const review = await response.json();
-    dispatch(addReview(review));
+    await dispatch(addReview(review));
+    await dispatch(getSpotReviews(id));
+    await dispatch(getSpotDetails(id));
   }
 };
 
@@ -63,7 +66,7 @@ export const getCurrentReviews = () => async (dispatch) => {
   const response = await csrfFetch("/api/reviews/current");
   if (response.ok) {
     const reviews = await response.json();
-    dispatch(populateReviews(reviews));
+    await dispatch(populateReviews(reviews));
   }
 };
 
@@ -78,15 +81,16 @@ export const editReview = (id, payload) => async (dispatch) => {
 
   if (response.ok) {
     const review = await response.json();
-    dispatch(updateReview(review));
+    await dispatch(updateReview(review));
   }
 };
 
-export const deleteReview = (id) => async (dispatch) => {
+export const deleteReview = (id, spotId) => async (dispatch) => {
   const response = await csrfFetch(`/api/reviews/${id}`, {
     method: "DELETE",
   });
   if (response.ok) {
+    dispatch(getSpotDetails(spotId));
     dispatch(removeReview(id));
   }
 };

@@ -4,15 +4,14 @@ import { deleteReview } from "../../../store/reviews";
 
 import "./form.css";
 
-export default function DeleteForm({ closeModal, id, type }) {
+export default function DeleteForm({ closeModal, id, type, spotId }) {
   const dispatch = useDispatch();
 
   const submitHandler = (e) => {
     e.preventDefault();
     if (type === "review") {
-      dispatch(deleteReview(id));
+      dispatch(deleteReview(id, spotId));
     } else {
-      console.log("AAAAAAAAAAAA");
       dispatch(deleteSpot(id));
     }
     closeModal();

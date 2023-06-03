@@ -143,6 +143,8 @@ router.get("/:id/reviews", async (req, res, next) => {
   }).findAll();
 
   const Reviews = buildReview(reviews, spot);
+  console.log("AAAAAAAA");
+  console.log(Reviews);
 
   res.json({ Reviews: Reviews });
 });

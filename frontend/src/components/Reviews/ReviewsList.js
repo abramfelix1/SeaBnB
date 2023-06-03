@@ -5,15 +5,14 @@ import Modal from "../Modals/Modal";
 import ReviewsInfo from "./ReviewsInfo";
 import "./reviews.css";
 import "../Spots/spots.css";
-import { useParams } from "react-router-dom/";
 
-export default function ReviewsList({ reviews, manage }) {
+export default function ReviewsList({ reviews, manage, spotId }) {
   const dispatch = useDispatch();
-  const { id } = useParams();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [reviewId, setReviewId] = useState(null);
   reviews = useSelector((state) => Object.values(state.reviews));
+  reviews.sort((a, b) => b.id - a.id);
 
   useEffect(() => {
     if (manage) {
@@ -31,6 +30,7 @@ export default function ReviewsList({ reviews, manage }) {
               type={"delete"}
               action={"review"}
               id={reviewId}
+              spotId={spotId}
             />
           )}
           {showReviewModal && (
