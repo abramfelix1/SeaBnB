@@ -72,9 +72,10 @@ function ProfileButton({ user }) {
                 <NavLink to="/spots/current">
                   <button>Manage Spots</button>
                 </NavLink>
-                <NavLink to="/">
+                <NavLink to="/reviews/current">
                   <button>Manage Reviews</button>
                 </NavLink>
+                <li className="profile-dropdown-content-break-line"></li>
                 <button onClick={logout}>Log Out</button>
               </div>
             ) : (

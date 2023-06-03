@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getSpots, getCurrentSpots, deleteSpot } from "../../store/spots";
+import { getSpots, getCurrentSpots } from "../../store/spots";
 import { NavLink } from "react-router-dom/";
 import SpotsCard from "./SpotsCard";
 import Modal from "../Modals/Modal";
@@ -14,16 +14,15 @@ export default function SpotsList({ userId, manage }) {
   const spots = useSelector((state) => Object.values(state.spots));
 
   useEffect(() => {
-    console.log(showDeleteModal);
-    if (!userId) dispatch(getSpots());
-    if (userId) dispatch(getCurrentSpots());
+    if (!manage) dispatch(getSpots());
+    if (manage) dispatch(getCurrentSpots());
     const timer = setTimeout(() => {
       setStartRender(true);
     }, 500);
     return () => {
       clearTimeout(timer);
     };
-  }, [dispatch, userId, showDeleteModal]);
+  }, [dispatch, manage, showDeleteModal]);
 
   return !startRender ? (
     <div className="spot-loader">
@@ -44,17 +43,6 @@ export default function SpotsList({ userId, manage }) {
                 </NavLink>
                 {userId && (
                   <div className="current-buttons-container">
-                    {/* <button
-                      className="update-button"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <NavLink
-                        className="update-button-link"
-                        to={`/spots/${spot.id}/edit`}
-                      >
-                        Update
-                      </NavLink>
-                    </button> */}
                     <button>
                       <NavLink
                         to={`/spots/${spot.id}/edit`}
@@ -65,7 +53,6 @@ export default function SpotsList({ userId, manage }) {
                         Update
                       </NavLink>
                     </button>
-
                     <button
                       onClick={(e) => {
                         e.stopPropagation();

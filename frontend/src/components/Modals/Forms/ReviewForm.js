@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { createReview } from "../../../store/reviews";
+import { createReview, editReview } from "../../../store/reviews";
 import "./form.css";
-import { useParams } from "react-router-dom/";
+import { useParams, useHistory } from "react-router-dom/";
 
-export default function ReviewForm({ closeModal }) {
+export default function ReviewForm({ closeModal, type, currentId }) {
+  const history = useHistory();
   const dispatch = useDispatch();
   const { id } = useParams();
   const [review, setReview] = useState(null);
@@ -57,8 +58,13 @@ export default function ReviewForm({ closeModal }) {
     const submit = async () => {
       e.preventDefault();
       try {
-        await dispatch(createReview(id, payload));
-        closeModal(false);
+        if (type === "edit") {
+          await dispatch(editReview(currentId, payload));
+          closeModal(false);
+        } else {
+          await dispatch(createReview(id, payload));
+          closeModal(false);
+        }
       } catch (err) {
         const data = await err.json();
         setErrors(data.errors);

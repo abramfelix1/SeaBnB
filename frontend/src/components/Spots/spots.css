@@ -83,7 +83,7 @@
 .current-buttons-container {
   display: flex;
   flex-direction: row;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 .current-buttons-container button {
@@ -114,21 +114,21 @@
 }
 
 .spot-list.manage {
-  margin-top: 20px;
+  margin-top: 25px;
 }
 
-.manage-spots-container {
+.manage-container {
   padding-top: 125px;
   padding-left: 100px;
   padding-right: 100px;
 }
 
-.manage-spots-header {
+.manage-header {
   display: flex;
   flex-direction: column;
 }
 
-.manage-spots-header a {
+.manage-header a {
   position: absolute;
   top: 0;
   left: 0;
@@ -140,16 +140,16 @@
   color: white;
 }
 
-.manage-spots-header button {
+.manage-header button {
   position: relative;
   padding: 0;
   background-color: #53bceb;
   border-radius: 12px;
-  width: 150px;
+  width: 180px;
   height: 35px;
   font-size: 18px;
   font-weight: bold;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 @media (min-width: 1920px) {

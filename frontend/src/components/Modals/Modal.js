@@ -8,11 +8,11 @@ import "./Modal.css";
 
 export default function Modal({ closeModal, type, id }) {
   const [formClicked, setFormClicked] = useState(false);
-  console.log("A");
+
   const forms = {
     login: <LoginForm closeModal={closeModal} />,
     signup: <SignupForm closeModal={closeModal} />,
-    review: <ReviewForm closeModal={closeModal} />,
+    review: <ReviewForm closeModal={closeModal} type={"edit"} currentId={id} />,
     delete: <DeleteForm closeModal={closeModal} id={id} />,
   };
 
@@ -21,6 +21,7 @@ export default function Modal({ closeModal, type, id }) {
     if (e.target.className === "modal" && formClicked === false) {
       closeModal(false);
     }
+    console.log(id);
     setFormClicked(false);
   };
 

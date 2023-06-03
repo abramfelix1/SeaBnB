@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-import ReviewsList from "./ReviewsList";
+import ReviewsList from "../Reviews/ReviewsList";
 import Modal from "../Modals/Modal";
-import "./reviews.css";
+import "../Reviews/reviews.css";
 
 export default function SpotReviews({ spot, reviews }) {
   const [showReviewModal, setShowReviewModal] = useState(false);
@@ -30,15 +30,7 @@ export default function SpotReviews({ spot, reviews }) {
             Post your Review
           </button>
         </div>
-        {reviews.length > 0 ? (
-          reviews.map((review) => (
-            <ReviewsList key={review.id} review={review} />
-          ))
-        ) : (
-          <p style={{ marginTop: "30px", fontSize: "18px" }}>
-            Be the first to post a review!
-          </p>
-        )}
+        <ReviewsList reviews={reviews} />
       </div>
     </>
   );

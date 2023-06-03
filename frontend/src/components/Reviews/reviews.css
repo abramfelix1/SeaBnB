@@ -29,15 +29,12 @@
   font-weight: bold;
 }
 
-.reviews-list-container {
-  margin: 45px 0px;
-}
-
 .reviews-item-header-container {
   display: flex;
   flex-direction: row;
   font-size: 18px;
-  padding-bottom: 25px;
+  padding-bottom: 10px;
+  padding-top: 45px;
 }
 
 .reviews-item-header-left i {
@@ -48,9 +45,26 @@
 }
 
 .reviews-item-header-right p {
+  padding-bottom: 5px;
   font-weight: bold;
 }
 .reviews-item-header-right p:last-child {
   font-weight: lighter;
   color: #717171;
+}
+
+.current-buttons-container.manage {
+  margin-top: 20px;
+}
+
+.current-buttons-container.review {
+  margin-top: 10px;
+}
+
+.current-buttons-container.review .delete {
+  width: 65px;
+  height: 25px;
+  font-size: 14px;
+  background-color: #eb5357;
+  border-radius: 8px;
 }

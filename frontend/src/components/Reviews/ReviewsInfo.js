@@ -15,8 +15,9 @@ const MONTHS = [
   "December",
 ];
 
-export default function ReviewsList({ review }) {
-  const date = new Date(review.createdAt);
+export default function ReviewsInfo({ review }) {
+  let isUpdated = review.createdAt === review.updatedAt;
+  const date = new Date(isUpdated ? review.createdAt : review.updatedAt);
   const year = date.getFullYear();
   const month = MONTHS[date.getMonth() + 1];
 
@@ -27,11 +28,9 @@ export default function ReviewsList({ review }) {
           <i className="fa-solid fa-circle-user"></i>
         </div>
         <div className="reviews-item-header-right">
+          <p>{review.User.firstName}</p>
           <p>
-            {review.User.firstName} {review.User.lastName}
-          </p>
-          <p>
-            {month} {year}
+            {month} {year} {isUpdated ? "" : "(edited)"}
           </p>
         </div>
       </div>
