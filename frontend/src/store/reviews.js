@@ -68,7 +68,6 @@ export const getCurrentReviews = () => async (dispatch) => {
 };
 
 export const editReview = (id, payload) => async (dispatch) => {
-  console.log(id);
   const response = await csrfFetch(`/api/reviews/${id}`, {
     method: "PUT",
     headers: {

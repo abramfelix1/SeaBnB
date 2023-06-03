@@ -17,8 +17,8 @@ export default function SpotDetails() {
   const reviews = useSelector((state) => Object.values(state.reviews));
 
   useEffect(() => {
-    dispatch(getSpotDetails(2));
-    dispatch(getSpotReviews(2));
+    dispatch(getSpotDetails(id));
+    dispatch(getSpotReviews(id));
     const timer = setTimeout(() => {
       setStartRender(true);
     }, 500);
