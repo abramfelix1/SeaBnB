@@ -2,6 +2,9 @@
   display: flex;
   justify-content: center;
   margin-bottom: 45px;
+  padding-top: 30px;
+  padding-left: 100px;
+  padding-right: 100px;
 }
 
 .spot-list {
@@ -9,9 +12,6 @@
   grid-auto-flow: row dense;
   grid-auto-rows: minmax(min-content, max-content);
   gap: 45px 30px;
-  padding-top: 30px;
-  padding-left: 100px;
-  padding-right: 100px;
   background-color: rgb(255, 255, 255);
   width: 100%;
   margin-top: 100px;
@@ -103,6 +103,45 @@
 
 .current-buttons-container button:nth-child(2) {
   background-color: #eb5357;
+}
+
+.spot-list.manage {
+  margin-top: 20px;
+}
+
+.manage-spots-container {
+  padding-top: 125px;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+.manage-spots-header {
+  display: flex;
+  flex-direction: column;
+}
+
+.manage-spots-header a {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.manage-spots-header button {
+  position: relative;
+  padding: 0;
+  background-color: #53bceb;
+  border-radius: 12px;
+  width: 150px;
+  height: 35px;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 20px;
 }
 
 @media (min-width: 1920px) {

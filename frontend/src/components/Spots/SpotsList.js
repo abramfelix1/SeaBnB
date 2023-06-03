@@ -6,7 +6,7 @@ import SpotsCard from "./SpotsCard";
 import Modal from "../Modals/Modal";
 import "./spots.css";
 
-export default function SpotsList({ userId }) {
+export default function SpotsList({ userId, manage }) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const dispatch = useDispatch();
   const [startRender, setStartRender] = useState(false);
@@ -34,18 +34,12 @@ export default function SpotsList({ userId }) {
         <Modal closeModal={setShowDeleteModal} type={"delete"} />
       )}
       <div className="spot-container">
-        <div className="spot-list">
+        <div className={`spot-list ${manage ? "manage" : ""}`}>
           {spots.length > 0 &&
             spots.map((spot) => (
-              <div
-                key={spot.id}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setStartRender(false);
-                }}
-              >
+              <div key={spot.id}>
                 <NavLink to={`/spots/${spot.id}`}>
-                  <SpotsCard spot={spot} />
+                  <SpotsCard spot={spot} startRender={setStartRender} />
                 </NavLink>
                 {userId && (
                   <div className="current-buttons-container">
@@ -60,12 +54,16 @@ export default function SpotsList({ userId }) {
                         Update
                       </NavLink>
                     </button> */}
-                    <NavLink
-                      to={`/spots/${spot.id}/edit`}
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <button>Update</button>
-                    </NavLink>
+                    <button>
+                      <NavLink
+                        to={`/spots/${spot.id}/edit`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                      >
+                        Update
+                      </NavLink>
+                    </button>
 
                     <button
                       onClick={(e) => {
