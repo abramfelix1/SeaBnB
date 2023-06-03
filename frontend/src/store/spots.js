@@ -54,6 +54,8 @@ const updateSpot = (spot) => {
 
 export const getSpots = () => async (dispatch) => {
   const response = await csrfFetch("/api/spots");
+  console.log("ALL SPOTS");
+
   if (response.ok) {
     const spots = await response.json();
     dispatch(populateSpots(spots));
@@ -94,8 +96,10 @@ export const deleteSpot = (id) => async (dispatch) => {
 
 export const getCurrentSpots = () => async (dispatch) => {
   const response = await csrfFetch("/api/spots/current");
+  console.log("CURRENT SPOTS");
   if (response.ok) {
     const spots = await response.json();
+    console.log(spots);
     dispatch(populateSpots(spots));
   }
 };
@@ -135,10 +139,17 @@ export default function spotsReducer(state = initialState, action) {
   const newState = { ...state };
   switch (action.type) {
     case POPULATE:
-      return action.spots.Spots.reduce((spots, spot) => {
-        spots[spot.id] = spot;
-        return spots;
-      }, {});
+      if (Array.isArray(action.spots.Spots)) {
+        return action.spots.Spots.reduce((spots, spot) => {
+          spots[spot.id] = spot;
+          return spots;
+        }, {});
+      } else {
+        const spot = action.spots.Spots;
+        return {
+          [spot.id]: spot,
+        };
+      }
     case READ:
       return action.spot;
     case ADD:

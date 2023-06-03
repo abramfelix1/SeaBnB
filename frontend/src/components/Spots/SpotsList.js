@@ -10,6 +10,7 @@ export default function SpotsList({ userId, manage }) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const dispatch = useDispatch();
   const [startRender, setStartRender] = useState(false);
+  const [spotId, setSpotId] = useState(null);
   const spots = useSelector((state) => Object.values(state.spots));
 
   useEffect(() => {
@@ -31,7 +32,7 @@ export default function SpotsList({ userId, manage }) {
   ) : (
     <>
       {showDeleteModal && (
-        <Modal closeModal={setShowDeleteModal} type={"delete"} />
+        <Modal closeModal={setShowDeleteModal} type={"delete"} id={spotId} />
       )}
       <div className="spot-container">
         <div className={`spot-list ${manage ? "manage" : ""}`}>
@@ -69,6 +70,7 @@ export default function SpotsList({ userId, manage }) {
                       onClick={(e) => {
                         e.stopPropagation();
                         setShowDeleteModal(!showDeleteModal);
+                        setSpotId(spot.id);
                       }}
                     >
                       Delete

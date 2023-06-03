@@ -1,6 +1,17 @@
+import { useDispatch } from "react-redux";
+import { deleteSpot } from "../../../store/spots";
+
 import "./form.css";
 
-export default function DeleteForm({ closeModal }) {
+export default function DeleteForm({ closeModal, id }) {
+  const dispatch = useDispatch();
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    dispatch(deleteSpot(id));
+    closeModal();
+  };
+
   return (
     <div className="form-container">
       <div className="form-header delete">
@@ -15,12 +26,14 @@ export default function DeleteForm({ closeModal }) {
       <div className="form-sub-header delete">
         <p>Are you sure you want to remove this spot from the listings?</p>
       </div>
-      <form>
+      <form onSubmit={submitHandler}>
         <div className="form-buttons-container delete">
-          <button className="form-button" type="button">
-            Yes (Delete Spot)
-          </button>
-          <button className="form-button" type="button">
+          <button className="form-button">Yes (Delete Spot)</button>
+          <button
+            className="form-button"
+            type="button"
+            onClick={(e) => closeModal()}
+          >
             No (Keep Spot)
           </button>
         </div>
