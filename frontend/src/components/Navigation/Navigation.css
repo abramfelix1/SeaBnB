@@ -54,31 +54,24 @@
 
 .nav-create-button-container {
   position: absolute;
-  right: 190px;
+  right: 225px;
   top: -57px;
-}
-
-.nav-create-button {
-  position: relative;
-  text-align: center;
-  color: #222222;
-  left: -30px;
-  width: 200px;
+  width: 150px;
   height: 55px;
   border-radius: 32px;
-  font-size: 18px;
-  font-weight: bold;
   margin: 30px;
-  align-self: center;
 }
 
-.nav-create-button:hover {
+.nav-create-button-container:hover {
   background-color: #f7f7f7;
 }
 
 .nav-create-link {
-  position: absolute;
-  top: 17.5px;
+  /* position: absolute;
+  right: 125px;
+  bottom: 10px; */
+  font-size: 18px;
+  font-weight: bold;
   display: block;
   width: 100%;
   height: 100%;
@@ -97,18 +90,11 @@
   height: 50px;
   border: 1px solid #ebebeb;
   border-radius: 30px;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 .nav-button:hover {
   box-shadow: 0px 3px 5px 1px #dbdbdb;
-}
-
-button {
-  position: relative;
-  background: none;
-  border: none;
-  cursor: pointer;
 }
 
 .bars {
@@ -168,7 +154,15 @@ button {
   font-size: 18px;
   padding: 10px 20px;
 }
+
+.profile-dropdown-logged-info a {
+  text-align: center;
+}
 .profile-dropdown-logged-info button:hover {
+  background-color: #f7f7f7;
+}
+
+.profile-dropdown-logged-info a:hover {
   background-color: #f7f7f7;
 }
 

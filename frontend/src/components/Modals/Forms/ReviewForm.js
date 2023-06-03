@@ -53,7 +53,7 @@ export default function ReviewForm({ closeModal }) {
       review,
       stars: rating,
     };
-    console.log(id);
+
     const submit = async () => {
       e.preventDefault();
       try {

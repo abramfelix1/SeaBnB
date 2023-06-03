@@ -134,9 +134,11 @@ export default function SignupForm({ closeModal }) {
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
         />
-        <button className="form-button" type="submit">
-          Sign Up
-        </button>
+        <div className="form-buttons-container">
+          <button className="form-button" type="submit">
+            Sign Up
+          </button>
+        </div>
       </form>
       <div className="form-footer">
         <p>

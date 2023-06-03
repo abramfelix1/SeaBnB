@@ -60,9 +60,11 @@ export default function LoginForm({ closeModal }) {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button className="form-button" type="submit">
-          Log In
-        </button>
+        <div className="form-buttons-container">
+          <button className="form-button" type="submit">
+            Log In
+          </button>
+        </div>
       </form>
     </div>
   );

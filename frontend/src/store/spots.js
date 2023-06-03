@@ -6,7 +6,7 @@ const POPULATE = "spots/POPULATE";
 const READ = "spots/READ";
 const ADD = "spots/ADD";
 const DELETE = "spots/DELETE";
-const ADDIMG = "spots/ADDIMG";
+const ADD_IMG = "spots/ADD_IMG";
 const UPDATE = "spots/UPDATE";
 
 const populateSpots = (spots) => {
@@ -32,7 +32,7 @@ const addSpot = (spot) => {
 
 const addImage = (id, img) => {
   return {
-    type: ADDIMG,
+    type: ADD_IMG,
     id,
     img,
   };
@@ -150,7 +150,7 @@ export default function spotsReducer(state = initialState, action) {
     case UPDATE:
       newState[action.spot.id] = action.spot;
       return newState;
-    case ADDIMG:
+    case ADD_IMG:
       newState[action.id].SpotImages = [action.img];
       return newState;
     default:

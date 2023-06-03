@@ -2,8 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom/";
 import * as sessionActions from "../../store/session";
-import LoginFormModal from "../Modals/LoginFormModal";
-import SignupFormModal from "../Modals/SignupFormModal";
+import Modal from "../Modals/Modal";
 import "./Navigation.css";
 
 function ProfileButton({ user }) {
@@ -52,8 +51,12 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      {showLoginModal && <LoginFormModal closeModal={setShowLoginModal} />}
-      {showSignupModal && <SignupFormModal closeModal={setShowSignupModal} />}
+      {showLoginModal && (
+        <Modal closeModal={setShowLoginModal} type={"login"} />
+      )}
+      {showSignupModal && (
+        <Modal closeModal={setShowSignupModal} type={"signup"} />
+      )}
       <div className="nav-button" onClick={openMenu}>
         <button>
           <i className="fa-solid fa-bars bars"></i>
@@ -66,12 +69,12 @@ function ProfileButton({ user }) {
                 <li>Hello, {user.username}</li>
                 <li>{user.email}</li>
                 <li className="profile-dropdown-content-break-line"></li>
-                <button>
-                  <NavLink className="drop-down-nav-link" to="/spots/current">
-                    Manage Spots
-                  </NavLink>
-                </button>
-                <button>Manage Reviews</button>
+                <NavLink to="/spots/current">
+                  <button>Manage Spots</button>
+                </NavLink>
+                <NavLink to="/">
+                  <button>Manage Reviews</button>
+                </NavLink>
                 <button onClick={logout}>Log Out</button>
               </div>
             ) : (

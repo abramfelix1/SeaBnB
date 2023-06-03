@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import ReviewsList from "./ReviewsList";
-import ReviewFormModal from "../Modals/ReviewFormModal";
+import Modal from "../Modals/Modal";
 import "./reviews.css";
 
 export default function SpotReviews({ spot, reviews }) {
@@ -9,7 +9,9 @@ export default function SpotReviews({ spot, reviews }) {
 
   return (
     <>
-      {showReviewModal && <ReviewFormModal closeModal={setShowReviewModal} />}
+      {showReviewModal && (
+        <Modal closeModal={setShowReviewModal} type={"review"} />
+      )}
       <div className="reviews-content-container">
         <div className="reviews-header-container">
           <div className="reviews-header">

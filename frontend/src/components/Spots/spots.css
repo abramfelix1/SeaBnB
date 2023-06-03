@@ -94,13 +94,15 @@
   border-radius: 12px;
   color: white;
   font-size: 18px;
+  font-weight: bold;
 }
 
 .current-buttons-container button a {
   color: white;
 }
+
 .current-buttons-container button:nth-child(2) {
-  background-color: red;
+  background-color: #eb5357;
 }
 
 @media (min-width: 1920px) {
