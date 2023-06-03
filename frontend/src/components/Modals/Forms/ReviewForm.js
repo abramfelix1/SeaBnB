@@ -27,23 +27,23 @@ export default function ReviewForm({ closeModal }) {
   const inputHandler = (e) => {
     if (e.target.name === "review") setReview(e.target.value);
     if (e.target.name === "star0") {
-      setRatings(1);
+      setRatings(0);
       setFilled(rating);
     }
     if (e.target.name === "star1") {
-      setRatings(2);
+      setRatings(1);
       setFilled(rating);
     }
     if (e.target.name === "star2") {
-      setRatings(3);
+      setRatings(2);
       setFilled(rating);
     }
     if (e.target.name === "star3") {
-      setRatings(4);
+      setRatings(3);
       setFilled(rating);
     }
     if (e.target.name === "star4") {
-      setRatings(5);
+      setRatings(4);
       setFilled(rating);
     }
   };
@@ -51,7 +51,7 @@ export default function ReviewForm({ closeModal }) {
   const handleSubmit = (e) => {
     const payload = {
       review,
-      stars: rating,
+      stars: rating + 1,
     };
 
     const submit = async () => {
@@ -103,7 +103,7 @@ export default function ReviewForm({ closeModal }) {
                 onClick={inputHandler}
               />
               <i
-                key={"star" + i + 1}
+                key={"star" + i}
                 className={`fa-solid fa-star ${i <= filled ? "fill" : ""}`}
               />
             </label>
