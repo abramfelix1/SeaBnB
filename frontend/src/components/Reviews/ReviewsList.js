@@ -28,6 +28,7 @@ export default function ReviewsList({
       dispatch(getSpotReviews(spotId));
     }
     if (isChanged === true || isChanged === false) {
+      console.log("AAAAAAA");
       setIsChanged(!isChanged);
     }
   }, [dispatch, spotId, manage, showDeleteModal, showReviewModal]);
@@ -54,7 +55,6 @@ export default function ReviewsList({
             />
           )}
           {reviews.map((review) => {
-            console.log(review);
             return (
               <div key={review.id}>
                 <ReviewsInfo review={review} />

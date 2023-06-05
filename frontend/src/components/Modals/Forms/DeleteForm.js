@@ -8,13 +8,18 @@ export default function DeleteForm({ closeModal, id, type, spotId }) {
   const dispatch = useDispatch();
 
   const submitHandler = (e) => {
-    e.preventDefault();
-    if (type === "review") {
-      dispatch(deleteReview(id, spotId, type));
-    } else {
-      dispatch(deleteSpot(id));
-    }
-    closeModal();
+    const submit = async () => {
+      e.preventDefault();
+      if (type === "review") {
+        await dispatch(deleteReview(id, spotId, type));
+        closeModal();
+      } else {
+        await dispatch(deleteSpot(id));
+        closeModal();
+      }
+    };
+
+    submit();
   };
 
   return (
