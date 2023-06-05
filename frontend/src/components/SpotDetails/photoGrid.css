@@ -83,25 +83,25 @@
   .c2r1-container {
     grid-area: c2r1;
     width: 350px;
-    height: 270px;
+    height: 257.5px;
   }
 
   .c2r2-container {
     grid-area: c2r2;
     width: 350px;
-    height: 270px;
+    height: 257.5px;
   }
 
   .c3r1-container {
     grid-area: c3r1;
     width: 350px;
-    height: 270px;
+    height: 257.5px;
   }
 
   .c3r2-container {
     grid-area: c3r2;
     width: 350px;
-    height: 270px;
+    height: 257.5px;
   }
 }
 

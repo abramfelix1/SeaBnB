@@ -9,7 +9,7 @@ export default function ReviewForm({ closeModal, type, currentId }) {
   const dispatch = useDispatch();
   const { id } = useParams();
   const [review, setReview] = useState(null);
-  const [rating, setRatings] = useState(-1);
+  const [rating, setRatings] = useState("null");
   const [filled, setFilled] = useState(-1);
   const [errors, setErrors] = useState({});
 

@@ -42,9 +42,7 @@ export default function SpotDetails() {
       <div className="details-description-container">
         <SpotDetailsDescription spot={spot} />
         <div className="booking-card-container">
-          <h1>
-            <SpotBookingCard spot={spot} />
-          </h1>
+          <SpotBookingCard spot={spot} />
         </div>
       </div>
       <div className="details-reviews-container">
