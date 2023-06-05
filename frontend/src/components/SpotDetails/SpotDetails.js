@@ -7,6 +7,7 @@ import SpotDetailsHeader from "./SpotDetailsHeader";
 import PhotoGrid from "./PhotoGrid";
 import SpotDetailsDescription from "./SpotDetailsDescription";
 import SpotReviews from "./SpotReviews";
+import SpotBookingCard from "./SpotBookingCard";
 import "./spotDetails.css";
 
 export default function SpotDetails() {
@@ -41,7 +42,9 @@ export default function SpotDetails() {
       <div className="details-description-container">
         <SpotDetailsDescription spot={spot} />
         <div className="booking-card-container">
-          <h1>BOOKING CARD HERE</h1>
+          <h1>
+            <SpotBookingCard spot={spot} />
+          </h1>
         </div>
       </div>
       <div className="details-reviews-container">

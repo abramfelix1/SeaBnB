@@ -12,6 +12,7 @@ export default function SpotReviews({ spot }) {
   const [isChanged, setIsChanged] = useState(false);
   const reviews = useSelector((state) => Object.values(state.reviews));
   reviews.sort((a, b) => b.id - a.id);
+
   useEffect(() => {
     dispatch(getSpotDetails(spot.id));
   }, [isChanged, dispatch, spot.id, showReviewModal]);
