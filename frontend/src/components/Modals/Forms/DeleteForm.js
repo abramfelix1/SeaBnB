@@ -10,7 +10,7 @@ export default function DeleteForm({ closeModal, id, type, spotId }) {
   const submitHandler = (e) => {
     e.preventDefault();
     if (type === "review") {
-      dispatch(deleteReview(id, spotId));
+      dispatch(deleteReview(id, spotId, type));
     } else {
       dispatch(deleteSpot(id));
     }
@@ -29,7 +29,11 @@ export default function DeleteForm({ closeModal, id, type, spotId }) {
         <h1>Confirm Delete</h1>
       </div>
       <div className="form-sub-header delete">
-        <p>Are you sure you want to remove this spot from the listings?</p>
+        {type === "review" ? (
+          <p>Are you sure you want to delete this review?</p>
+        ) : (
+          <p>Are you sure you want to remove this spot from the listings?</p>
+        )}
       </div>
       <form onSubmit={submitHandler}>
         <div className="form-buttons-container delete">

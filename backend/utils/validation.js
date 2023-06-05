@@ -128,7 +128,6 @@ const validateImage = [
         throw new Error("Please provide at least one valid URL");
       }
       if (!/\.(png|jpe?g)$/.test(value)) {
-        console.log("AAA " + value);
         throw new Error("URLs must end with a .png, .jpg, or .jpeg");
       }
       return true;

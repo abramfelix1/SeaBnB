@@ -28,6 +28,7 @@ input:focus {
 }
 
 .spot-loader {
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -35,4 +36,6 @@ input:focus {
   padding: 300px;
   width: 100%;
   height: 100%;
+  background-color: white;
+  z-index: 99;
 }

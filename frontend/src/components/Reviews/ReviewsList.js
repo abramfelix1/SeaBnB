@@ -1,12 +1,19 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentReviews, getSpotReviews } from "../../store/reviews";
+import { getSpotDetails } from "../../store/spots";
 import Modal from "../Modals/Modal";
 import ReviewsInfo from "./ReviewsInfo";
 import "./reviews.css";
 import "../Spots/spots.css";
 
-export default function ReviewsList({ reviews, manage, spotId }) {
+export default function ReviewsList({
+  reviews,
+  manage,
+  spotId,
+  isChanged,
+  setIsChanged,
+}) {
   const dispatch = useDispatch();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
@@ -17,8 +24,13 @@ export default function ReviewsList({ reviews, manage, spotId }) {
   useEffect(() => {
     if (manage) {
       dispatch(getCurrentReviews());
+    } else {
+      dispatch(getSpotReviews(spotId));
     }
-  }, [dispatch, manage]);
+    if (isChanged === true || isChanged === false) {
+      setIsChanged(!isChanged);
+    }
+  }, [dispatch, spotId, manage, showDeleteModal, showReviewModal]);
 
   return (
     <>
@@ -41,38 +53,41 @@ export default function ReviewsList({ reviews, manage, spotId }) {
               id={reviewId}
             />
           )}
-          {reviews.map((review) => (
-            <div key={review.id}>
-              <ReviewsInfo review={review} />
-              <div
-                className={`current-buttons-container review ${
-                  manage ? "manage" : "review"
-                }`}
-              >
-                {manage && (
+          {reviews.map((review) => {
+            console.log(review);
+            return (
+              <div key={review.id}>
+                <ReviewsInfo review={review} />
+                <div
+                  className={`current-buttons-container review ${
+                    manage ? "manage" : "review"
+                  }`}
+                >
+                  {manage && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowReviewModal(!showReviewModal);
+                        setReviewId(review.id);
+                      }}
+                    >
+                      Update
+                    </button>
+                  )}
                   <button
+                    className={`${manage ? "manage" : "delete"}`}
                     onClick={(e) => {
                       e.stopPropagation();
-                      setShowReviewModal(!showReviewModal);
+                      setShowDeleteModal(!showDeleteModal);
                       setReviewId(review.id);
                     }}
                   >
-                    Update
+                    Delete
                   </button>
-                )}
-                <button
-                  className={`${manage ? "manage" : "delete"}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setShowDeleteModal(!showDeleteModal);
-                    setReviewId(review.id);
-                  }}
-                >
-                  Delete
-                </button>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </>
       ) : (
         <>

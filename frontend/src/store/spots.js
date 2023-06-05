@@ -54,7 +54,6 @@ const updateSpot = (spot) => {
 
 export const getSpots = () => async (dispatch) => {
   const response = await csrfFetch("/api/spots");
-  console.log("ALL SPOTS");
 
   if (response.ok) {
     const spots = await response.json();
@@ -96,10 +95,8 @@ export const deleteSpot = (id) => async (dispatch) => {
 
 export const getCurrentSpots = () => async (dispatch) => {
   const response = await csrfFetch("/api/spots/current");
-  console.log("CURRENT SPOTS");
   if (response.ok) {
     const spots = await response.json();
-    console.log(spots);
     dispatch(populateSpots(spots));
   }
 };

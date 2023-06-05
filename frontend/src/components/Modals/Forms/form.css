@@ -149,11 +149,12 @@
 
 .form-buttons-container.delete .form-button:nth-child(1) {
   background-color: #eb5357;
+
   width: 100%;
 }
 
 .form-buttons-container.delete .form-button:nth-child(2) {
-  background-color: #53bceb;
+  background-color: #808080;
   width: 100%;
   margin-bottom: 20px;
 }

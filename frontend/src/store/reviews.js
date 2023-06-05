@@ -56,9 +56,7 @@ export const createReview = (id, payload) => async (dispatch) => {
 
   if (response.ok) {
     const review = await response.json();
-    await dispatch(addReview(review));
-    await dispatch(getSpotReviews(id));
-    await dispatch(getSpotDetails(id));
+    dispatch(getSpotReviews(id));
   }
 };
 
@@ -90,7 +88,6 @@ export const deleteReview = (id, spotId) => async (dispatch) => {
     method: "DELETE",
   });
   if (response.ok) {
-    dispatch(getSpotDetails(spotId));
     dispatch(removeReview(id));
   }
 };

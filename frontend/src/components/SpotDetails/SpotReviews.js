@@ -1,11 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getSpotDetails } from "../../store/spots";
 
 import ReviewsList from "../Reviews/ReviewsList";
 import Modal from "../Modals/Modal";
 import "../Reviews/reviews.css";
 
-export default function SpotReviews({ spot, reviews }) {
+export default function SpotReviews({ spot }) {
+  const dispatch = useDispatch();
   const [showReviewModal, setShowReviewModal] = useState(false);
+  const [isChanged, setIsChanged] = useState(false);
+  const reviews = useSelector((state) => Object.values(state.reviews));
+  reviews.sort((a, b) => b.id - a.id);
+  useEffect(() => {
+    dispatch(getSpotDetails(spot.id));
+  }, [isChanged, dispatch, spot.id, showReviewModal]);
 
   return (
     <>
@@ -28,12 +37,18 @@ export default function SpotReviews({ spot, reviews }) {
             className="reviews-button"
             onClick={() => {
               setShowReviewModal(!showReviewModal);
+              setIsChanged(!isChanged);
             }}
           >
             Post your Review
           </button>
         </div>
-        <ReviewsList reviews={reviews} spotId={spot.id} />
+        <ReviewsList
+          reviews={reviews}
+          spotId={spot.id}
+          isChanged={isChanged}
+          setIsChanged={setIsChanged}
+        />
       </div>
     </>
   );

@@ -144,7 +144,7 @@ export default function EditSpotForm() {
     <div className="create-spot-container">
       <div className="create-spot-header-container">
         <div className="create-spot-header">
-          <h1>Create a new Spot</h1>
+          <h1>Update your Spot</h1>
         </div>
       </div>
       <div className="create-spot-form-container">
@@ -339,7 +339,7 @@ export default function EditSpotForm() {
             ))}
           </div>
           <div className="button-container">
-            <button className="form-button">Update Spot</button>
+            <button className="form-button">Update Your Spot</button>
           </div>
         </form>
       </div>

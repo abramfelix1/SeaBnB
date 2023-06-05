@@ -14,7 +14,6 @@ export default function SpotDetails() {
   const { id } = useParams();
   const [startRender, setStartRender] = useState(false);
   const spot = useSelector((state) => state.spots);
-  const reviews = useSelector((state) => Object.values(state.reviews));
 
   useEffect(() => {
     dispatch(getSpotDetails(id));
@@ -46,7 +45,7 @@ export default function SpotDetails() {
         </div>
       </div>
       <div className="details-reviews-container">
-        <SpotReviews spot={spot} reviews={reviews} />
+        <SpotReviews spot={spot} />
       </div>
     </div>
   );

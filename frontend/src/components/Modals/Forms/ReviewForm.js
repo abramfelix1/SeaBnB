@@ -93,7 +93,7 @@ export default function ReviewForm({ closeModal, type, currentId }) {
       <form onSubmit={handleSubmit}>
         <textarea
           name="review"
-          placeholder="Leave a review"
+          placeholder="Leave your review here..."
           onChange={inputHandler}
         />
         <div className="review-rating-container">
@@ -105,7 +105,7 @@ export default function ReviewForm({ closeModal, type, currentId }) {
               <input
                 name={"star" + i}
                 type="checkbox"
-                class="hidden"
+                className="hidden"
                 onClick={inputHandler}
               />
               <i
