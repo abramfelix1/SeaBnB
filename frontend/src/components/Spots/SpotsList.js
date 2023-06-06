@@ -39,7 +39,7 @@ export default function SpotsList({ userId, manage }) {
           <div className={`spot-list ${manage ? "manage" : ""}`}>
             {spots.length > 0 &&
               spots.map((spot) => (
-                <Tooltip text="This is a tooltip">
+                <Tooltip text={spot.name}>
                   <div key={spot.id}>
                     <NavLink to={`/spots/${spot.id}`}>
                       <SpotsCard spot={spot} startRender={setStartRender} />

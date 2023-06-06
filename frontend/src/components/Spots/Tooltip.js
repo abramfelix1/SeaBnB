@@ -17,7 +17,7 @@ const Tooltip = ({ text, children }) => {
       {position.x !== 0 && position.y !== 0 && (
         <div
           className="tooltip"
-          style={{ left: position.x - 50, top: position.y + 30 }}
+          style={{ left: position.x - 55, top: position.y + 35 }}
         >
           {text}
         </div>
