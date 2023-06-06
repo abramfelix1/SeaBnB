@@ -87,6 +87,7 @@ i {
 }
 
 .details-description-container {
+  position: relative;
   display: grid;
   grid-template-columns: 2fr 1fr;
   margin: 30px 175px 0px 175px;
@@ -165,7 +166,13 @@ i {
   margin: 0 175px;
 }
 
+.booking-card-container {
+  height: 95%;
+}
+
 .spot-booking-container {
+  top: 120px;
+  position: sticky;
   display: flex;
   flex-direction: column;
   border: 1px solid #ebebeb;
