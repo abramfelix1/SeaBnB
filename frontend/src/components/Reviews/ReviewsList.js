@@ -18,6 +18,7 @@ export default function ReviewsList({
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [reviewId, setReviewId] = useState(null);
+  const user = useSelector((state) => state.session.user);
   reviews = useSelector((state) => Object.values(state.reviews));
   reviews.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
 
@@ -74,16 +75,18 @@ export default function ReviewsList({
                       Update
                     </button>
                   )}
-                  <button
-                    className={`${manage ? "manage" : "delete"}`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setShowDeleteModal(!showDeleteModal);
-                      setReviewId(review.id);
-                    }}
-                  >
-                    Delete
-                  </button>
+                  {user?.id && user.id === review.userId && (
+                    <button
+                      className={`${manage ? "manage" : "delete"}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowDeleteModal(!showDeleteModal);
+                        setReviewId(review.id);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  )}
                 </div>
               </div>
             );

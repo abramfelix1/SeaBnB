@@ -4,6 +4,7 @@ import { getSpots, getCurrentSpots } from "../../store/spots";
 import { NavLink } from "react-router-dom/";
 import SpotsCard from "./SpotsCard";
 import Modal from "../Modals/Modal";
+import Tooltip from "./Tooltip";
 import "./spots.css";
 
 export default function SpotsList({ userId, manage }) {
@@ -38,34 +39,36 @@ export default function SpotsList({ userId, manage }) {
           <div className={`spot-list ${manage ? "manage" : ""}`}>
             {spots.length > 0 &&
               spots.map((spot) => (
-                <div key={spot.id}>
-                  <NavLink to={`/spots/${spot.id}`}>
-                    <SpotsCard spot={spot} startRender={setStartRender} />
-                  </NavLink>
-                  {userId && (
-                    <div className="current-buttons-container">
-                      <button>
-                        <NavLink
-                          to={`/spots/${spot.id}/edit`}
+                <Tooltip text="This is a tooltip">
+                  <div key={spot.id}>
+                    <NavLink to={`/spots/${spot.id}`}>
+                      <SpotsCard spot={spot} startRender={setStartRender} />
+                    </NavLink>
+                    {userId && (
+                      <div className="current-buttons-container">
+                        <button>
+                          <NavLink
+                            to={`/spots/${spot.id}/edit`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                            }}
+                          >
+                            Update
+                          </NavLink>
+                        </button>
+                        <button
                           onClick={(e) => {
                             e.stopPropagation();
+                            setShowDeleteModal(!showDeleteModal);
+                            setSpotId(spot.id);
                           }}
                         >
-                          Update
-                        </NavLink>
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setShowDeleteModal(!showDeleteModal);
-                          setSpotId(spot.id);
-                        }}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  )}
-                </div>
+                          Delete
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </Tooltip>
               ))}
           </div>
         </div>

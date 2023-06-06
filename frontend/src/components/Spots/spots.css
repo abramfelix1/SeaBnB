@@ -88,12 +88,12 @@
 
 .current-buttons-container button {
   margin-right: 10px;
-  width: 100px;
-  height: 35px;
+  width: 65px;
+  height: 25px;
+  font-size: 14px;
   background-color: #53bceb;
   border-radius: 12px;
   color: white;
-  font-size: 18px;
   font-weight: bold;
 }
 
@@ -150,6 +150,39 @@
   font-size: 18px;
   font-weight: bold;
   margin-top: 10px;
+}
+
+.tooltip-container {
+  position: relative;
+}
+
+.tooltip {
+  position: fixed;
+}
+
+.tooltip::after {
+  content: attr(tooltip-info);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px;
+  background-color: #000;
+  color: #fff;
+  font-size: 14px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.tooltip:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+.tooltip-container {
+  /* z-index: 99999; */
 }
 
 @media (min-width: 1920px) {

@@ -22,6 +22,27 @@ button {
   cursor: pointer;
 }
 
+.spot-booking-button-container button,
+.demo-button-container button,
+.form-buttons-container button,
+.reviews-button,
+.form-button {
+  transition: box-shadow 0.1s ease;
+}
+
+.current-buttons-container button:hover,
+.spot-booking-button-container button:hover,
+.demo-button-container button:hover,
+.form-buttons-container button:hover,
+.reviews-button:hover,
+.form-button:hover {
+  box-shadow: 2px 2px 3px 2px #adadad;
+}
+
+.current-buttons-container button:hover {
+  box-shadow: 1px 2px 2px 1px #adadad;
+}
+
 textarea:focus,
 input:focus {
   outline: none;

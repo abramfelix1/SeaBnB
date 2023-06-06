@@ -22,11 +22,13 @@ function Navigation({ isLoaded }) {
             Create a Spot
           </NavLink>
         </button> */}
-        <div className="nav-create-button-container">
-          <NavLink to="/spots/new">
-            <button className=" nav-create-link">Create a Spot</button>
-          </NavLink>
-        </div>
+        {sessionUser && (
+          <div className="nav-create-button-container">
+            <NavLink to="/spots/new">
+              <button className=" nav-create-link">Create a Spot</button>
+            </NavLink>
+          </div>
+        )}
 
         <button className="nav-right-img">
           <img src={tree} alt="tree" />
