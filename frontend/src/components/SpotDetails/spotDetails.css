@@ -13,6 +13,7 @@
   margin: 5px 175px;
   display: flex;
   flex-direction: column;
+  max-width: 1405px;
 }
 
 .details-header p {
@@ -91,6 +92,7 @@ i {
   display: grid;
   grid-template-columns: 2fr 1fr;
   margin: 30px 175px 0px 175px;
+  max-width: 1405px;
 }
 
 .details-description-content-container {
@@ -229,20 +231,46 @@ i {
   font-size: 18px;
 }
 
-/* @media (min-width: 1745px) and (max-width: 1919px) {
-  .details-description-description-container .description {
-    margin: 45px 45px 45px 0px;
+@media (min-width: 2133px) {
+  .details-images-container {
+    max-width: 1405px;
   }
+  .details-container {
+    color: #222222;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 125px;
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+  .details-reviews-container {
+    max-width: 1405px;
+  }
+  .details-header {
+    width: 1745px;
+  }
+  .details-reviews-container {
+    width: 1745px;
+  }
+}
+
+@media (min-width: 1745px) and (max-width: 1919px) {
 }
 
 @media (min-width: 1536px) and (max-width: 1744px) {
-  .details-description-description-container .description {
-    margin: 45px 115px 45px 0px;
-  }
 }
 
 @media (min-width: 1280px) and (max-width: 1535px) {
+  .details-description-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: 2fr 1fr;
+    margin: 30px 175px 0px 175px;
+  }
 }
 
 @media (min-width: 1097px) and (max-width: 1279px) {
-} */
+}

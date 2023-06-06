@@ -29,6 +29,14 @@ export default function LoginForm({ closeModal }) {
     }
   };
 
+  const demoHandler = (e) => {
+    e.preventDefault();
+    const credential = "Demo-lition";
+    const password = "password";
+    closeModal();
+    return dispatch(sessionActions.login({ credential, password }));
+  };
+
   return (
     <div className="form-container cred">
       <div className="form-header">
@@ -66,6 +74,12 @@ export default function LoginForm({ closeModal }) {
           </button>
         </div>
       </form>
+      <p className="break-line"></p>
+      <div className="demo-button-container">
+        <button className="demo-button" onClick={demoHandler}>
+          Demo User
+        </button>
+      </div>
     </div>
   );
 }

@@ -33,39 +33,41 @@ export default function SpotsList({ userId, manage }) {
       {showDeleteModal && (
         <Modal closeModal={setShowDeleteModal} type={"delete"} id={spotId} />
       )}
-      <div className="spot-container">
-        <div className={`spot-list ${manage ? "manage" : ""}`}>
-          {spots.length > 0 &&
-            spots.map((spot) => (
-              <div key={spot.id}>
-                <NavLink to={`/spots/${spot.id}`}>
-                  <SpotsCard spot={spot} startRender={setStartRender} />
-                </NavLink>
-                {userId && (
-                  <div className="current-buttons-container">
-                    <button>
-                      <NavLink
-                        to={`/spots/${spot.id}/edit`}
+      <div className="spot-container-container">
+        <div className="spot-container">
+          <div className={`spot-list ${manage ? "manage" : ""}`}>
+            {spots.length > 0 &&
+              spots.map((spot) => (
+                <div key={spot.id}>
+                  <NavLink to={`/spots/${spot.id}`}>
+                    <SpotsCard spot={spot} startRender={setStartRender} />
+                  </NavLink>
+                  {userId && (
+                    <div className="current-buttons-container">
+                      <button>
+                        <NavLink
+                          to={`/spots/${spot.id}/edit`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                        >
+                          Update
+                        </NavLink>
+                      </button>
+                      <button
                         onClick={(e) => {
                           e.stopPropagation();
+                          setShowDeleteModal(!showDeleteModal);
+                          setSpotId(spot.id);
                         }}
                       >
-                        Update
-                      </NavLink>
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setShowDeleteModal(!showDeleteModal);
-                        setSpotId(spot.id);
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                )}
-              </div>
-            ))}
+                        Delete
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ))}
+          </div>
         </div>
       </div>
     </>

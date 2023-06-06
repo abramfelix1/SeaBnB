@@ -193,3 +193,14 @@
     padding-right: 55px;
   }
 }
+
+@media (min-width: 2133px) {
+  .spot-container {
+    max-width: 1920px;
+  }
+
+  .spot-container-container {
+    display: flex;
+    justify-content: center;
+  }
+}

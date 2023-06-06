@@ -41,7 +41,7 @@
 .nav-right-img {
   cursor: pointer;
   position: absolute;
-  bottom: -25px;
+  bottom: -27px;
   right: 200px;
   width: 55px;
   height: 55px;
@@ -196,6 +196,19 @@
   .nav-right {
     right: -30px;
   }
+
+  .nav-create-button-container {
+    position: absolute;
+    right: 225px;
+    top: -52px;
+  }
+
+  .nav-right-img {
+    cursor: pointer;
+    position: absolute;
+    bottom: -24px;
+    right: 200px;
+  }
 }
 
 @media (min-width: 1536px) and (max-width: 1744px) {
@@ -209,6 +222,19 @@
 
   .nav-right {
     right: -35px;
+  }
+
+  .nav-create-button-container {
+    position: absolute;
+    right: 225px;
+    top: -47px;
+  }
+
+  .nav-right-img {
+    cursor: pointer;
+    position: absolute;
+    bottom: -19px;
+    right: 200px;
   }
 }
 
@@ -224,6 +250,18 @@
   .nav-right {
     right: -35px;
   }
+
+  .nav-create-button-container {
+    position: absolute;
+    right: 225px;
+    top: -52px;
+  }
+
+  .nav-right-img {
+    position: absolute;
+    bottom: -24px;
+    right: 200px;
+  }
 }
 
 @media (min-width: 1097px) and (max-width: 1279px) {
@@ -237,5 +275,23 @@
 
   .nav-right {
     right: -35px;
+  }
+
+  .nav-create-button-container {
+    position: absolute;
+    right: 225px;
+    top: -52px;
+  }
+
+  .nav-right-img {
+    cursor: pointer;
+    position: absolute;
+    bottom: -25px;
+    right: 200px;
+  }
+}
+
+@media (min-width: 2133px) {
+  .nav-container {
   }
 }

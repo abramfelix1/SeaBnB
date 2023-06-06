@@ -19,7 +19,7 @@ export default function ReviewsInfo({ review }) {
   let isUpdated = review.createdAt === review.updatedAt;
   const date = new Date(isUpdated ? review.createdAt : review.updatedAt);
   const year = date.getFullYear();
-  const month = MONTHS[date.getMonth() + 1];
+  const month = MONTHS[date.getMonth()];
 
   return (
     <div className="reviews-list-container">

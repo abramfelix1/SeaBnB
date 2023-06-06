@@ -158,3 +158,25 @@
   width: 100%;
   margin-bottom: 20px;
 }
+
+.demo-button-container {
+  width: 90%;
+}
+
+.demo-button {
+  color: rgb(0, 0, 0);
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid black;
+  border-radius: 12px;
+  height: 45px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.break-line {
+  width: 90%;
+  border-bottom: 1px solid #b0b0b0;
+  margin-bottom: 20px;
+}
