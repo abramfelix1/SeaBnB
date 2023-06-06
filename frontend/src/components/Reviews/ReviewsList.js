@@ -19,7 +19,7 @@ export default function ReviewsList({
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [reviewId, setReviewId] = useState(null);
   reviews = useSelector((state) => Object.values(state.reviews));
-  reviews.sort((a, b) => b.id - a.id);
+  reviews.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
 
   useEffect(() => {
     if (manage) {
