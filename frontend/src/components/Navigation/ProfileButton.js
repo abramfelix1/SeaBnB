@@ -79,7 +79,7 @@ function ProfileButton({ user }) {
                 <button onClick={logout}>Log Out</button>
               </div>
             ) : (
-              <>
+              <div className="profile-button-non-logged-container">
                 <li>
                   <button
                     onClick={() => {
@@ -100,10 +100,7 @@ function ProfileButton({ user }) {
                     Sign Up
                   </button>
                 </li>
-                <li>
-                  <button onClick={demoHandler}>Demo User</button>
-                </li>
-              </>
+              </div>
             )}
           </div>
         </ul>
