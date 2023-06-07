@@ -18,7 +18,14 @@
 
 .details-header p {
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 500;
+  padding-left: 22px;
+}
+
+.details-header .star {
+  position: absolute;
+  top: 9px;
+  font-size: 16px;
 }
 
 .details-header span:not(.period) {
@@ -33,6 +40,7 @@
 }
 
 i {
+  top: 80px;
   font-size: 14px;
 }
 
@@ -110,8 +118,8 @@ i {
 }
 
 .details-description-header-left p {
-  font-size: 24px;
-  font-weight: lighter;
+  font-size: 22px;
+  font-weight: 300;
   margin-top: 10px;
 }
 
@@ -136,18 +144,15 @@ i {
 
 .details-description-extras div {
   font-size: 21px;
-  font-weight: bold;
+  font-weight: 500;
   margin-left: 20px;
   margin-bottom: 45px;
 }
 
-.details-container-extras p {
-  color: #222222;
-}
-
 .details-description-extras-light {
   color: #717171;
-  font-weight: lighter;
+  font-size: 18px;
+  font-weight: 300;
   margin: 5px 0;
 }
 

@@ -64,7 +64,7 @@ export default function ReviewsList({
                     manage ? "manage" : "review"
                   }`}
                 >
-                  {manage && (
+                  {user?.id && user.id === review.userId && (
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -77,7 +77,7 @@ export default function ReviewsList({
                   )}
                   {user?.id && user.id === review.userId && (
                     <button
-                      className={`${manage ? "manage" : "delete"}`}
+                      className="delete"
                       onClick={(e) => {
                         e.stopPropagation();
                         setShowDeleteModal(!showDeleteModal);

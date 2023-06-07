@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import * as sessionActions from "../../../store/session";
@@ -14,33 +14,24 @@ export default function SignupForm({ closeModal }) {
   const [password, setPassword] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState(null);
   const [errors, setErrors] = useState({});
+  const [formFilled, setFormFilled] = useState(false);
+
+  useEffect(() => {
+    if (
+      email?.length &&
+      username?.length &&
+      firstName?.length &&
+      lastName?.length &&
+      password?.length &&
+      confirmPassword?.length
+    ) {
+      setFormFilled(true);
+    } else {
+      setFormFilled(false);
+    }
+  }, [email, username, firstName, lastName, password, confirmPassword]);
 
   if (sessionUser) return <Redirect to="/" />;
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   if (password === confirmPassword) {
-  //     setErrors({});
-  //     return dispatch(
-  //       sessionActions.signup({
-  //         email,
-  //         username,
-  //         firstName,
-  //         lastName,
-  //         password,
-  //       })
-  //     ).catch(async (res) => {
-  //       const data = await res.json();
-  //       if (data && data.errors) {
-  //         setErrors(data.errors);
-  //       }
-  //     });
-  //   }
-  //   return setErrors({
-  //     confirmPassword:
-  //       "Confirm Password field must be the same as the Password field",
-  //   });
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -179,7 +170,9 @@ export default function SignupForm({ closeModal }) {
             required
           />
         </div>
-        <div className="form-buttons-container">
+        <div
+          className={`form-buttons-container ${!formFilled ? "disabled" : ""}`}
+        >
           <button className="form-button" type="submit">
             Sign Up
           </button>

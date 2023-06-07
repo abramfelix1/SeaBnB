@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as sessionActions from "../../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
@@ -12,6 +12,15 @@ export default function LoginForm({ closeModal }) {
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [formFilled, setFormFilled] = useState(false);
+
+  useEffect(() => {
+    if (credential?.length >= 4 && password?.length >= 6) {
+      setFormFilled(true);
+    } else {
+      setFormFilled(false);
+    }
+  }, [credential, password]);
 
   if (sessionUser) return <Redirect to="/" />;
 
@@ -54,21 +63,36 @@ export default function LoginForm({ closeModal }) {
         </div>
       )}
       <form onSubmit={submitHandler}>
-        <input
-          placeholder="Username or Email"
-          type="text"
-          value={credential}
-          onChange={(e) => setCredential(e.target.value)}
-          required
-        />
-        <input
-          placeholder="Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <div className="form-buttons-container">
+        <div className="input-container log">
+          <label className={credential?.length ? "active" : ""} htmlFor="cred">
+            Username or Email
+          </label>
+          <input
+            id="cred"
+            type="text"
+            value={credential}
+            onChange={(e) => setCredential(e.target.value)}
+            required
+          />
+        </div>
+        <div className="input-container log">
+          <label
+            className={password?.length ? "active" : ""}
+            htmlFor="password"
+          >
+            Password
+          </label>
+          <input
+            id="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <div
+          className={`form-buttons-container ${!formFilled ? "disabled" : ""}`}
+        >
           <button className="form-button" type="submit">
             Log In
           </button>

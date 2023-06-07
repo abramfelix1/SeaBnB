@@ -36,7 +36,7 @@
 .spot-card-info-container {
   display: flex;
   flex-direction: column;
-  font-size: 21px;
+  font-size: 18px;
   font-weight: bold;
   position: relative;
   margin: 15px 0 0 0;
@@ -57,23 +57,25 @@
 }
 
 .spot-card-rating p {
-  font-size: 21px;
+  font-size: 18px;
   font-weight: normal;
 }
 
 .spot-distance {
-  font-weight: normal;
+  margin-top: 3px;
+  font-weight: 300;
   color: #717171;
 }
 
 .spot-distance p {
   padding: 1px 0;
+  margin-top: 2px;
   margin-bottom: 2px;
 }
 
 .spot-price {
   position: absolute;
-  top: 90px;
+  top: 82px;
 }
 
 .spot-price span {
@@ -92,7 +94,7 @@
   height: 25px;
   font-size: 14px;
   background-color: #53bceb;
-  border-radius: 12px;
+  border-radius: 8px;
   color: white;
   font-weight: bold;
 }
@@ -111,6 +113,7 @@
 
 .current-buttons-container button:nth-child(2) {
   background-color: #eb5357;
+  border-radius: 8px;
 }
 
 .spot-list.manage {

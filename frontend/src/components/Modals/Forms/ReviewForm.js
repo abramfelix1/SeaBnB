@@ -12,6 +12,15 @@ export default function ReviewForm({ closeModal, type, currentId }) {
   const [rating, setRatings] = useState("null");
   const [filled, setFilled] = useState(-1);
   const [errors, setErrors] = useState({});
+  const [formFilled, setFormFilled] = useState(false);
+
+  useEffect(() => {
+    if (review?.length >= 10 && rating > 0) {
+      setFormFilled(true);
+    } else {
+      setFormFilled(false);
+    }
+  }, [review, rating]);
 
   const handleMouseEnter = (index) => {
     setFilled(index);
@@ -116,7 +125,10 @@ export default function ReviewForm({ closeModal, type, currentId }) {
           ))}
           <p>Stars</p>
         </div>
-        <button className="form-button" type="submit">
+        <button
+          className={`form-button ${!formFilled ? "disabled" : ""}`}
+          type="submit"
+        >
           Submit Your Review
         </button>
       </form>

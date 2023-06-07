@@ -5,9 +5,9 @@ export default function SpotDetailsDescription({ spot }) {
     <div className="details-description-content-container">
       <div className="details-description-header-container">
         <div className="details-description-header-left">
-          <h1>
+          <h2>
             Hosted by {spot.Owner.firstName} {spot.Owner.lastName}
-          </h1>
+          </h2>
           <p>∞ guests · ∞ bedrooms · ∞ beds · ∞ baths</p>
         </div>
         <div className="details-description-header-right">

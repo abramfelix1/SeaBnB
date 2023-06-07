@@ -142,7 +142,9 @@ const validateReview = [
   check("review")
     .exists({ checkFalsy: true })
     .notEmpty()
-    .withMessage("Please provide review text"),
+    .withMessage("Please provide review text")
+    .isLength({ min: 10 })
+    .withMessage("Review must have a minimum length of 10 characters"),
   check("stars")
     .exists({ checkFalsy: true })
     .notEmpty()

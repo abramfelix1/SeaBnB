@@ -25,14 +25,14 @@ export default function SpotReviews({ spot }) {
       <div className="reviews-content-container">
         <div className="reviews-header-container">
           <div className="reviews-header">
-            <h1>
+            <h2>
               {" "}
               <i className="fa-solid fa-star"></i>{" "}
               {spot.avgRating?.toFixed(2) || "new"}{" "}
               {spot.numReviews > 1 && "· " + spot.numReviews + " reviews"}
               {spot.numReviews === 1 && "· " + spot.numReviews + " review"}
               {spot.numReviews === 0 && ""}
-            </h1>
+            </h2>
           </div>
           <button
             className="reviews-button"
