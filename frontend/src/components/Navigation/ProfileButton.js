@@ -4,9 +4,11 @@ import { NavLink } from "react-router-dom/";
 import * as sessionActions from "../../store/session";
 import Modal from "../Modals/Modal";
 import "./Navigation.css";
+import { useHistory } from "react-router-dom/";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [showMenu, setShowMenu] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSignupModal, setShowSignupModal] = useState(false);
@@ -45,6 +47,7 @@ function ProfileButton({ user }) {
     e.preventDefault();
     dispatch(sessionActions.logout());
     closeMenu();
+    history.push("/");
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");

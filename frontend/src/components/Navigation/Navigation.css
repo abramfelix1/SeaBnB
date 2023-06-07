@@ -171,10 +171,12 @@
 }
 .profile-dropdown-logged-info button:hover {
   background-color: #f7f7f7;
+  border-radius: 12px;
 }
 
 .profile-dropdown-logged-info a:hover {
   background-color: #f7f7f7;
+  border-radius: 12px;
 }
 
 .profile-dropdown-content li button {
@@ -187,6 +189,7 @@
 
 .profile-dropdown-content li button:hover {
   background-color: #f7f7f7;
+  border-radius: 12px;
 }
 
 .drop-down-nav-link {

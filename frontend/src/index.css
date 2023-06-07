@@ -36,11 +36,11 @@ button {
 .form-buttons-container button:hover,
 .reviews-button:hover,
 .form-button:hover {
-  box-shadow: 2px 2px 3px 2px #adadad;
+  box-shadow: 2px 2px 3px 1px #adadad;
 }
 
 .current-buttons-container button:hover {
-  box-shadow: 1px 2px 2px 1px #adadad;
+  box-shadow: 1px 2px 2px 0.5px #adadad;
 }
 
 textarea:focus,

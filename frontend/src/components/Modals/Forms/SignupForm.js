@@ -8,11 +8,11 @@ export default function SignupForm({ closeModal }) {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [username, setUsername] = useState(null);
+  const [firstName, setFirstName] = useState(null);
+  const [lastName, setLastName] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [confirmPassword, setConfirmPassword] = useState(null);
   const [errors, setErrors] = useState({});
 
   if (sessionUser) return <Redirect to="/" />;
@@ -71,7 +71,7 @@ export default function SignupForm({ closeModal }) {
   };
 
   return (
-    <div className="form-container cred">
+    <div className="form-container cred sign">
       <div className="form-header">
         <i
           className="fa-solid fa-x"
@@ -92,48 +92,93 @@ export default function SignupForm({ closeModal }) {
         </div>
       )}
       <form onSubmit={handleSubmit}>
-        <input
-          placeholder="Email"
-          type="text"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          placeholder="Username"
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        <input
-          placeholder="First Name"
-          type="text"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-          required
-        />
-        <input
-          placeholder="Last Name"
-          type="text"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-          required
-        />
-        <input
-          placeholder="Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <input
-          placeholder="Confirm Password"
-          type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          required
-        />
+        <div className="input-container">
+          <label className={email?.length ? "active" : ""} htmlFor="email">
+            Email
+          </label>
+          <input
+            id="email"
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="input-container">
+          <label
+            className={username?.length ? "active" : ""}
+            htmlFor="username"
+          >
+            Username
+          </label>
+          <input
+            id="username"
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        </div>
+        <div className="input-container">
+          <label
+            className={firstName?.length ? "active" : ""}
+            htmlFor="firstName"
+          >
+            First Name
+          </label>
+          <input
+            id="firstName"
+            type="text"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            required
+          />
+        </div>
+        <div className="input-container">
+          <label
+            className={lastName?.length ? "active" : ""}
+            htmlFor="lastName"
+          >
+            Last Name
+          </label>
+          <input
+            id="lastName"
+            type="text"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            required
+          />
+        </div>
+        <div className="input-container">
+          <label
+            className={password?.length ? "active" : ""}
+            htmlFor="password"
+          >
+            Password
+          </label>
+          <input
+            id="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <div className="input-container">
+          <label
+            className={confirmPassword?.length ? "active" : ""}
+            htmlFor="confirmPassword"
+          >
+            Confirm Password
+          </label>
+          <input
+            id="confirmPassword"
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+          />
+        </div>
         <div className="form-buttons-container">
           <button className="form-button" type="submit">
             Sign Up
