@@ -31,7 +31,6 @@ function App() {
             <SignupFormPage />
           </Route>
           <Route exact path="/">
-            <h1>TEST</h1>
             <SpotsList />
           </Route>
           <Route exact path="/spots/new">

@@ -8,7 +8,7 @@ export default function SpotDetailsHeader({ spot }) {
         <i className="fa-solid fa-star star"></i>{" "}
         <div className="details-sub-header-info">
           <p>
-            {spot.avgRating ? `${spot.avgRating.toFixed(2)}` : "new"} ·{" "}
+            {spot.avgRating ? `${Number(spot.avgRating).toFixed(2)}` : "new"} ·{" "}
             <span>{spot.numReviews} reviews</span>
             {""}
             <span className="period"> . </span>

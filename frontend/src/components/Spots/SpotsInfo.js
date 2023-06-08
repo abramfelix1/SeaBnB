@@ -6,7 +6,9 @@ export default function SpotInfo({ spot }) {
         <span className="spot-card-rating">
           {" "}
           <i className="fa-solid fa-star"></i>{" "}
-          <p>{spot.avgRating ? `${spot.avgRating.toFixed(2)}` : "new"}</p>
+          <p>
+            {spot.avgRating ? `${Number(spot.avgRating).toFixed(2)}` : "new"}
+          </p>
         </span>
       </div>
       <div className="spot-distance">
