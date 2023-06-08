@@ -3,6 +3,7 @@ import LoginForm from "./Forms/LoginForm";
 import ReviewForm from "./Forms/ReviewForm";
 import SignupForm from "./Forms/SignupForm";
 import DeleteForm from "./Forms/DeleteForm";
+import BookingForm from "./Forms/BookingForm";
 
 import "./Modal.css";
 
@@ -21,6 +22,7 @@ export default function Modal({ closeModal, type, action, id, spotId }) {
         spotId={spotId}
       />
     ),
+    booking: <BookingForm closeModal={closeModal} />,
   };
 
   const handleClick = (e) => {

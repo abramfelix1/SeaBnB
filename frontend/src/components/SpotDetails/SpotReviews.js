@@ -39,7 +39,7 @@ export default function SpotReviews({ spot }) {
               {spot.numReviews === 0 && ""}
             </h2>
           </div>
-          {!postedReview && !isOwner && (
+          {!postedReview && !isOwner && user?.id && (
             <button
               className="reviews-button"
               onClick={() => {

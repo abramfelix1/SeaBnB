@@ -95,47 +95,83 @@
 
   .photo-big {
     margin-right: 10px;
-    width: 675px;
-    height: 490px;
+    width: 690px;
+    height: 515px;
     border-top-left-radius: 12px;
     border-bottom-left-radius: 12px;
   }
 
   .c2r1-container {
     grid-area: c2r1;
-    width: 305px;
-    height: 240.5px;
+    width: 330px;
+    height: 252.5px;
   }
 
   .c2r2-container {
     grid-area: c2r2;
-    width: 305px;
-    height: 240.5px;
+    width: 330px;
+    height: 252.5px;
   }
 
   .c3r1-container {
     grid-area: c3r1;
-    width: 305px;
-    height: 240.5px;
+    width: 330px;
+    height: 252.5px;
   }
 
   .c3r2-container {
     grid-area: c3r2;
-    width: 305px;
-    height: 240.5px;
+    width: 330px;
+    height: 252.5px;
   }
 }
 
 @media (min-width: 1536px) and (max-width: 1744px) {
-  .photo-container {
-    display: flex;
-    flex-direction: row;
-    max-width: 1400px;
-  }
-
   .photo-big {
     margin-right: 10px;
-    width: 635px;
+    width: 675px;
+    height: 500px;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+  }
+
+  .c2r1-container {
+    grid-area: c2r1;
+    width: 315px;
+    height: 244.5px;
+  }
+
+  .c2r2-container {
+    grid-area: c2r2;
+    width: 315px;
+    height: 244.5px;
+  }
+
+  .c3r1-container {
+    grid-area: c3r1;
+    width: 315px;
+    height: 244.5px;
+  }
+
+  .c3r2-container {
+    grid-area: c3r2;
+    width: 315px;
+    height: 244.5px;
+  }
+}
+
+@media (min-width: 1280px) and (max-width: 1535px) {
+  .photo-grid {
+    display: grid;
+    grid-template-columns: 0fr;
+    gap: 10px;
+    grid-template-areas:
+      "c2r1"
+      "c2r2";
+  }
+  .photo-big {
+    margin-right: 10px;
+    width: 600px;
     height: 450px;
     border-top-left-radius: 12px;
     border-bottom-left-radius: 12px;
@@ -144,73 +180,64 @@
   .c2r1-container {
     grid-area: c2r1;
     width: 265px;
-    height: 220.5px;
+    height: 183.5px;
   }
 
   .c2r2-container {
     grid-area: c2r2;
     width: 265px;
-    height: 220.5px;
+    height: 183.5px;
   }
 
   .c3r1-container {
-    grid-area: c3r1;
-    width: 265px;
-    height: 220.5px;
+    display: none;
   }
 
   .c3r2-container {
-    grid-area: c3r2;
-    width: 265px;
-    height: 220.5px;
+    display: none;
   }
 }
 
-@media (min-width: 1280px) and (max-width: 1535px) {
+@media (min-width: 1097.14px) and (max-width: 1279px) {
   .photo-grid {
-    /* display: none; */
-  }
-
-  .photo-container {
-    display: flex;
-    flex-direction: row;
-    max-width: 1400px;
+    display: grid;
+    grid-template-columns: 0fr;
+    gap: 10px;
+    grid-template-areas:
+      "c2r1"
+      "c2r2";
   }
 
   .photo-big {
     margin-right: 10px;
-    width: 600px;
-    height: 350px;
+    width: 585px;
+    height: 435px;
     border-top-left-radius: 12px;
     border-bottom-left-radius: 12px;
   }
 
   .c2r1-container {
     grid-area: c2r1;
-    width: 245px;
-    height: 170.5px;
+    width: 265px;
+    height: 212.5px;
   }
 
   .c2r2-container {
     grid-area: c2r2;
-    width: 245px;
-    height: 170.5px;
+    width: 265px;
+    height: 212.5px;
   }
 
   .c3r1-container {
-    grid-area: c3r1;
-    width: 245px;
-    height: 170.5px;
+    display: none;
   }
 
   .c3r2-container {
-    grid-area: c3r2;
-    width: 245px;
-    height: 170.5px;
+    display: none;
   }
 }
 
-@media (max-width: 1097.14px) {
+@media (max-width: 1096px) {
   .photo-grid {
     display: none;
   }
@@ -224,47 +251,7 @@
   .photo-big {
     margin-right: 10px;
     width: 425px;
-    height: 265px;
-    border-top-left-radius: 12px;
-    border-bottom-left-radius: 12px;
-  }
-
-  .c2r1-container {
-    grid-area: c2r1;
-    width: 235px;
-    height: 125.5px;
-  }
-
-  .c2r2-container {
-    grid-area: c2r2;
-    width: 235px;
-    height: 125.5px;
-  }
-
-  .c3r1-container {
-    grid-area: c3r1;
-    width: 235px;
-    height: 125.5px;
-  }
-
-  .c3r2-container {
-    grid-area: c3r2;
-    width: 235px;
-    height: 125.5px;
-  }
-}
-
-@media (max-width: 1097.14px) {
-  .photo-container {
-    display: flex;
-    flex-direction: row;
-    max-width: 1400px;
-  }
-
-  .photo-big {
-    margin-right: 10px;
-    width: 425px;
-    height: 265px;
+    height: 365px;
     border-top-left-radius: 12px;
     border-bottom-left-radius: 12px;
   }
