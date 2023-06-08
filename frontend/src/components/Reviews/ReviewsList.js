@@ -29,7 +29,6 @@ export default function ReviewsList({
       dispatch(getSpotReviews(spotId));
     }
     if (isChanged === true || isChanged === false) {
-      console.log("AAAAAAA");
       setIsChanged(!isChanged);
     }
   }, [dispatch, spotId, manage, showDeleteModal, showReviewModal]);

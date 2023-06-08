@@ -282,13 +282,15 @@ export default function CreateSpotForm() {
               </p>
             </div>
             <div className="no-label-inputs">
-              ${" "}
-              <input
-                className="price"
-                name="price"
-                placeholder="Price per night (USD)"
-                onChange={inputHandler}
-              />
+              <p className="dollar-sign">
+                $
+                <input
+                  className="price"
+                  name="price"
+                  placeholder="Price per night (USD)"
+                  onChange={inputHandler}
+                />
+              </p>
             </div>
             {errors.price && (
               <span className="form-errors">{errors.price}</span>

@@ -6,6 +6,7 @@
   padding-top: 125px;
   padding-left: 80px;
   padding-right: 80px;
+  margin-bottom: 45px;
 }
 
 .details-header {
@@ -216,13 +217,12 @@ i {
 }
 
 .spot-booking-header-left {
-  font-size: 32px;
   font-weight: bold;
 }
 
 .spot-booking-header-left-price span {
   font-weight: 300;
-  font-size: 21px;
+  font-size: 18px;
 }
 
 .spot-booking-header-right {
@@ -230,7 +230,7 @@ i {
   bottom: 2px;
   right: 0px;
   font-weight: 300;
-  font-size: 21px;
+  font-size: 18px;
 }
 
 .spot-booking-header-right i {

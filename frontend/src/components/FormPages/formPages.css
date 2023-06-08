@@ -122,7 +122,14 @@
 }
 
 .no-label-inputs {
+  position: relative;
+  display: flex;
+  flex-direction: row;
   margin-bottom: 10px;
+}
+
+.no-label-inputs input {
+  margin-left: 2px;
 }
 
 .section-container .price {

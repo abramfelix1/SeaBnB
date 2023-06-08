@@ -19,11 +19,12 @@ export default function SignupForm({ closeModal }) {
   useEffect(() => {
     if (
       email?.length &&
-      username?.length &&
+      username?.length >= 4 &&
       firstName?.length &&
       lastName?.length &&
-      password?.length &&
-      confirmPassword?.length
+      password?.length >= 6 &&
+      confirmPassword?.length &&
+      password === confirmPassword
     ) {
       setFormFilled(true);
     } else {

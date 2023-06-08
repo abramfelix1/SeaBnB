@@ -151,19 +151,33 @@
 .profile-dropdown-logged-info {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  height: 250px;
+  /* justify-content: space-around; */
   font-size: 18px;
 }
 
-.profile-dropdown-logged-info li {
-  padding-left: 10px;
+.greeings {
+  width: 100%;
+  height: 100%;
+}
+
+.profile-dropdown-logged-info .greetings li {
+  padding: 5px;
+  text-align: center;
+}
+
+.profile-dropdown-logged-info .greetings li:first-child {
+  padding-top: 25px;
+  text-align: center;
+}
+
+.profile-dropdown-logged-info .greetings li:last-child {
+  padding-top: 10px;
   text-align: center;
 }
 
 .profile-dropdown-logged-info button {
   font-size: 18px;
-  padding: 10px 20px;
+  padding: 25px 25px;
 }
 
 .profile-dropdown-logged-info a {

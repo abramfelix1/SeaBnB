@@ -3,9 +3,9 @@ export default function SpotBookingCard({ spot }) {
     <div className="spot-booking-container">
       <div className="spot-booking-header">
         <div className="spot-booking-header-left">
-          <p className="spot-booking-header-left-price">
+          <h2 className="spot-booking-header-left-price">
             ${spot.price.toFixed(2)} <span>night</span>
-          </p>
+          </h2>
         </div>
         <div className="spot-booking-header-right">
           {" "}

@@ -69,15 +69,19 @@ function ProfileButton({ user }) {
           <div className="profile-dropdown-content">
             {user ? (
               <div className="profile-dropdown-logged-info">
-                <li>Hello, {user.username}</li>
-                <li>{user.email}</li>
-                <li className="profile-dropdown-content-break-line"></li>
+                <div className="greetings" onClick={(e) => e.stopPropagation()}>
+                  <li>Hello, {user.username}</li>
+                  <li>{user.email}</li>
+                  <li className="profile-dropdown-content-break-line"></li>
+                </div>
+
                 <NavLink to="/spots/current">
                   <button>Manage Spots</button>
                 </NavLink>
                 <NavLink to="/reviews/current">
                   <button>Manage Reviews</button>
                 </NavLink>
+
                 <li className="profile-dropdown-content-break-line"></li>
                 <button onClick={logout}>Log Out</button>
               </div>

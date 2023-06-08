@@ -3,23 +3,30 @@
 }
 
 .reviews-header-container {
+  position: relative;
   display: flex;
   flex-direction: column;
+}
+.reviews-header-container .star {
+  position: absolute;
+  font-size: 21px;
+  top: 5px;
 }
 
 .reviews-header {
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
 }
 
-.reviews-header i,
-.reviews-header p {
-  font-size: 24px;
-  font-weight: bold;
+.reviews-header i {
+  font-size: 21px;
+}
+.reviews-header h2 {
+  padding-left: 30px;
 }
 
 .reviews-button {
+  margin-top: 20px;
   width: 150px;
   height: 45px;
   background-color: #53bceb;
@@ -34,7 +41,7 @@
   flex-direction: row;
   font-size: 18px;
   padding-bottom: 10px;
-  padding-top: 45px;
+  margin-top: 26px;
 }
 
 .reviews-item-header-left i {
