@@ -25,11 +25,7 @@ export default function SpotsList({ userId, manage }) {
     };
   }, [dispatch, manage, showDeleteModal]);
 
-  return !startRender ? (
-    <div className="spot-loader">
-      <h1>. . .</h1>
-    </div>
-  ) : (
+  return (
     <>
       {showDeleteModal && (
         <Modal closeModal={setShowDeleteModal} type={"delete"} id={spotId} />
