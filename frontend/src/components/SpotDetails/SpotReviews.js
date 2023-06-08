@@ -33,7 +33,7 @@ export default function SpotReviews({ spot }) {
           <div className="reviews-header">
             <h2>
               {" "}
-              {spot.avgRating?.toFixed(2) || "new"}{" "}
+              {Number(spot.avgRating)?.toFixed(2) || "new"}{" "}
               {spot.numReviews > 1 && "· " + spot.numReviews + " reviews"}
               {spot.numReviews === 1 && "· " + spot.numReviews + " review"}
               {spot.numReviews === 0 && ""}

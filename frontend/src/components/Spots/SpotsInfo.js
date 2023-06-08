@@ -16,7 +16,7 @@ export default function SpotInfo({ spot }) {
         <p>Any Day</p>
       </div>
       <div className="spot-price">
-        ${spot.price.toFixed(2)} <span>night</span>
+        ${Number(spot.price).toFixed(2)} <span>night</span>
       </div>
     </div>
   );
