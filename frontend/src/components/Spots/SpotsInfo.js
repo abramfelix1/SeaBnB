@@ -7,7 +7,9 @@ export default function SpotInfo({ spot }) {
           {" "}
           <i className="fa-solid fa-star"></i>{" "}
           <p>
-            {spot.avgRating ? `${Number(spot.avgRating).toFixed(2)}` : "new"}
+            {spot.avgRating !== null
+              ? `${Number(spot.avgRating).toFixed(2)}`
+              : "new"}
           </p>
         </span>
       </div>

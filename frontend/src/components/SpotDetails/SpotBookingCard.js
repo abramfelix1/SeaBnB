@@ -19,7 +19,9 @@ export default function SpotBookingCard({ spot }) {
           <div className="spot-booking-header-right">
             {" "}
             <i className="fa-solid fa-star"></i>{" "}
-            {Number(spot.avgRating)?.toFixed(2) || "new"}{" "}
+            {spot.avgRating !== null
+              ? `${Number(spot.avgRating).toFixed(2)}`
+              : "new"}{" "}
             {spot.numReviews > 1 && "· " + spot.numReviews + " reviews"}
             {spot.numReviews === 1 && "· " + spot.numReviews + " review"}
             {spot.numReviews === 0 && ""}
