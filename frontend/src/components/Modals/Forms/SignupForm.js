@@ -83,34 +83,8 @@ export default function SignupForm({ closeModal }) {
           {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
         </div>
       )}
+
       <form onSubmit={handleSubmit}>
-        <div className="input-container">
-          <label className={email?.length ? "active" : ""} htmlFor="email">
-            Email
-          </label>
-          <input
-            id="email"
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className="input-container">
-          <label
-            className={username?.length ? "active" : ""}
-            htmlFor="username"
-          >
-            Username
-          </label>
-          <input
-            id="username"
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
         <div className="input-container">
           <label
             className={firstName?.length ? "active" : ""}
@@ -138,6 +112,33 @@ export default function SignupForm({ closeModal }) {
             type="text"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
+            required
+          />
+        </div>
+        <div className="input-container">
+          <label className={email?.length ? "active" : ""} htmlFor="email">
+            Email
+          </label>
+          <input
+            id="email"
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="input-container">
+          <label
+            className={username?.length ? "active" : ""}
+            htmlFor="username"
+          >
+            Username
+          </label>
+          <input
+            id="username"
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             required
           />
         </div>

@@ -19,12 +19,12 @@ router.post("/", validateSignup, async (req, res, next) => {
 
   if (usernameExists)
     next({
-      message: "Username already exists",
+      errors: { username: "Username already exists" },
       status: 403,
     });
   if (emailExists)
     next({
-      message: "Email already exists",
+      errors: { email: "Email already exists" },
       status: 403,
     });
 
