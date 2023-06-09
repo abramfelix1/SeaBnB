@@ -228,7 +228,7 @@ export default function EditSpotForm() {
                 <input
                   name="latitude"
                   placeholder="Latitude"
-                  value={longitude}
+                  value={latitude}
                   onChange={inputHandler}
                 />
               </label>
@@ -243,7 +243,7 @@ export default function EditSpotForm() {
                 <input
                   name="longitude"
                   placeholder="Longitude"
-                  value={latitude}
+                  value={longitude}
                   onChange={inputHandler}
                 />
               </label>

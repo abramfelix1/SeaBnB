@@ -5,7 +5,7 @@ const Tooltip = ({ text, children }) => {
 
   const handleMouseMove = (e) => {
     const tooltipRef = document.getElementById("tooltip");
-    const tooltipWidth = tooltipRef?.offsetWidth;
+    const tooltipWidth = tooltipRef?.offsetWidth || 0;
     setPosition({ x: e.clientX - tooltipWidth / 2 + 3, y: e.clientY + 32 });
   };
 
