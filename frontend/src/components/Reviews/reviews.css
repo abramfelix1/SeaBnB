@@ -80,17 +80,10 @@
 }
 
 .current-buttons-container.review button {
-  width: 65px;
-  height: 25px;
-  font-size: 14px;
   background-color: #53bceb;
   border-radius: 8px;
 }
 
 .current-buttons-container.review .delete {
-  width: 65px;
-  height: 25px;
-  font-size: 14px;
   background-color: #eb5357;
-  border-radius: 8px;
 }

@@ -13,7 +13,13 @@ function Navigation({ isLoaded }) {
     <nav className="nav-container">
       <div className="nav-logo">
         <NavLink exact to="/">
-          <img src={logo} alt="logo" />
+          <img
+            src={logo}
+            alt="logo"
+            onClick={() => {
+              window.scrollTo(0, 0);
+            }}
+          />
         </NavLink>
       </div>
       <div className="nav-right">
@@ -25,7 +31,14 @@ function Navigation({ isLoaded }) {
         {sessionUser && (
           <div className="nav-create-button-container">
             <NavLink to="/spots/new">
-              <button className=" nav-create-link">Create a Spot</button>
+              <button
+                className=" nav-create-link"
+                onClick={() => {
+                  window.scrollTo(0, 0);
+                }}
+              >
+                Create a Spot
+              </button>
             </NavLink>
           </div>
         )}

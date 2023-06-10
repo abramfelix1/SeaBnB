@@ -15,7 +15,7 @@ export default function SpotCurrent() {
     dispatch(getCurrentSpots());
     const timer = setTimeout(() => {
       setStartRender(true);
-    }, 500);
+    }, 1000);
     return () => {
       clearTimeout(timer);
     };

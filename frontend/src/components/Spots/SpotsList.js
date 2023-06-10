@@ -19,7 +19,7 @@ export default function SpotsList({ userId, manage }) {
     if (manage) dispatch(getCurrentSpots());
     const timer = setTimeout(() => {
       setStartRender(true);
-    }, 500);
+    }, 1000);
     return () => {
       clearTimeout(timer);
     };
@@ -27,7 +27,7 @@ export default function SpotsList({ userId, manage }) {
 
   return !startRender ? (
     <div className="spot-loader">
-      <h1>. . .</h1>
+      <div className="blinking-dots" />
     </div>
   ) : (
     <>
@@ -41,7 +41,12 @@ export default function SpotsList({ userId, manage }) {
               spots.map((spot) => (
                 <Tooltip text={spot.name}>
                   <div key={spot.id}>
-                    <NavLink to={`/spots/${spot.id}`}>
+                    <NavLink
+                      to={`/spots/${spot.id}`}
+                      onClick={() => {
+                        window.scrollTo(0, 0);
+                      }}
+                    >
                       <SpotsCard spot={spot} startRender={setStartRender} />
                     </NavLink>
                     {userId && (

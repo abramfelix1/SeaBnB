@@ -17,7 +17,7 @@ export default function ManageReview() {
     <>
       {!startRender && (
         <div className="spot-loader">
-          <h1>. . .</h1>
+          <div className="blinking-dots" />
         </div>
       )}
       <div className="manage-container">

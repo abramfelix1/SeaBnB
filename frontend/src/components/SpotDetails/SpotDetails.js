@@ -14,6 +14,7 @@ export default function SpotDetails() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const [startRender, setStartRender] = useState(false);
+  const [startRenderPage, setStartRenderPage] = useState(false);
   const spot = useSelector((state) => state.spots);
 
   useEffect(() => {
@@ -21,33 +22,42 @@ export default function SpotDetails() {
     dispatch(getSpotReviews(id));
     const timer = setTimeout(() => {
       setStartRender(true);
-    }, 500);
+    }, 1000);
+    const timer2 = setTimeout(() => {
+      setStartRenderPage(true);
+    }, 900);
     return () => {
       clearTimeout(timer);
+      clearTimeout(timer2);
     };
   }, [dispatch, id]);
 
-  return !startRender ? (
-    <div className="spot-loader">
-      <h1>. . .</h1>
-    </div>
-  ) : (
-    <div className="details-container">
-      <div className="details-header">
-        <SpotDetailsHeader spot={spot} />
-      </div>
-      <div className="details-images-container">
-        <PhotoGrid images={spot.SpotImages} />
-      </div>
-      <div className="details-description-container">
-        <SpotDetailsDescription spot={spot} />
-        <div className="booking-card-container">
-          <SpotBookingCard spot={spot} />
+  return (
+    <>
+      {!startRender && (
+        <div className="spot-loader">
+          <div className="blinking-dots" />
         </div>
-      </div>
-      <div className="details-reviews-container">
-        <SpotReviews spot={spot} />
-      </div>
-    </div>
+      )}
+      {startRenderPage && (
+        <div className="details-container">
+          <div className="details-header">
+            <SpotDetailsHeader spot={spot} />
+          </div>
+          <div className="details-images-container">
+            <PhotoGrid images={spot.SpotImages} />
+          </div>
+          <div className="details-description-container">
+            <SpotDetailsDescription spot={spot} />
+            <div className="booking-card-container">
+              <SpotBookingCard spot={spot} />
+            </div>
+          </div>
+          <div className="details-reviews-container">
+            <SpotReviews spot={spot} />
+          </div>
+        </div>
+      )}
+    </>
   );
 }
