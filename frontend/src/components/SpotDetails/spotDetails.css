@@ -23,12 +23,6 @@
   padding-left: 22px;
 }
 
-.details-header .star {
-  position: absolute;
-  top: 9px;
-  font-size: 16px;
-}
-
 .details-header span:not(.period) {
   text-decoration: underline;
   cursor: pointer;
@@ -50,6 +44,12 @@ i {
   display: flex;
   flex-direction: row;
   margin: 10px 0px 30px 0px;
+}
+
+.details-header .star {
+  position: absolute;
+  top: 9px;
+  font-size: 16px;
 }
 
 .details-sub-header-info {
@@ -344,6 +344,10 @@ i {
 }
 
 @media (max-width: 1097.13px) {
+  .details-sub-header-buttons {
+    display: none;
+  }
+
   .details-images-container {
     margin: 10px 0px;
   }
@@ -352,6 +356,9 @@ i {
   }
   .details-header {
     margin: 10px 0px;
+  }
+  .details-sub-header-buttons {
+    display: none;
   }
   .details-reviews-container {
     margin: 10px 0px;
