@@ -1,6 +1,6 @@
-# [NAME PLACEHOLDER]
+# SEABNB
 
-[NAME PLACEHOLDER] is a clone of [AirBnB](https://www.airbnb.com/). Users are able to [FEATURES]. [Extra Info]
+SEABNB is a Spongebob themed clone of [AirBnB](https://www.airbnb.com/). Users are able to create, update, delete, and view spots and reviews for now.
 
 ## Technologies
 - JavaScript
@@ -12,8 +12,9 @@
 - PostgreSQL
 - HTML5
 - CSS3
-## [NAME PLACEHOLDER] Showcase
-[GIFs/IMAGES]
+## SEABNB Showcase
+![](https://i.imgur.com/1wwBpdh.png)
+
 ## Get Started Locally
 1. Clone and open repository
 2. Navigate to `backend`
