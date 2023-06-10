@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
                 model: Booking,
                 as: "User",
                 where,
-                include: [{ model: User, attributes: [] }],
+                include: [{ model: User, attributes: ["profileImg"] }],
                 attributes: [
                   "id",
                   [sequelize.literal('"User->User"."firstName"'), "firstName"],
