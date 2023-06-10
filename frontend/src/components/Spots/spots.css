@@ -241,8 +241,8 @@
 @media (max-width: 1096.13px) {
   .spot-container {
     padding-top: 35px;
-    padding-left: 200px;
-    padding-right: 200px;
+    /* padding-left: 200px; */
+    /* padding-right: 200px; */
   }
   .spot-card {
     height: 515px;
