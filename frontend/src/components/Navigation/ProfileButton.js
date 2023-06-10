@@ -71,7 +71,11 @@ function ProfileButton({ user }) {
             {user ? (
               <div className="profile-dropdown-logged-info">
                 <div className="greetings" onClick={(e) => e.stopPropagation()}>
-                  <li>Hello, {user.username}</li>
+                  <li>
+                    Hello,{" "}
+                    {user.username.charAt(0).toUpperCase() +
+                      user.username.slice(1)}
+                  </li>
                   <li>{user.email}</li>
                   <li className="profile-dropdown-content-break-line"></li>
                 </div>
