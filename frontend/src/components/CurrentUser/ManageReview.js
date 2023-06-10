@@ -7,7 +7,7 @@ export default function ManageReview() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setStartRender(true);
-    }, 500);
+    }, 1000);
     return () => {
       clearTimeout(timer);
     };
