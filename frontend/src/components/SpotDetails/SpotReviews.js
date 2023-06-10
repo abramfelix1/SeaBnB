@@ -55,6 +55,7 @@ export default function SpotReviews({ spot }) {
         </div>
         <ReviewsList
           reviews={reviews}
+          spot={spot}
           spotId={spot.id}
           isChanged={isChanged}
           setIsChanged={setIsChanged}

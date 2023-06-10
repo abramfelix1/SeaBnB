@@ -130,6 +130,15 @@ i {
   font-size: 68px;
 }
 
+.details-description-header-right img {
+  top: 4px;
+  position: absolute;
+  right: 0px;
+  font-size: 68px;
+  border-radius: 60px;
+  width: 70px;
+}
+
 .details-description-extras-container {
   border-bottom: 1px solid #ebebeb;
 }

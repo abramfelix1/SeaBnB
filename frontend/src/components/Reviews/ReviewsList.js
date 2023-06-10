@@ -10,6 +10,7 @@ import "../Spots/spots.css";
 export default function ReviewsList({
   reviews,
   manage,
+  spot,
   spotId,
   isChanged,
   setIsChanged,
@@ -57,7 +58,7 @@ export default function ReviewsList({
           {reviews.map((review) => {
             return (
               <div key={review.id}>
-                <ReviewsInfo review={review} />
+                <ReviewsInfo review={review} spot={spot} />
                 <div
                   className={`current-buttons-container review ${
                     manage ? "manage" : "review"

@@ -25,7 +25,11 @@ export default function ReviewsInfo({ review }) {
     <div className="reviews-list-container">
       <div className="reviews-item-header-container">
         <div className="reviews-item-header-left">
-          <i className="fa-solid fa-circle-user"></i>
+          {review.User.User?.profileImg !== null ? (
+            <img src={review.User.User?.profileImg} alt="profile-pic"></img>
+          ) : (
+            <i className="fa-solid fa-circle-user"></i>
+          )}
         </div>
         <div className="reviews-item-header-right">
           <p>{review.User.firstName}</p>
