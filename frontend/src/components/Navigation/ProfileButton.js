@@ -64,7 +64,11 @@ function ProfileButton({ user }) {
       <div className="nav-button" onClick={openMenu}>
         <button>
           <i className="fa-solid fa-bars bars"></i>
-          <i className="fa-solid fa-circle-user profile"></i>
+          {user?.profileImg ? (
+            <img src={user.profileImg} alt="profile-pic"></img>
+          ) : (
+            <i className="fa-solid fa-circle-user profile"></i>
+          )}
         </button>
         <ul className={ulClassName} ref={ulRef}>
           <div className="profile-dropdown-content">

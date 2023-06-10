@@ -36,6 +36,7 @@ router.post("/", validateLogin, async (req, res, next) => {
     lastName: user.lastName,
     email: user.email,
     username: user.username,
+    profileImg: user.profileImg,
   };
 
   // Get and Set token
@@ -63,6 +64,7 @@ router.get("/", (req, res) => {
       lastName: user.lastName,
       email: user.email,
       username: user.username,
+      profileImg: user.profileImg,
     };
 
     // Get token
