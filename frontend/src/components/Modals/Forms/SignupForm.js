@@ -46,8 +46,8 @@ export default function SignupForm({ closeModal }) {
       setErrors({});
       await dispatch(
         sessionActions.signup({
-          email,
-          username,
+          email:email.toLowerCase(),
+          username:username.toLowerCase(),
           firstName,
           lastName,
           password,

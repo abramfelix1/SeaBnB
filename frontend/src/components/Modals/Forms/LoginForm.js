@@ -28,7 +28,9 @@ export default function LoginForm({ closeModal }) {
     e.preventDefault();
     setErrors({});
     try {
-      await dispatch(sessionActions.login({ credential, password }));
+      await dispatch(
+        sessionActions.login({ credential: credential.toLowerCase(), password })
+      );
       closeModal();
     } catch (err) {
       const data = await err.json();
@@ -40,7 +42,7 @@ export default function LoginForm({ closeModal }) {
 
   const demoHandler = (e) => {
     e.preventDefault();
-    const credential = "Demo-lition";
+    const credential = "demo-lition";
     const password = "password";
     closeModal();
     return dispatch(sessionActions.login({ credential, password }));
