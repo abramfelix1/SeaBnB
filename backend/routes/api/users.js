@@ -29,8 +29,8 @@ router.post("/", validateSignup, async (req, res, next) => {
     });
 
   const user = await User.create({
-    email,
-    username,
+    email: email.toLowerCase(),
+    username: username.toLowerCase(),
     hashedPassword,
     firstName,
     lastName,
