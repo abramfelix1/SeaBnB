@@ -344,10 +344,6 @@ i {
 }
 
 @media (max-width: 1097.13px) {
-  .details-sub-header-buttons {
-    display: none;
-  }
-
   .details-images-container {
     margin: 10px 0px;
   }
@@ -357,9 +353,7 @@ i {
   .details-header {
     margin: 10px 0px;
   }
-  .details-sub-header-buttons {
-    display: none;
-  }
+
   .details-reviews-container {
     margin: 10px 0px;
   }
@@ -370,5 +364,11 @@ i {
   }
   .details-description-content-container {
     margin: 10px 0px;
+  }
+}
+
+@media (max-width: 768.14px) {
+  .details-sub-header-buttons {
+    display: none;
   }
 }

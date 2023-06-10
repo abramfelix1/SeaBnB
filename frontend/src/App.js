@@ -11,6 +11,7 @@ import CreateSpotForm from "./components/FormPages/CreateSpotForm";
 import ManageSpot from "./components/CurrentUser/ManageSpot";
 import EditSpotForm from "./components/FormPages/EditSpotForm";
 import ManageReview from "./components/CurrentUser/ManageReview";
+import goBack from "../src/images/go-back.jpg";
 
 function App() {
   const dispatch = useDispatch();
@@ -21,6 +22,9 @@ function App() {
 
   return (
     <>
+      <div className="easter">
+        <img src={goBack} alt="go back" />
+      </div>
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>

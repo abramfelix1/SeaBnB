@@ -91,3 +91,39 @@ input:focus {
   font-size: 64px;
   animation: blinking 1.5s infinite;
 }
+
+.easter {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999999999;
+  width: 1000px;
+  height: 100%;
+  background-color: white;
+}
+
+.easter img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@media (max-width: 641px) {
+  .easter {
+    display: block;
+  }
+  body {
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 641px) {
+  .easter {
+    display: block;
+  }
+  body {
+    overflow: hidden;
+  }
+}

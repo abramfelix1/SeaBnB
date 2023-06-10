@@ -243,9 +243,21 @@
     padding-top: 35px;
     /* padding-left: 200px; */
     /* padding-right: 200px; */
+    margin: 0px;
   }
   .spot-card {
-    height: 515px;
+    height: 485px;
+    padding-bottom: 20px;
+  }
+}
+
+@media (max-width: 769.13px) {
+  .spot-container {
+    padding-top: 35px;
+  }
+  .spot-card {
+    height: 415px;
+    width: 565px;
     padding-bottom: 20px;
   }
 }

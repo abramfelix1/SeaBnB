@@ -183,6 +183,14 @@
     height: 220px;
   }
 
+  .c2r1 {
+    border-top-right-radius: 12px;
+  }
+
+  .c2r2 {
+    border-bottom-right-radius: 12px;
+  }
+
   .c2r2-container {
     grid-area: c2r2;
     width: 265px;
@@ -228,6 +236,14 @@
     height: 212.5px;
   }
 
+  .c2r1 {
+    border-top-right-radius: 12px;
+  }
+
+  .c2r2 {
+    border-bottom-right-radius: 12px;
+  }
+
   .c3r1-container {
     display: none;
   }
@@ -252,8 +268,13 @@
     margin-right: 10px;
     width: 425px;
     height: 365px;
+  }
+
+  .c1 {
     border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
     border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
   }
 
   .c2r1-container {

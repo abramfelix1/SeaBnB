@@ -15,7 +15,7 @@ export default function ReviewForm({ closeModal, type, currentId }) {
   const [formFilled, setFormFilled] = useState(false);
 
   useEffect(() => {
-    if (review?.length >= 10 && rating > 0) {
+    if (review?.length >= 10 && rating >= 0) {
       setFormFilled(true);
     } else {
       setFormFilled(false);
@@ -56,6 +56,8 @@ export default function ReviewForm({ closeModal, type, currentId }) {
       setRatings(4);
       setFilled(rating);
     }
+
+    console.log(rating + 1);
   };
 
   const handleSubmit = (e) => {
