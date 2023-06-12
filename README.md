@@ -1,7 +1,7 @@
 # SEABNB
 
 SEABNB is a Spongebob themed clone of [AirBnB](https://www.airbnb.com/). Users are able to create, update, delete, and view spots and reviews for now.
-
+[Link to site](https://airbnb-clone-2u2s.onrender.com/)
 ## Technologies
 - JavaScript
 - React
