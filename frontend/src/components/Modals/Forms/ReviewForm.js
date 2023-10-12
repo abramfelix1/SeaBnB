@@ -56,8 +56,6 @@ export default function ReviewForm({ closeModal, type, currentId }) {
       setRatings(4);
       setFilled(rating);
     }
-
-    console.log(rating + 1);
   };
 
   const handleSubmit = (e) => {
