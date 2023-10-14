@@ -265,7 +265,7 @@ i {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-
+  position: relative;
   padding: 8px;
   height: 100%;
   width: 100%;

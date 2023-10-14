@@ -38,7 +38,7 @@ export default function SpotBookingCard({ spot }) {
           </div>
         </div>
         <div className="spot-booking-calendar-container">
-          <form className="spot-booking-calendar-form">
+          <div className="spot-booking-calendar-form">
             <div className="check-in-container">
               <p>CHECK-IN</p>
               <input
@@ -49,6 +49,7 @@ export default function SpotBookingCard({ spot }) {
               ></input>
             </div>
             <div className="check-in-container">
+              <div className="calendar-cover"></div>
               <p>CHECK-OUT</p>
               <input
                 type="date"
@@ -57,7 +58,7 @@ export default function SpotBookingCard({ spot }) {
                 onChange={(e) => setCheckOut(e.target.value)}
               ></input>
             </div>
-          </form>
+          </div>
         </div>
         <div className="spot-booking-button-container">
           <button
