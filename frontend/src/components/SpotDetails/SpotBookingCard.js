@@ -27,6 +27,18 @@ export default function SpotBookingCard({ spot }) {
             {spot.numReviews === 0 && ""}
           </div>
         </div>
+        <div className="spot-booking-calendar-container">
+          <form className="spot-booking-calendar-form">
+            <div className="check-in-container">
+              <p>CHECK-IN</p>
+              <input type="date" className="check-in"></input>
+            </div>
+            <div className="check-in-container">
+              <p>CHECK-IN</p>
+              <input type="date" className="check-in"></input>
+            </div>
+          </form>
+        </div>
         <div className="spot-booking-button-container">
           <button
             onClick={() => {
