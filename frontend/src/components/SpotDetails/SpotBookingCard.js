@@ -1,8 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "../Modals/Modal";
 
 export default function SpotBookingCard({ spot }) {
   const [showBookingModal, setShowBookingModal] = useState(false);
+  const [checkIn, setCheckIn] = useState(null);
+  const [checkOut, setCheckOut] = useState(null);
+
+  const handleSubmit = () => {
+    //thunk call
+  };
+
+  // useEffect(() => {
+  //   console.log("CHECKIN", checkIn);
+  // }, [checkIn]);
 
   return (
     <>
@@ -31,11 +41,21 @@ export default function SpotBookingCard({ spot }) {
           <form className="spot-booking-calendar-form">
             <div className="check-in-container">
               <p>CHECK-IN</p>
-              <input type="date" className="check-in"></input>
+              <input
+                type="date"
+                className="check-in"
+                value={checkIn}
+                onChange={(e) => setCheckIn(e.target.value)}
+              ></input>
             </div>
             <div className="check-in-container">
-              <p>CHECK-IN</p>
-              <input type="date" className="check-in"></input>
+              <p>CHECK-OUT</p>
+              <input
+                type="date"
+                className="check-in"
+                value={checkOut}
+                onChange={(e) => setCheckOut(e.target.value)}
+              ></input>
             </div>
           </form>
         </div>
@@ -43,6 +63,7 @@ export default function SpotBookingCard({ spot }) {
           <button
             onClick={() => {
               setShowBookingModal(!showBookingModal);
+              handleSubmit();
             }}
           >
             RESERVE
