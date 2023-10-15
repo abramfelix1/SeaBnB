@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
           isAfter: new Date().toISOString().split("T")[0],
           isPastEndDate(value) {
             if (value >= this.endDate) {
-              throw new Error("Start Date must be before End Date");
+              throw new Error("Check-in Date must be before End Date");
             }
           },
         },
@@ -54,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
           isDate: true,
           isAfterStartDate(value) {
             if (value <= this.startDate) {
-              throw new Error("End Date must be after Start Date.");
+              throw new Error("Check-out Date must be after Start Date.");
             }
           },
         },

@@ -11,6 +11,7 @@ export default function SpotBookingCard({ spot }) {
   const [checkOut, setCheckOut] = useState(null);
   const { id } = useParams();
   const [errors, setErrors] = useState({});
+  const [successMessage, setSuccessMessage] = useState(false);
 
   useEffect(() => {
     dispatch(getCurrentBookings());
@@ -20,15 +21,22 @@ export default function SpotBookingCard({ spot }) {
   const handleSubmit = async () => {
     //thunk call
     const payload = { startDate: checkIn, endDate: checkOut };
-    console.log(payload);
+    console.log("DATE", new Date().toISOString().split("T"));
 
+    let hasErrors = false;
     try {
       await dispatch(createBooking(id, payload));
     } catch (err) {
+      setSuccessMessage(false);
+      hasErrors = true;
       const data = await err.json();
       if (data && data.errors) {
         setErrors(data.errors);
       }
+    }
+    if (!hasErrors) {
+      setErrors({});
+      setSuccessMessage(true);
     }
   };
 
@@ -73,6 +81,11 @@ export default function SpotBookingCard({ spot }) {
           {errors.message && (
             <div className="form-errors">
               <p>{errors.message}</p>
+            </div>
+          )}
+          {successMessage && (
+            <div className="booking-success form-errors">
+              <p>Booking Successfully Created!</p>
             </div>
           )}
         </div>

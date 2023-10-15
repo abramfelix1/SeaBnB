@@ -251,6 +251,10 @@ i {
   padding-bottom: 8px;
 }
 
+.booking-success.form-errors {
+  color: #53bceb;
+}
+
 .spot-booking-calendar-container {
   display: flex;
   border: solid 1px #999999;
