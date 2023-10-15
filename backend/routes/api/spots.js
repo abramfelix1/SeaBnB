@@ -101,7 +101,7 @@ router.post( "/:id/bookings", requireAuth, validateBooking, async (req, res, nex
     })
 
     if(hasActiveBooking.length){
-      return next({message:"User already has an active booking", status:403})
+      return next({errors:{message:"User already has an active booking", status:403}})
     }
 
     const checkBooking = await spot.getBookings({

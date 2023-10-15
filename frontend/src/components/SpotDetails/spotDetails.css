@@ -246,11 +246,15 @@ i {
   font-size: 18px;
 }
 
+.booking-errors {
+  margin-top: 24px;
+  padding-bottom: 8px;
+}
+
 .spot-booking-calendar-container {
   display: flex;
   border: solid 1px #999999;
   border-radius: 8px;
-  margin-top: 24px;
 }
 
 .spot-booking-calendar-form {

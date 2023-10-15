@@ -10,17 +10,26 @@ export default function SpotBookingCard({ spot }) {
   const [checkIn, setCheckIn] = useState(null);
   const [checkOut, setCheckOut] = useState(null);
   const { id } = useParams();
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     dispatch(getCurrentBookings());
     console.log(id);
   }, []);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     //thunk call
     const payload = { startDate: checkIn, endDate: checkOut };
     console.log(payload);
-    dispatch(createBooking(id, payload));
+
+    try {
+      await dispatch(createBooking(id, payload));
+    } catch (err) {
+      const data = await err.json();
+      if (data && data.errors) {
+        setErrors(data.errors);
+      }
+    }
   };
 
   // useEffect(() => {
@@ -50,6 +59,23 @@ export default function SpotBookingCard({ spot }) {
             {spot.numReviews === 0 && ""}
           </div>
         </div>
+        <div className="booking-errors">
+          {errors.startDate && (
+            <div className="form-errors">
+              <p>{errors.startDate}</p>
+            </div>
+          )}
+          {errors.endDate && (
+            <div className="form-errors">
+              <p>{errors.endDate}</p>
+            </div>
+          )}
+          {errors.message && (
+            <div className="form-errors">
+              <p>{errors.message}</p>
+            </div>
+          )}
+        </div>
         <div className="spot-booking-calendar-container">
           <div className="spot-booking-calendar-form">
             <div className="check-in-container">
@@ -76,7 +102,7 @@ export default function SpotBookingCard({ spot }) {
         <div className="spot-booking-button-container">
           <button
             onClick={() => {
-              setShowBookingModal(!showBookingModal);
+              // setShowBookingModal(!showBookingModal);
               handleSubmit();
             }}
           >
