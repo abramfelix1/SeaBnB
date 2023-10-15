@@ -39,7 +39,7 @@
 }
 
 .nav-right-img {
-  cursor: pointer;
+  cursor: default;
   position: absolute;
   bottom: -27px;
   right: 200px;
@@ -90,7 +90,7 @@
   height: 50px;
   border: 1px solid #ebebeb;
   border-radius: 30px;
-  /* cursor: pointer; */
+  cursor: pointer;
 }
 
 .nav-button {

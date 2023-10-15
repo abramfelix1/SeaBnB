@@ -90,6 +90,9 @@ function ProfileButton({ user }) {
                 <NavLink to="/reviews/current">
                   <button>Manage Reviews</button>
                 </NavLink>
+                <NavLink to="/bookings/current">
+                  <button>Manage Bookings</button>
+                </NavLink>
 
                 <li className="profile-dropdown-content-break-line"></li>
                 <button onClick={logout}>Log Out</button>
