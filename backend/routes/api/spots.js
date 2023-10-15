@@ -171,7 +171,7 @@ router.post("/:id/reviews", requireAuth, validateReview, async (req, res, next) 
     });
 
     if (!booking) {
-      return next({ errors: {review:"User hasn't booked this spot"}, status: 403 });
+      return next({ errors: {review:"No Bookings Found"}, status: 403 });
     }
 
     if (booking.reviewId) {
