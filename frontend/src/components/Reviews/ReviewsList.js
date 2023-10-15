@@ -58,7 +58,7 @@ export default function ReviewsList({
           {reviews.map((review) => {
             return (
               <div key={review.id}>
-                <ReviewsInfo review={review} spot={spot} />
+                <ReviewsInfo review={review} spot={spot} manage={manage} />
                 <div
                   className={`current-buttons-container review ${
                     manage ? "manage" : "review"
