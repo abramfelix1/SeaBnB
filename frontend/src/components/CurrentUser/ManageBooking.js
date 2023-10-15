@@ -6,11 +6,15 @@ import { getCurrentBookings } from "../../store/booking";
 export default function ManageBooking() {
   const dispatch = useDispatch();
   const [startRender, setStartRender] = useState(false);
-  const bookings = useSelector((state) => state.bookings);
+  const bookings = useSelector((state) => Object.values(state.bookings));
 
   useEffect(() => {
     dispatch(getCurrentBookings());
   }, []);
+
+  useEffect(() => {
+    console.log(bookings);
+  }, [bookings]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -32,7 +36,11 @@ export default function ManageBooking() {
         <div className="manage-header ">
           <h1>Manage Bookings</h1>
         </div>
-        <div className="bookings-list-container"></div>
+        <div className="bookings-list-container">
+          {bookings.map((booking, idx) => (
+            <div>A</div>
+          ))}
+        </div>
       </div>
     </>
   );
