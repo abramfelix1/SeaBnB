@@ -13,15 +13,8 @@ export default function SpotBookingCard({ spot }) {
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState(false);
 
-  useEffect(() => {
-    dispatch(getCurrentBookings());
-    console.log(id);
-  }, []);
-
   const handleSubmit = async () => {
-    //thunk call
     const payload = { startDate: checkIn, endDate: checkOut };
-    console.log("DATE", new Date().toISOString().split("T"));
 
     let hasErrors = false;
     try {
@@ -39,10 +32,6 @@ export default function SpotBookingCard({ spot }) {
       setSuccessMessage(true);
     }
   };
-
-  // useEffect(() => {
-  //   console.log("CHECKIN", checkIn);
-  // }, [checkIn]);
 
   return (
     <>

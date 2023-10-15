@@ -23,19 +23,17 @@ export default function ReviewsInfo({ review, manage }) {
   const year = date.getFullYear();
   const month = MONTHS[date.getMonth()];
 
-  useEffect(() => {
-    console.log(review);
-  }, [review]);
-
   return (
     <div className="reviews-list-container">
       <div className="reviews-item-header-container">
         <div className="reviews-item-header-left">
           {!manage && (
             <>
-              review.User.User?.profileImg !== null ? (
-              <img src={review.User.User?.profileImg} alt="profile-pic"></img>)
-              : (<i className="fa-solid fa-circle-user"></i>)
+              {review.User.User?.profileImg !== null ? (
+                <img src={review.User.User?.profileImg} alt="profile-pic"></img>
+              ) : (
+                <i className="fa-solid fa-circle-user"></i>
+              )}
             </>
           )}
         </div>
