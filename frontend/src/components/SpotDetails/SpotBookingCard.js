@@ -1,13 +1,26 @@
 import { useEffect, useState } from "react";
 import Modal from "../Modals/Modal";
+import { createBooking, getCurrentBookings } from "../../store/booking";
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 export default function SpotBookingCard({ spot }) {
+  const dispatch = useDispatch();
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [checkIn, setCheckIn] = useState(null);
   const [checkOut, setCheckOut] = useState(null);
+  const { id } = useParams();
+
+  useEffect(() => {
+    dispatch(getCurrentBookings());
+    console.log(id);
+  }, []);
 
   const handleSubmit = () => {
     //thunk call
+    const payload = { startDate: checkIn, endDate: checkOut };
+    console.log(payload);
+    dispatch(createBooking(id, payload));
   };
 
   // useEffect(() => {
