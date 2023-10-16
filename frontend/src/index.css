@@ -111,6 +111,33 @@ input:focus {
   object-fit: contain;
 }
 
+.bookings-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.booking-item {
+  display: grid;
+  grid-template-columns: repeat(
+    6,
+    1fr
+  ); /* Match the number of columns in the header */
+  align-items: center;
+  gap: 10px; /* Adjust the gap as needed */
+  text-align: center;
+}
+
+.booking-image {
+  width: 250px;
+}
+
+.booking-name {
+  font-weight: bold;
+  font-size: large;
+}
+
 @media (max-width: 641px) {
   .easter {
     display: block;
