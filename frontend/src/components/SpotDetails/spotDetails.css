@@ -251,11 +251,17 @@ i {
   padding-bottom: 8px;
 }
 
+.manage.booking-errors {
+  position: absolute;
+  bottom: 50px;
+}
+
 .booking-success.form-errors {
   color: #53bceb;
 }
 
 .spot-booking-calendar-container {
+  position: relative;
   display: flex;
   border: solid 1px #999999;
   border-radius: 8px;
@@ -292,6 +298,10 @@ i {
 .check-in {
   border: none;
   font-size: 16px;
+}
+
+.strikethrough {
+  text-decoration: line-through;
 }
 
 @media (min-width: 2133px) {

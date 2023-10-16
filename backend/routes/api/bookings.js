@@ -63,8 +63,10 @@ router.put("/:id", requireAuth, validateBooking, async (req, res, next) => {
 
   if (booking.dataValues.endDate.getTime() <= new Date().getTime()) {
     return next({
-      message: "Past bookings can't be modified",
-      statusCode: 403,
+      errors: {
+        message: "Past bookings can't be modified",
+        statusCode: 403,
+      },
     });
   }
 
