@@ -90,7 +90,7 @@ router.post( "/:id/bookings", requireAuth, validateBooking, async (req, res, nex
     }
 
     if(spot.ownerId === user.dataValues.id){
-      return next({message: "Cannot book owned spots", status:400})
+      return next({errors:{message: "Cannot book owned spots", status:400}})
     }
 
     const hasActiveBooking = await spot.getBookings({

@@ -51,23 +51,23 @@ export default function ManageBooking() {
         <div className="bookings-list-container">
           {bookings.map((booking, idx) => (
             <div key={idx} className="booking-item">
-              <NavLink to={`/spots/${booking.Spot.id}`}>
+              <NavLink to={`/spots/${booking?.Spot?.id}`}>
                 <img
-                  src={booking.Spot.previewImage}
-                  alt={booking.Spot.name}
+                  src={booking.Spot?.previewImage}
+                  alt={booking.Spot?.name}
                   className="booking-image"
                 ></img>
               </NavLink>
-              <NavLink to={`/spots/${booking.Spot.id}`}>
-                <p className="booking-name">{booking.Spot.name}</p>
+              <NavLink to={`/spots/${booking?.Spot?.id}`}>
+                <p className="booking-name">{booking?.Spot?.name}</p>
               </NavLink>
               <p className="booking-location">
-                {booking.Spot.address},{booking.Spot.city}
+                {booking?.Spot?.address},{booking?.Spot?.city}
               </p>
-              <p className="booking-price">${booking.Spot.price}/night</p>
+              <p className="booking-price">${booking?.Spot?.price}/night</p>
               <p className="booking-dates">
-                {booking.startDate.split("T")[0]} -{" "}
-                {booking.endDate.split("T")[0]}
+                {booking?.startDate && booking.startDate.split("T")[0]} -{" "}
+                {booking?.endDate && booking.endDate.split("T")[0]}
               </p>
               <div className="current-buttons-container">
                 <button
