@@ -164,13 +164,17 @@ const validateBooking = [
     .isDate()
     .withMessage("Please provide a valid date")
     .isAfter(new Date().toISOString().split("T")[0])
-    .withMessage("Please provide a valid start date"),
+    .withMessage(
+      `Please pick a check-in date after ${
+        new Date().toISOString().split("T")[0]
+      }`
+    ),
   check("endDate")
     .exists({ checkFalsy: true })
     .notEmpty()
-    .withMessage("Please provide a start end date")
+    .withMessage("Please provide a valid check-out date")
     .isDate()
-    .withMessage("Please provide a valid end date"),
+    .withMessage("Please provide a valid check-out date"),
   handleValidationErrors,
 ];
 

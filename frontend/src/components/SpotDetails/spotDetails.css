@@ -246,6 +246,64 @@ i {
   font-size: 18px;
 }
 
+.booking-errors {
+  margin-top: 24px;
+  padding-bottom: 8px;
+}
+
+.manage.booking-errors {
+  position: absolute;
+  bottom: 50px;
+}
+
+.booking-success.form-errors {
+  color: #53bceb;
+}
+
+.spot-booking-calendar-container {
+  position: relative;
+  display: flex;
+  border: solid 1px #999999;
+  border-radius: 8px;
+}
+
+.spot-booking-calendar-form {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+  height: 100%;
+}
+
+.check-in-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  position: relative;
+  padding: 8px;
+  height: 100%;
+  width: 100%;
+}
+
+.check-in-container:last-of-type {
+  border-left: 1px solid #999999;
+}
+
+.check-in-container > p {
+  font-size: 12px;
+  font-weight: 500;
+  padding-bottom: 2px;
+}
+
+.check-in {
+  border: none;
+  font-size: 16px;
+}
+
+.strikethrough {
+  text-decoration: line-through;
+}
+
 @media (min-width: 2133px) {
   .details-images-container {
     max-width: 1405px;

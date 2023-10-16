@@ -12,6 +12,7 @@ import ManageSpot from "./components/CurrentUser/ManageSpot";
 import EditSpotForm from "./components/FormPages/EditSpotForm";
 import ManageReview from "./components/CurrentUser/ManageReview";
 import goBack from "../src/images/go-back.jpg";
+import ManageBooking from "./components/CurrentUser/ManageBooking";
 
 function App() {
   const dispatch = useDispatch();
@@ -51,6 +52,9 @@ function App() {
           </Route>
           <Route path="/reviews/current">
             <ManageReview />
+          </Route>
+          <Route path="/bookings/current">
+            <ManageBooking />
           </Route>
         </Switch>
       )}

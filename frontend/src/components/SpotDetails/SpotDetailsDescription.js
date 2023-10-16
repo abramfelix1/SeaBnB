@@ -1,7 +1,6 @@
 import "./spotDetails.css";
 
 export default function SpotDetailsDescription({ spot }) {
-  console.log(spot.Owner?.profileImg);
   return (
     <div className="details-description-content-container">
       <div className="details-description-header-container">

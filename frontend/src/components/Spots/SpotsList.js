@@ -32,7 +32,12 @@ export default function SpotsList({ userId, manage }) {
   ) : (
     <>
       {showDeleteModal && (
-        <Modal closeModal={setShowDeleteModal} type={"delete"} id={spotId} />
+        <Modal
+          closeModal={setShowDeleteModal}
+          type={"delete"}
+          action={"spot"}
+          id={spotId}
+        />
       )}
       <div className="spot-container-container">
         <div className="spot-container">

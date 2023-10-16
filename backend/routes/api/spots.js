@@ -90,7 +90,7 @@ router.post( "/:id/bookings", requireAuth, validateBooking, async (req, res, nex
     }
 
     if(spot.ownerId === user.dataValues.id){
-      return next({message: "Cannot book owned spots", status:400})
+      return next({errors:{message: "Cannot book owned spots", status:400}})
     }
 
     const hasActiveBooking = await spot.getBookings({
@@ -101,7 +101,7 @@ router.post( "/:id/bookings", requireAuth, validateBooking, async (req, res, nex
     })
 
     if(hasActiveBooking.length){
-      return next({message:"User already has an active booking", status:403})
+      return next({errors:{message:"User already has an active booking", status:403}})
     }
 
     const checkBooking = await spot.getBookings({
@@ -171,7 +171,7 @@ router.post("/:id/reviews", requireAuth, validateReview, async (req, res, next) 
     });
 
     if (!booking) {
-      return next({ errors: {review:"User hasn't booked this spot"}, status: 403 });
+      return next({ errors: {review:"No Bookings Found"}, status: 403 });
     }
 
     if (booking.reviewId) {

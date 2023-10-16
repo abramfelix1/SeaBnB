@@ -39,7 +39,7 @@
 }
 
 .nav-right-img {
-  cursor: pointer;
+  cursor: default;
   position: absolute;
   bottom: -27px;
   right: 200px;
@@ -48,9 +48,9 @@
   border-radius: 32px;
 }
 
-.nav-right-img:hover {
+/* .nav-right-img:hover {
   background-color: #f7f7f7;
-}
+} */
 
 .nav-create-button-container {
   position: absolute;
@@ -90,7 +90,7 @@
   height: 50px;
   border: 1px solid #ebebeb;
   border-radius: 30px;
-  /* cursor: pointer; */
+  cursor: pointer;
 }
 
 .nav-button {
