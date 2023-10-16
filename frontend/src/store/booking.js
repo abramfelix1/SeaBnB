@@ -68,6 +68,7 @@ export const getCurrentBookings = () => async (dispatch) => {
 };
 
 export const editBooking = (id, payload) => async (dispatch) => {
+  console.log(payload);
   const response = await csrfFetch(`/api/bookings/${id}`, {
     method: "PUT",
     headers: {
