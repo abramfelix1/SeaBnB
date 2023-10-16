@@ -82,7 +82,7 @@ export const editBooking = (id, payload) => async (dispatch) => {
   }
 };
 
-export const deletebooking = (id, spotId) => async (dispatch) => {
+export const deleteBooking = (id) => async (dispatch) => {
   const response = await csrfFetch(`/api/bookings/${id}`, {
     method: "DELETE",
   });

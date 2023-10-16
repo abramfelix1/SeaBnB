@@ -3,10 +3,13 @@ import ReviewsList from "../Reviews/ReviewsList";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentBookings } from "../../store/booking";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
+import Modal from "../Modals/Modal";
 
 export default function ManageBooking() {
   const dispatch = useDispatch();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [startRender, setStartRender] = useState(false);
+  const [bookingId, setBookingId] = useState(null);
   const bookings = useSelector((state) => Object.values(state.bookings));
 
   useEffect(() => {
@@ -28,6 +31,14 @@ export default function ManageBooking() {
 
   return (
     <>
+      {showDeleteModal && (
+        <Modal
+          closeModal={setShowDeleteModal}
+          type={"delete"}
+          action={"booking"}
+          id={bookingId}
+        />
+      )}
       {!startRender && (
         <div className="spot-loader">
           <div className="blinking-dots" />
@@ -53,7 +64,7 @@ export default function ManageBooking() {
               <p className="booking-location">
                 {booking.Spot.address},{booking.Spot.city}
               </p>
-              <p className="booking-location">${booking.Spot.price}/night</p>
+              <p className="booking-price">${booking.Spot.price}/night</p>
               <p className="booking-dates">
                 {booking.startDate.split("T")[0]} -{" "}
                 {booking.endDate.split("T")[0]}
@@ -67,7 +78,11 @@ export default function ManageBooking() {
                 </button>
                 <button
                   className="delete-button"
-                  // onClick={() => handleDelete(booking)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowDeleteModal(!showDeleteModal);
+                    setBookingId(booking.id);
+                  }}
                 >
                   Delete
                 </button>
