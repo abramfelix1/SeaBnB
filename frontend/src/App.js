@@ -13,6 +13,8 @@ import EditSpotForm from "./components/FormPages/EditSpotForm";
 import ManageReview from "./components/CurrentUser/ManageReview";
 import goBack from "../src/images/go-back.jpg";
 import ManageBooking from "./components/CurrentUser/ManageBooking";
+import { BsLinkedin } from "react-icons/bs";
+import { FaGithubSquare } from "react-icons/fa";
 
 function App() {
   const dispatch = useDispatch();
@@ -22,7 +24,7 @@ function App() {
   }, [dispatch]);
 
   return (
-    <>
+    <div className="main">
       <div className="easter">
         <img src={goBack} alt="go back" />
       </div>
@@ -58,7 +60,26 @@ function App() {
           </Route>
         </Switch>
       )}
-    </>
+      <div className={`about`}>
+        <p>by Abram Felix</p>
+        <a
+          href={"https://www.linkedin.com/in/abram-felix/"}
+          target="_blank"
+          rel="noreferrer"
+          className="about-item"
+        >
+          <BsLinkedin />
+        </a>
+        <a
+          href={"https://github.com/abramfelix1"}
+          target="_blank"
+          rel="noreferrer"
+          className="about-item git"
+        >
+          <FaGithubSquare className="text-xl" />
+        </a>
+      </div>
+    </div>
   );
 }
 

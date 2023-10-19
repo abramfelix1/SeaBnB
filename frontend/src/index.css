@@ -139,6 +139,33 @@ input:focus {
   font-size: large;
 }
 
+.main {
+  position: relative;
+}
+
+.about {
+  display: flex;
+  position: fixed;
+  bottom: 16px;
+  gap: 0.5rem;
+  background-color: #53bee8;
+  width: fit-content;
+  color: white;
+  padding: 0.5rem;
+  justify-content: flex-end;
+  user-select: none;
+}
+
+.about-item {
+  display: flex;
+  align-items: center;
+}
+
+.about-item.git {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
 @media (max-width: 641px) {
   .easter {
     display: block;
